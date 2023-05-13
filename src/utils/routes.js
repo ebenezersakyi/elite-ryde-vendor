@@ -5,9 +5,8 @@ import AboutPage from "../pages/user_site/AboutPage";
 import HelpPage from "../pages/user_site/HelpPage";
 import UserDashBoardLayout from "../layouts/user_dashboard/UserDashBoardLayout";
 import UserHome from "../pages/userDashboard/UserHome";
-import VendorsPage from '../pages/userDashboard/VendorsPage'
-import CarsPage from '../pages/userDashboard/CarsPage'
-import AvailablePage from "../pages/userDashboard/AvailablePage";
+import AddCarPage from "../pages/userDashboard/AddCarPage";
+import SpecificCar from "../pages/userDashboard/SpecificCar";
 export const routes = createBrowserRouter([
     {
         path:"/",
@@ -36,17 +35,13 @@ export const routes = createBrowserRouter([
                 element: <UserHome />
             },
             {
-                path: "vendors",
-                element: <VendorsPage />
+                path: 'add',
+                element: <AddCarPage />
             },
             {
-                path: "cars",
-                element: <CarsPage />
-            },
-            {
-                path: "available",
-                element: <AvailablePage />
-            },
+                path: 'car',
+                element: <SpecificCar />
+            }
         ]
     }
 ])

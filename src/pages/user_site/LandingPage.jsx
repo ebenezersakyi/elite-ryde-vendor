@@ -13,10 +13,10 @@ const LandingPage = () => {
       <div className="text-[#fff] flex justify-between items-center py-[6rem]">
       <div className="flex flex-col">
         <h4 className="text-[4.7rem] font-semibold">
-          <span className="text-egreen">Rent</span> the best cars
+          <span className="text-egreen">Rent your car</span> with us
         </h4>
         <p className="text-[1.7rem] font-light mb-6">
-          Book unforgettable rides from trusted hosts across the country{" "}
+          Rent out your car to trusted users across the country{" "}
         </p>
 
         {/* btns */}
@@ -24,7 +24,6 @@ const LandingPage = () => {
         <div className="flex gap-[2rem]">
           <LandingPageBtn text={"Log In"} link={'dashboard'} />
           <LandingPageBtn text={"Sign Up"} link="/" />
-          {/* <LandingPageBtn text={"Become a vendor"} link="/" /> */}
         </div>
       </div>
 

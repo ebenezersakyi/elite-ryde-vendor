@@ -47,7 +47,6 @@ const Header = () => {
 
       {/* btns */}
       <div className="flex gap-4">
-        <HeaderBtn text="Become a vendor" link={"/"} />
         <HeaderBtn text="Contact us" link={"/"} />
       </div>
     </header>

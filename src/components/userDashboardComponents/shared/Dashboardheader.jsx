@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../../../assets/logo.svg";
 import sample from "../../../assets/dashboard/sample_pp.svg";
 import arrow from "../../../assets/dashboard/vendor/arrow.svg";
+import HeaderBtn from "../../header-components/HeaderBtn";
 import { show_log_out, show_settings } from "../../../store/modal_slide";
 import { useDispatch } from "react-redux";
 const Dashboardheader = () => {
@@ -9,7 +10,10 @@ const Dashboardheader = () => {
     <div className="2xl:container 2xl:mx-auto">
       <header className="text-[#fff] flex justify-between px-[2.5rem] py-[1.5rem] items-center">
           <img src={logo} alt="logo" />
-        <UserTab />
+           <div className="flex items-center gap-4">
+            <HeaderBtn text={"Add new car"} link={'/dashboard'}/>
+           <UserTab />
+           </div>
       </header>
     </div>
   );
