@@ -60,32 +60,27 @@ function CustomCalender({ setDate, hide, start, p }) {
             );
           })}
         </div>
-        <div className="grid grid-cols-7 gap-x-1 gap-y-3">
+        <div className="grid grid-cols-7 grid-rows-6 gap-x-1 gap-y-3">
           {genetate(month, year, start).map(
             ({ date, istoday, currentMonth, pastMonth, past }, index) => {
               return (
                 <h4
                   onClick={() => {
-                    //   if (past && !currentMonth) {
-                    //     toast.error("Invalid Date");
-                    //   } else {
-                    //     // hide(false);
-                    //     // dispatch(setDate(date.toDate().toDateString()));
-                    //     toast.success("Date selected");
-                    //   }
-                    // if (currentMonth) {
-                    //   if (!past) {
-                    //     toast.success("Date selected");
-                    //   }
-                    // }
+                    if (past) {
+                      toast.error("Invalid Date");
+                    } else {
+                      toast.success("Date selected");
+                    }
                   }}
                   key={index}
                   className={`
                     cursor-pointer
-                    text-[0.9rem] ${
+                    text-[0.9rem]
+                     ${
                       istoday && " border-egreen border-[1px] px-1 "
                     }
                     ${!currentMonth && "font-[100] text-[#858585] "}
+                    ${past ? 'cursor-not-allowed line-through text-[red]' : 'hover:text-egreen'}
                     `}
         
                 >
@@ -100,5 +95,5 @@ function CustomCalender({ setDate, hide, start, p }) {
   );
 }
 
-//                     ${past ? 'cursor-not-allowed line-through text-[red]' : 'hover:text-egreen'}
+//                     
 export default CustomCalender;

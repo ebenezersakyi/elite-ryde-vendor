@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-
-const FeatureTab = ({icon, title }) => {
-  const [isChecked, setIsChecked] = useState(false)
+import { useDispatch } from "react-redux";
+import { toggleFeature } from "../../../../store/features";
+const FeatureTab = ({icon, title, isChecked, feature}) => {
+  const dispatch = useDispatch()
+  // const [isChecked, setIsChecked] = useState(false)
   return (
     <div
     onClick={() => {
-      setIsChecked(!isChecked)
+      // setIsChecked(!isChecked)
+      feature && dispatch(toggleFeature(feature))
 
     }}
       className={`flex cursor-pointer items-center rounded-md border-[1px] gap-3 ${

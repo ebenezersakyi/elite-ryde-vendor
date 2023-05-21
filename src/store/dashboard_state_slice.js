@@ -1,30 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-import dayjs from "dayjs";
 const initialState = {
-  start_price: "200",
-  end_price: "5000",
-  car_model: 0,
-  transmission: 0,
-  engine_type: 0,
-  body_style: 0,
-  engine_size: 0,
-  registration_year: 0,
-  color: 0,
-  number_of_seats: 0,
+  milage: "",
+  car_brand: "",
+  car_model: "",
+  transmission: "",
+  engine_type: "",
+  body_style: "",
+  engine_size: "",
+  registration_year: "",
+  color: "",
+  number_of_seats: "",
   location: "",
-  pick_up_date: dayjs().toDate().toDateString(),
-  return_date: dayjs().toDate().toDateString(),
+  start_date: "",
+  end_date: "",
+  plate_number: '',
+  location: '',
+  vehicle_identification_number: '',
+  available: 0
 };
 
 export const details_slice = createSlice({
   name: "details selectors",
   initialState,
   reducers: {
-    set_starting_price: (state, action) => {
-      state.start_price = action.payload;
+    set_car_brand: (state, action) => {
+      state.car_brand = action.payload;
     },
-    set_end_price: (state, action) => {
-      state.end_price = action.payload;
+    set_milage: (state, action) => {
+      state.milage = action.payload;
     },
     set_car_model: (state, action) => {
       state.car_model = action.payload;
@@ -47,11 +50,11 @@ export const details_slice = createSlice({
     set_location: (state, action) => {
       state.location = action.payload;
     },
-    set_pick_up_date: (state, action) => {
-      state.pick_up_date = action.payload;
+    set_start_date: (state, action) => {
+      state.start_date = action.payload;
     },
-    set_return_date: (state, action) => {
-      state.return_date = action.payload;
+    set_end_date: (state, action) => {
+      state.end_date = action.payload;
     },
     set_color: (state, action) => {
       state.color= action.payload;
@@ -59,24 +62,35 @@ export const details_slice = createSlice({
     set_number_of_seats: (state, action) => {
       state.number_of_seats = action.payload;
     },
-    
+    set_plate_number: (state, action) => {
+      state.plate_number = action.payload
+    },
+    set_vehicle_identification_number: (state, action) => {
+      state.vehicle_identification_number = action.payload
+    },
+    set_available: (state, action) => {
+      state.available = action.payload
+    }
   },
 });
 
 export const {
-  set_starting_price,
-  set_end_price,
+  set_car_brand,
+  set_milage,
   set_car_model,
   set_body_style,
   set_engine_size,
   set_engine_type,
   set_location,
-  set_pick_up_date,
+  set_start_date,
   set_registration_year,
-  set_return_date,
+  set_end_date,
   set_transmisson,
   set_number_of_seats,
-  set_color
+  set_color,
+  set_plate_number,
+  set_vehicle_identification_number,
+  set_available
 } = details_slice.actions;
 
 export default details_slice.reducer;

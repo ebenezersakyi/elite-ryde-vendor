@@ -1,66 +1,80 @@
 import React from "react";
 import FeatureTab from "../shared/FeatureTab";
+import { useSelector } from "react-redux";
 const CarFeature = () => {
+  const {gps, aux, sun_roof, child_seat, bluetooth, bike_rack, third_row_seat, mud_tyres, chains, car_taint, roof_box, _18_plus, smoking_allowed, outside_accra, deliver_car, usb} = useSelector((_) => _.features)
   const feature_list = [
     {
       icon: "ic:baseline-gps-fixed",
       title: "GPS",
-      isChecked: true,
+      isChecked: gps,
+      feature: 'gps'
     },
     {
       icon: "mdi:audio-input-stereo-minijack",
       title: "Audio Input",
-      isChecked: false,
+      isChecked: aux,
+      feature: 'aux'
     },
     {
       icon: "ph:sun-dim",
       title: "Sun Roof",
-      isChecked: true,
+      isChecked: sun_roof,
+      feature: "sun_roof",
     },
     {
       icon: "mdi:car-child-seat",
       title: "Child Seat",
-      isChecked: false,
+      isChecked: child_seat,
+      feature: 'child_seat'
     },
     {
       icon: "material-symbols:bluetooth-connected",
       title: "Bluetooth",
-      isChecked: true,
+      isChecked: bluetooth,
+      feature: 'bluetooth'
     },
     {
       icon: "mdi:usb-port",
       title: "USB Input",
-      isChecked: false,
+      isChecked: usb,
+      feature: 'usb'
     },
     {
       icon: "material-symbols:directions-bike",
       title: "Bike Rack",
-      isChecked: false,
+      isChecked: bike_rack,
+      feature: 'bike_rack'
     },
     {
       icon: "material-symbols:add",
       title: "3rd Row Seat",
-      isChecked: true,
+      isChecked: third_row_seat,
+      feature: 'third_row_seat'
     },
     {
       icon: "mdi:tyre",
       title: "Mud Tyres",
-      isChecked: false,
+      isChecked: mud_tyres,
+      feature: 'mud_tyres'
     },
     {
       icon: "akar-icons:link-chain",
       title: "Chains",
-      isChecked: true,
+      isChecked: chains,
+      feature: 'chains'
     },
     {
       icon: "material-symbols:directions-car-outline",
       title: "Car Taint",
-      isChecked: false,
+      isChecked: car_taint,
+      feature: 'car_taint'
     },
     {
       icon: "material-symbols:directions-car-outline",
       title: "Roof box",
-      isChecked: true,
+      isChecked: roof_box,
+      feature: 'roof_box'
     },
   ];
 
@@ -68,21 +82,27 @@ const CarFeature = () => {
     {
       icon: 'uil:18-plus',
       title: '18 plus',
-      isChecked: true
+      isChecked: _18_plus,
+      feature: '_18_plus'
+
     },
     {
       icon: 'ic:baseline-smoking-rooms',
       title: 'Smoking Allowed',
-      isChecked: false
+      isChecked: smoking_allowed,
+      feature: 'smoking_allowed'
     },
     {
       icon:'material-symbols:location-on',
-      title: 'Trips Outside Accra'
+      title: 'Trips Outside Accra',
+      isChecked: outside_accra,
+      feature: 'outside_accra'
     },
     {
       icon: 'material-symbols:directions-car-outline',
       title: 'Willing to deliver Car',
-      isChecked: true
+      isChecked: deliver_car,
+      feature: 'deliver_car'
     },
   ]
   return (
@@ -92,8 +112,8 @@ const CarFeature = () => {
     </h4>
     <div className='grid grid-cols-4 gap-4'>
       {
-        feature_list.map(({title, icon, isChecked}, inx) => {
-          return <FeatureTab title={title} icon={icon} isChecked={isChecked} key={inx}/>
+        feature_list.map(({title, icon, isChecked, feature}, inx) => {
+          return <FeatureTab title={title} icon={icon} isChecked={isChecked} key={inx} feature={feature}/>
         })
       }
     </div>
@@ -102,8 +122,8 @@ const CarFeature = () => {
     </h4>
     <div className='grid grid-cols-4 gap-4'>
       {
-        rental_condition.map(({title, icon, isChecked}, inx) => {
-          return <FeatureTab title={title} icon={icon} isChecked={isChecked} key={inx}/>
+        rental_condition.map(({title, icon, isChecked, feature}, inx) => {
+          return <FeatureTab title={title} icon={icon} isChecked={isChecked} key={inx} feature={feature}/>
         })
       }
     </div>

@@ -23,7 +23,7 @@ const LandingPage = () => {
 
         <div className="flex gap-[2rem]">
           <LandingPageBtn text={"Log In"} link={'dashboard'} />
-          <LandingPageBtn text={"Sign Up"} link="/" />
+          <LandingPageBtn text={"Sign Up"} link="/sign-up" />
         </div>
       </div>
 

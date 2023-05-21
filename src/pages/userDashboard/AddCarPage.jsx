@@ -1,17 +1,28 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import AddCarLayout from '../../components/userDashboardComponents/add-car/layout/AddCarLayout'
 import BasicInfo from '../../components/userDashboardComponents/add-car/children/BasicInfo'
 import Additional_Info from '../../components/userDashboardComponents/add-car/children/Additional_Info'
 import Calendar from '../../components/userDashboardComponents/add-car/children/Calendar'
 import CarFeature from '../../components/userDashboardComponents/add-car/children/CarFeature'
+import FinishScreen from '../../components/userDashboardComponents/add-car/children/FinishScreen'
 const AddCarPage = () => {
+  const active = useSelector((d) => d.active_tab.value)
+  const tabs = [
+     <BasicInfo />,
+     <Additional_Info />,
+     <p>Car photos to be done later</p>,
+     <CarFeature />,
+      <Calendar />,
+      <FinishScreen />
+  ]
+
   return (
-    <div className='text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] pt-[2rem] grid place-items-center'>
+    <div className='text-[#fff] 2xl:container 2xl:mx-auto px-[4.5rem] pt-[2rem] grid place-items-center'>
       <AddCarLayout>
-        {/* <BasicInfo /> */}
-        {/* <Additional_Info /> */}
-        {/* <CarFeature /> */}
-        <Calendar />
+        {
+          tabs[active]
+        }
         </AddCarLayout>
     </div>
   )
