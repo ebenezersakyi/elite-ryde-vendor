@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import logo from "../../../assets/logo.svg";
-import sample from "../../../assets/dashboard/sample_pp.svg";
 import arrow from "../../../assets/dashboard/vendor/arrow.svg";
 import HeaderBtn from "../../header-components/HeaderBtn";
 import { show_log_out, show_settings } from "../../../store/modal_slide";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
 const Dashboardheader = () => {
+
   const nav = useNavigate();
   return (
     <div className="2xl:container 2xl:mx-auto">
@@ -29,6 +30,7 @@ const Dashboardheader = () => {
 };
 
 function UserTab() {
+  const {user} = useAuth0()
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const list = [
@@ -47,7 +49,7 @@ function UserTab() {
   ];
   return (
     <div className="flex relative rounded-lg border-[1px] border-bgrey gap-4 items-center py-1 pl-2 pr-4 backdrop-blur-lg bg-[#00000070]">
-      <img src={sample} alt="" />
+      <img src={user?.picture} alt="user picture"  className="h-[50px] rounded-full"/>
       <span
         className="flex gap-2 cursor-pointer"
         onClick={() => {
@@ -55,7 +57,7 @@ function UserTab() {
         }}
       >
         <p className="text-[1.2rem] font-thin">
-          Hello, <span className="font-bold ">Richmann</span>
+          Hello, <span className="font-bold ">{user?.name.split(' ')[1]}</span>
         </p>
         <img
           src={arrow}

@@ -6,10 +6,30 @@ import {
   set_vehicle_identification_number,
 } from "../../../../store/dashboard_state_slice";
 import { useSelector } from "react-redux";
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { Marker } from '@react-google-maps/api';
 const Additional_Info = () => {
   const { location, plate_number, vehicle_identification_number } = useSelector(
     (_) => _.details
   );
+
+  const containerStyle = {
+    width: '100%',
+    height: '100%'
+  };
+  
+const center ={
+  lat:5.6037168,
+  lng:-0.1869644
+}
+  const position = {
+    lat: location?.lat,
+    lng: location?.long
+  };
+
+  const onLoad = marker => {
+    console.log('marker: ', marker)
+  }
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="flex flex-col gap-4">
@@ -18,6 +38,7 @@ const Additional_Info = () => {
           title={"Location"}
           value={location}
           setState={set_location}
+          loc={true}
         />
         <DetailTab
           icon={"material-symbols:directions-car"}
@@ -33,7 +54,24 @@ const Additional_Info = () => {
         />
       </div>
 
-      <div>map</div>
+      <div>
+      {/* <LoadScript
+        googleMapsApiKey="AIzaSyAKT8LXpv2aVfHyHKo8N9LzQmzCSktAYQQ"
+      >
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={10}
+        >
+          <Marker
+      onLoad={onLoad}
+      position={position}
+    />
+          <></>
+        </GoogleMap>
+      </LoadScript> */}
+      car
+      </div>
     </div>
   );
 };

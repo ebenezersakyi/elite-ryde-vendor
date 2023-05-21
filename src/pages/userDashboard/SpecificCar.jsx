@@ -2,11 +2,15 @@ import React from "react";
 import car from "../../assets/dashboard/cars/car.svg";
 import arrow from "../../assets/dashboard/vendor/back.svg";
 import CustomCalender from "../../components/userDashboardComponents/shared/Calender";
+import { useNavigate } from "react-router-dom";
 const SpecificCar = () => {
+  const nav = useNavigate()
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] pt-[2rem]">
       <div className="px-[10rem]  flex flex-col gap-4">
-        <span className="flex items-center gap-4 cursor-pointer">
+        <span className="flex items-center gap-4 cursor-pointer" onClick={() => {
+          nav('/dashboard')
+        }}>
           <img src={arrow} alt="" className="h-5" />
           <h4 className="font-bold text-[1.4rem]">Back</h4>
         </span>

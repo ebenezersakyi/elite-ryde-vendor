@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { genetate, months } from "../../../utils/calender_generator";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-function CustomCalender({ setDate, hide, start, p }) {
-  // const dispatch = useDispatch()
-  // const { pick_up_date, return_date } = useSelector((data) => data.details);
+function CustomCalender({ setDate, start, p }) {
+  // console.log(dayjs(p).toDate());
+  const dispatch = useDispatch()
   const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const currentDate = dayjs();
   const [month, setMonth] = useState(
@@ -62,13 +63,14 @@ function CustomCalender({ setDate, hide, start, p }) {
         </div>
         <div className="grid grid-cols-7 grid-rows-6 gap-x-1 gap-y-3">
           {genetate(month, year, start).map(
-            ({ date, istoday, currentMonth, pastMonth, past }, index) => {
+            ({ date, istoday, currentMonth, past }, index) => {
               return (
                 <h4
                   onClick={() => {
                     if (past) {
                       toast.error("Invalid Date");
                     } else {
+                      dispatch(setDate(date.toDate().toDateString()));
                       toast.success("Date selected");
                     }
                   }}
@@ -76,11 +78,11 @@ function CustomCalender({ setDate, hide, start, p }) {
                   className={`
                     cursor-pointer
                     text-[0.9rem]
-                     ${
-                      istoday && " border-egreen border-[1px] px-1 "
-                    }
                     ${!currentMonth && "font-[100] text-[#858585] "}
                     ${past ? 'cursor-not-allowed line-through text-[red]' : 'hover:text-egreen'}
+                    ${
+                     (date.isSame(p)) && " border-egreen border-[1px] px-1 "
+                   }
                     `}
         
                 >

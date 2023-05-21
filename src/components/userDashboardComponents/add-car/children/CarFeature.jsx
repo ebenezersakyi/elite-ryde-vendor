@@ -1,8 +1,12 @@
 import React from "react";
 import FeatureTab from "../shared/FeatureTab";
 import { useSelector } from "react-redux";
+import {toggleFeature} from '../../../../store/features'
+import { toggleFeature_r } from "../../../../store/rental_condition";
 const CarFeature = () => {
-  const {gps, aux, sun_roof, child_seat, bluetooth, bike_rack, third_row_seat, mud_tyres, chains, car_taint, roof_box, _18_plus, smoking_allowed, outside_accra, deliver_car, usb} = useSelector((_) => _.features)
+  const {gps, aux, sun_roof, child_seat, bluetooth, bike_rack, third_row_seat, mud_tyres, chains, car_taint, roof_box, usb} = useSelector((_) => _.features)
+
+  const {_18_plus, smoking_allowed, outside_accra, deliver_car} = useSelector((_) => _.rental_condition)
   const feature_list = [
     {
       icon: "ic:baseline-gps-fixed",
@@ -113,7 +117,7 @@ const CarFeature = () => {
     <div className='grid grid-cols-4 gap-4'>
       {
         feature_list.map(({title, icon, isChecked, feature}, inx) => {
-          return <FeatureTab title={title} icon={icon} isChecked={isChecked} key={inx} feature={feature}/>
+          return <FeatureTab title={title} icon={icon} isChecked={isChecked} key={inx} feature={feature} func={toggleFeature}/>
         })
       }
     </div>
@@ -123,7 +127,7 @@ const CarFeature = () => {
     <div className='grid grid-cols-4 gap-4'>
       {
         rental_condition.map(({title, icon, isChecked, feature}, inx) => {
-          return <FeatureTab title={title} icon={icon} isChecked={isChecked} key={inx} feature={feature}/>
+          return <FeatureTab title={title} icon={icon} isChecked={isChecked} key={inx} feature={feature} func={toggleFeature_r}/>
         })
       }
     </div>

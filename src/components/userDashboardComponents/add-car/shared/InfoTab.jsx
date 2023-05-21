@@ -1,7 +1,8 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 import { useDispatch } from "react-redux";
-const DetailTab = ({ icon, title, value, setState }) => {
+import Autocomplete from "react-google-autocomplete";
+const DetailTab = ({ icon, title, value, setState, loc }) => {
   const dispatch = useDispatch();
   return (
     <div className="border-bgrey border-[1px] flex px-4 py-2 items-center gap-3 rounded-md">
@@ -11,15 +12,29 @@ const DetailTab = ({ icon, title, value, setState }) => {
 
       <span className=" font-[500] ">
         <h4 className="font-[500] mb-2 text-[1.1rem] ">{title}:</h4>
-        <input
-          onChange={(e) => {
-            dispatch(setState(e.currentTarget.value))
-          }}
-          type="text"
-          placeholder={"Type..."}
-          value={value}
-          className=" border-bgrey px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md"
-        />
+        {loc ? (
+          <Autocomplete
+            className="  border-bgrey px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md"
+            apiKey={"AIzaSyAKT8LXpv2aVfHyHKo8N9LzQmzCSktAYQQ"}
+            onPlaceSelected={(place) => {
+
+              dispatch(setState({
+                lat: place?.geometry?.location?.lat(),
+                long: place?.geometry?.location?.lng()
+              }))
+            }}
+          />
+        ) : (
+          <input
+            onChange={(e) => {
+              dispatch(setState(e.currentTarget.value));
+            }}
+            type="text"
+            placeholder={"Type..."}
+            value={value}
+            className=" border-bgrey px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md"
+          />
+        )}
       </span>
     </div>
   );

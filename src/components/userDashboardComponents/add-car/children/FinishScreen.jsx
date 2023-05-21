@@ -1,5 +1,7 @@
 import React from "react";
 import {clear} from '../../../../store/active_tab'
+import { clear_1 } from "../../../../store/dashboard_state_slice";
+import { clear_2 } from "../../../../store/features";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const FinishScreen = () => {
@@ -19,6 +21,8 @@ const FinishScreen = () => {
         <button className="border-[#fff] hover:bg-egreen hover:border-egreen duration-700  self-end  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
         onClick={() => {
             dispatch(clear())
+            dispatch(clear_1())
+            dispatch(clear_2())
         }}
         >
           Add another car

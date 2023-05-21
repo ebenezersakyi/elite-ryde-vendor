@@ -26,11 +26,15 @@ const feature_slice  = createSlice({
             const feature = action.payload;
             state[feature] = !state[feature];
           },
+          clear_2 : (state) => {
+            state = initialState
+          }
     }
 })
 
 export const {
-    toggleFeature
+    toggleFeature,
+    clear_2
 } = feature_slice.actions
 
 
