@@ -4,7 +4,7 @@ import {cars} from '../../utils/car'
 const UserHome = () => {
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] pt-[2rem]">
-        <div className="px-[12rem]">
+        <div className="px-[8rem]">
           <h1 className="text-egreen text-end font-bold text-[2.3rem] mb-2">YOUR CARS</h1>
 
           <div className="max-h-[75vh] overflow-y-scroll scrollbar-hide gap-[1.5rem]  grid grid-cols-3 mb-2">

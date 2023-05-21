@@ -11,7 +11,7 @@ const Dashboardheader = () => {
       <header className="text-[#fff] flex justify-between px-[2.5rem] py-[1.5rem] items-center">
           <img src={logo} alt="logo" />
            <div className="flex items-center gap-4">
-            <HeaderBtn text={"Add new car"} link={'/dashboard'}/>
+            <HeaderBtn text={"Add new car"} link={'/dashboard/add'}/>
            <UserTab />
            </div>
       </header>
@@ -49,7 +49,7 @@ function UserTab() {
       </span>
 
       <div
-        className={`${show ? 'block ': 'hidden ' } duration-300 absolute top-[100%] mt-2 py-2 rounded-lg border-[1px] border-bgrey w-[95%] right-0 backdrop-blur-lg bg-[#00000070]`}
+        className={`${show ? 'block ': 'hidden ' } z-[1000000] duration-300 absolute top-[100%] mt-2 py-2 rounded-lg border-[1px] border-bgrey w-[95%] right-0 backdrop-blur-[20px] bg-[#000000dd]`}
       >
         <ul className="flex flex-col gap-2 text-[1.1rem] px-3">
           {list.map(({ name , func}, inx) => {

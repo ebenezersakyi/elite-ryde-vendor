@@ -1,5 +1,6 @@
 import Modal from '@mui/material/Modal';
-import LogOut from '../pop_ups/LogOut'; 
+import LogOut from '../pop_ups/LogOut';
+import Account from '../pop_ups/Account';
 import React from 'react';
 import { hide_modal } from '../../../store/modal_slide';
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,7 +20,7 @@ const CModal = () => {
   >
    <>
    {
-    log_out ? <LogOut /> : setting ? <p className="text-egreen">setting</p> : dispatch(hide_modal())
+    log_out ? <LogOut /> : setting ? <Account /> : dispatch(hide_modal())
    }</>
     </Modal>
   )
