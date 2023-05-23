@@ -1,5 +1,6 @@
 import Field from '../../components/shared_components/InputField'
 import React from 'react'
+import { Icon } from '@iconify/react';
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -59,8 +60,8 @@ async function signUp(){
         <Field name={"firstName"} type={'text'}   value={formic.values.firstName} label={"Firstname"} onChange={formic.handleChange}/>
         <Field name={"lastName"} type={'text'}   value={formic.values.lastName} label={"Lastname"} onChange={formic.handleChange}/>
         <Field name={"email"} type={'email'} value={formic.values.email} label={"Email"} onChange={formic.handleChange}/>
-        <button className='bg-[#fff] text-[#000] py-3 rounded-xl' type='submit' disabled={isloading}>
-            Submit
+        <button className='bg-[#fff] text-[#000] py-3 rounded-xl grid place-items-center' type='submit' disabled={isloading}>
+            {isloading ? <Icon icon="line-md:loading-loop" className='font-[900]' /> : 'Sign up'}
         </button>
         </form>
     </div>

@@ -6,12 +6,13 @@ import Additional_Info from '../../components/userDashboardComponents/add-car/ch
 import Calendar from '../../components/userDashboardComponents/add-car/children/Calendar'
 import CarFeature from '../../components/userDashboardComponents/add-car/children/CarFeature'
 import FinishScreen from '../../components/userDashboardComponents/add-car/children/FinishScreen'
+import Uploadphotos from '../../components/userDashboardComponents/add-car/children/Uploadphotos'
 const AddCarPage = () => {
   const active = useSelector((d) => d.active_tab.value)
   const tabs = [
      <BasicInfo />,
      <Additional_Info />,
-     <p>Car photos to be done later</p>,
+     <Uploadphotos />,
      <CarFeature />,
       <Calendar />,
       <FinishScreen />

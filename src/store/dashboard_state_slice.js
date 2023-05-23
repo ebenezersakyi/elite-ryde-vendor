@@ -18,7 +18,8 @@ const initialState = {
   location: '',
   vehicle_identification_number: '',
   available: 0,
-  price: 0
+  price: 0, 
+  images: []
 };
 
 export const details_slice = createSlice({
@@ -78,6 +79,9 @@ export const details_slice = createSlice({
     },
     clear_1: (state) => {   
       state = initialState
+    },
+    set_image: (state, action) => {
+      state.images = [...state.images, action.payload]
     }
   },
 });
@@ -100,7 +104,8 @@ export const {
   set_vehicle_identification_number,
   set_available,
   set_price,
-  clear_1
+  clear_1,
+  set_image
 } = details_slice.actions;
 
 export default details_slice.reducer;
