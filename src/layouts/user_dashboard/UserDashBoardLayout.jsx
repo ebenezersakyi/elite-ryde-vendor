@@ -43,8 +43,6 @@ const UserDashBoardLayout = () => {
     <img src={bg[current]} alt="" className="fixed aspect-auto object-cover w-screen h-screen top-0 bottom-0 left-0 right-0 z-[-10]" />
         {(pathname !== '/dashboard/available') && <Dashboardheader />}
         <Outlet />
-
-     
     </div>}
        <CModal />
     </>

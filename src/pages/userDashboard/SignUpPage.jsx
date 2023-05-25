@@ -20,7 +20,6 @@ const SignUpPage = () => {
 
         },
         onSubmit: (values) => {
-            // alert(JSON.stringify(values))
             signUp()
         
         }

@@ -1,7 +1,8 @@
 import React from "react";
 import Field from "../../../shared_components/InputField";
-import sample from "../../../../assets/dashboard/sample_pp.svg";
+import { useAuth0 } from "@auth0/auth0-react";
 const MainAccount = () => {
+  const {user} = useAuth0()
   return (
     <div className="m-6 rounded">
       <h4 className="text-egreen font-bold text-[2rem] text-right">Account</h4>
@@ -9,11 +10,7 @@ const MainAccount = () => {
       <div className="border-[0.5px] border-bgrey rounded-xl py-[1.5rem] px-5 flex flex-col gap-[1.5rem] my-4">
         <h4 className="text-[1.2rem] font-[200]">Profile Details</h4>
         <span className="flex items-center gap-4">
-          <img
-            src={sample}
-            alt=""
-            className="border-bgrey border-2 rounded-full"
-          />
+        <img src={user?.picture} alt="user picture"  className="h-[50px] rounded-full"/>
           <div>
             <span>
               <button className="px-2 py-1 text-center rounded-md bg-bgrey mr-4">

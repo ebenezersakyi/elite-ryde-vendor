@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import car from "../../assets/dashboard/cars/car.svg";
 import arrow from "../../assets/dashboard/vendor/back.svg";
 import CustomCalender from "../../components/userDashboardComponents/shared/Calender";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 const SpecificCar = () => {
+  const [param, setSearchParam] = useSearchParams()
+  const id = param.get('id')
+  useEffect(() => {
+    nav('/dashboard')
+  }, [])
   const nav = useNavigate()
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] pt-[2rem]">

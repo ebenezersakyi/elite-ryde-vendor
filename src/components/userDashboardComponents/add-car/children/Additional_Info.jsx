@@ -5,9 +5,10 @@ import {
   set_location,
   set_vehicle_identification_number,
 } from "../../../../store/dashboard_state_slice";
+import GoogleMapReact from 'google-map-react';
+
 import { useSelector } from "react-redux";
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
-import { Marker } from '@react-google-maps/api';
+const AnyReactComponent = ({ text }) => <div className="h-12 w-12 bg-egreen">{text}</div>;
 const Additional_Info = () => {
   const { location, plate_number, vehicle_identification_number } = useSelector(
     (_) => _.details
@@ -18,6 +19,13 @@ const Additional_Info = () => {
     height: '100%'
   };
   
+  const defaultProps = {
+    center: {
+      lat:5.6037168,
+      lng:-0.1869644
+    },
+    zoom: 11
+  };
 const center ={
   lat:5.6037168,
   lng:-0.1869644
@@ -55,22 +63,16 @@ const center ={
       </div>
 
       <div>
-      {/* <LoadScript
-        googleMapsApiKey="AIzaSyAKT8LXpv2aVfHyHKo8N9LzQmzCSktAYQQ"
+      {/* <GoogleMapReact
+        bootstrapURLKeys={{ key: "AIzaSyAKT8LXpv2aVfHyHKo8N9LzQmzCSktAYQQ" }}
+        defaultCenter={defaultProps.center}
+        defaultZoom={defaultProps.zoom}
       >
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={10}
-        >
-          <Marker
-      onLoad={onLoad}
-      position={position}
-    />
-          <></>
-        </GoogleMap>
-      </LoadScript> */}
-      car
+        <AnyReactComponent
+          {...center}
+          text="My Marker"
+        />
+      </GoogleMapReact> */}
       </div>
     </div>
   );

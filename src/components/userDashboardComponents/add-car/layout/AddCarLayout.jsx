@@ -35,10 +35,10 @@ const AddCarLayout = ({ children }) => {
     location,
     plate_number,
     vehicle_identification_number,
-    images
+    images,
   } = useSelector((_) => _.details);
 
-function allBasicFilled() {
+  function allBasicFilled() {
     if (
       !car_brand.trim() ||
       !milage.trim() ||
@@ -55,16 +55,16 @@ function allBasicFilled() {
     return true;
   }
 
-  function allAdditionalFixed(){
-    if(
+  function allAdditionalFixed() {
+    if (
       !location ||
       !plate_number.trim() ||
       !vehicle_identification_number.trim()
-    ){
-      return false
+    ) {
+      return false;
     }
 
-    return true
+    return true;
   }
 
   const arrayOfFeatures = [];
@@ -82,7 +82,7 @@ function allBasicFilled() {
       array_of_rentalConditions.push(String(b));
     }
   }
-
+  const availability = ["weekdays" ,"weekends" ,"Both"]
   async function addCar() {
     try {
       setLoading(true);
@@ -98,7 +98,7 @@ function allBasicFilled() {
             engineType: info?.engine_type,
             engineSize: info?.engine_size,
             numberOfSeats: 5,
-            transmission: info?.transmission.capi,
+            transmission: info?.transmission,
           },
           additionalInformation: {
             geolocation: {
@@ -111,7 +111,11 @@ function allBasicFilled() {
           features: arrayOfFeatures,
           rentalConditions: array_of_rentalConditions,
           photos: [],
-          vendorId: user?.sub,
+          vendorId: user?.sub.slice(6),
+          booking: {
+            price: info?.price,
+            availability: info?.available
+        }
         },
       });
 
@@ -150,7 +154,7 @@ function allBasicFilled() {
           active == 0 ? " justify-end " : "justify-between"
         }`}
       >
-        {active > 0 && active < tabs.length - 1 && (
+        {active > 0 && active < tabs.length && (
           <button
             className="border-[#fff] w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
             onClick={() => {
@@ -164,34 +168,29 @@ function allBasicFilled() {
           <button
             className="border-[#fff] self-end  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
             onClick={() => {
-            if(active == 0){
-              if(allBasicFilled()){
-                dispatch(nextTab());
+              if (active == 0) {
+                if (allBasicFilled()) {
+                  dispatch(nextTab());
+                } else {
+                  toast.error("Fill all fields");
+                }
+              } else if (active == 1) {
+                if (allAdditionalFixed()) {
+                  dispatch(nextTab());
+                } else {
+                  toast.error("Fill all fields");
+                }
+              } else if (active == 2) {
+                if (images.length !== 0) {
+                  dispatch(nextTab());
+                } else {
+                  toast.error("Add image");
+                }
               }
               else{
-                toast.error('Fill all fields')
+                dispatch(nextTab())
               }
-            }
-
-            if(active == 1){
-              if(allAdditionalFixed()){
-                dispatch(nextTab());
-              }
-              else{
-                toast.error('Fill all fields')
-              }
-            }
-            if(active == 2){
-              if(images.length !== 0){
-                dispatch(nextTab());
-              }
-              else{
-                toast.error('Add image')
-              }
-            }
             }}
-            
-            
           >
             Next
           </button>

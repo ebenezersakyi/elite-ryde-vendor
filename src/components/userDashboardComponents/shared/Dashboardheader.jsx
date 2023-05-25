@@ -16,8 +16,8 @@ const Dashboardheader = () => {
           src={logo}
           alt="logo"
           className="cursor-pointer"
-          oncClick={() => {
-            nav("/");
+          onClick={() => {
+            nav("/dashboard");
           }}
         />
         <div className="flex items-center gap-4">
