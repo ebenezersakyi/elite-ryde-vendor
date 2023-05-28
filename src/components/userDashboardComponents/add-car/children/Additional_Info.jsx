@@ -8,7 +8,7 @@ import {
 import GoogleMapReact from 'google-map-react';
 
 import { useSelector } from "react-redux";
-const AnyReactComponent = ({ text }) => <div className="h-12 w-12 bg-egreen">{text}</div>;
+// const AnyReactComponent = ({ text }) => <div className="h-12 w-12 bg-egreen">{text}</div>;
 const Additional_Info = () => {
   const { location, plate_number, vehicle_identification_number } = useSelector(
     (_) => _.details
@@ -47,18 +47,21 @@ const center ={
           value={location}
           setState={set_location}
           loc={true}
+          tooltip={'eg: Spintex'}
         />
         <DetailTab
           icon={"material-symbols:directions-car"}
           title={"License plate number"}
           value={plate_number}
           setState={set_plate_number}
+          tooltip={'eg: GR-1234-19'}
         />
         <DetailTab
           icon={"material-symbols:directions-car"}
           title={"Vehicle identification number"}
           value={vehicle_identification_number}
           setState={set_vehicle_identification_number}
+          tooltip={'4Y1SL65848Z411439.'}
         />
       </div>
 

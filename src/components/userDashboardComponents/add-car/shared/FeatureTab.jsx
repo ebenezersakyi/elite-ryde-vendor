@@ -3,11 +3,9 @@ import { Icon } from "@iconify/react";
 import { useDispatch } from "react-redux";
 const FeatureTab = ({icon, title, isChecked, feature, func}) => {
   const dispatch = useDispatch()
-  // const [isChecked, setIsChecked] = useState(false)
   return (
     <div
     onClick={() => {
-      // setIsChecked(!isChecked)
       feature && dispatch(func(feature))
 
     }}

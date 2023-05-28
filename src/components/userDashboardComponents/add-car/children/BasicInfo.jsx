@@ -48,59 +48,72 @@ const BasicInfo = () => {
       title: "Car brand",
       value: car_brand,
       func: set_car_brand,
+      tooltip: 'eg: Ford'
     },
     {
       icon: "ic:baseline-directions-car",
       title: "Car model",
       value: car_model,
       func: set_car_model,
+      tooltip: 'eg: Escape'
     },
     {
       icon: "mdi:engine-outline",
       title: "Engine size",
       value: engine_size,
       func: set_engine_size,
+      tooltip: "Engine size in liters",
+      type: 'number'
     },
     {
       icon: "simple-line-icons:calender",
       title: "Year",
       value: registration_year,
       func: set_registration_year,
+      tooltip: 'Year of make',
+      type: 'number'
     },
     {
       icon: "ic:baseline-directions-car",
       title: "Type of car",
       value: body_style,
       func: set_body_style,
+      tooltip: 'Pick up | Salon | SUV | Bus'
     },
     {
       icon: "material-symbols:format-list-numbered",
       title: "Number of seats",
       value: number_of_seats,
       func: set_number_of_seats,
+      tooltip: 'eg: 5', 
+      type: 'number'
     },
     {
       icon: "ph:road-horizon-thin",
-      title: "Milage",
+      title: "Mileage",
       value: milage,
       func: set_milage,
+      tooltip: 'Mileage in km',
+      type: 'number'
     },
     {
       icon: "mdi:petrol-pump",
       title: "Engine type",
       value: engine_type,
       func: set_engine_type,
+      tooltip: 'Petrol | Diesel | Kerosene'
     },
     {
       icon: "solar:transmission-linear",
       title: "Transmission",
       value: transmission,
       func: set_transmisson,
+      tooltip: 'Automatic | Manual'
     },
   ];
   return (
-    <div className="grid grid-cols-3 gap-4">
-      {detailsInfo.map(({ icon, title, value, func }, inx) => {
+    <div className="grid grid-cols-3 gap-8">
+      {detailsInfo.map(({ icon, title, value, func, tooltip, type }, inx) => {
         return (
           <DetailTab
             icon={icon}
@@ -108,6 +121,8 @@ const BasicInfo = () => {
             value={value}
             key={inx}
             setState={func}
+            tooltip={tooltip}
+            type={type}
           />
         );
       })}
