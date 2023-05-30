@@ -12,6 +12,8 @@ import {
   set_transmisson,
   set_number_of_seats,
 } from "../../../../store/dashboard_state_slice";
+
+// input type 0->text 1->dropdown 2->locationPicker
 const BasicInfo = () => {
   const {
     car_brand,
@@ -63,7 +65,7 @@ const BasicInfo = () => {
       value: engine_size,
       func: set_engine_size,
       tooltip: "Engine size in liters",
-      type: 'number'
+      type: 'number', 
     },
     {
       icon: "simple-line-icons:calender",
@@ -78,7 +80,9 @@ const BasicInfo = () => {
       title: "Type of car",
       value: body_style,
       func: set_body_style,
-      tooltip: 'Pick up | Salon | SUV | Bus'
+      tooltip: 'Pick up | Salon | SUV | Bus',
+      inputType: 2,
+      options: ['Pick up', 'Salon', 'SUV', 'Bus']
     },
     {
       icon: "material-symbols:format-list-numbered",
@@ -101,19 +105,23 @@ const BasicInfo = () => {
       title: "Engine type",
       value: engine_type,
       func: set_engine_type,
-      tooltip: 'Petrol | Diesel | Kerosene'
+      tooltip: 'Petrol | Diesel | Kerosene',
+      inputType: 2, 
+      options: ['Petrol', 'Diesel', 'Kerosene']
     },
     {
       icon: "solar:transmission-linear",
       title: "Transmission",
       value: transmission,
       func: set_transmisson,
-      tooltip: 'Automatic | Manual'
+      tooltip: 'Automatic | Manual',
+      inputType: 2,
+      options: ['Automatic', 'Manual']
     },
   ];
   return (
     <div className="grid grid-cols-3 gap-8">
-      {detailsInfo.map(({ icon, title, value, func, tooltip, type }, inx) => {
+      {detailsInfo.map(({ icon, title, value, func, tooltip, type, inputType , options}, inx) => {
         return (
           <DetailTab
             icon={icon}
@@ -123,6 +131,8 @@ const BasicInfo = () => {
             setState={func}
             tooltip={tooltip}
             type={type}
+            inputType={inputType || 0}
+            opt={options}
           />
         );
       })}

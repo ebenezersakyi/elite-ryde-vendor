@@ -46,7 +46,7 @@ const center ={
           title={"Location"}
           value={location}
           setState={set_location}
-          loc={true}
+          inputType={1}
           tooltip={'eg: Spintex'}
         />
         <DetailTab
@@ -55,6 +55,7 @@ const center ={
           value={plate_number}
           setState={set_plate_number}
           tooltip={'eg: GR-1234-19'}
+          inputType={0}
         />
         <DetailTab
           icon={"material-symbols:directions-car"}
@@ -62,6 +63,7 @@ const center ={
           value={vehicle_identification_number}
           setState={set_vehicle_identification_number}
           tooltip={'4Y1SL65848Z411439.'}
+          inputType={0}
         />
       </div>
 

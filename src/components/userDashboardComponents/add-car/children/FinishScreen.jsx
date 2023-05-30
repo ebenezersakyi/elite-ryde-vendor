@@ -29,6 +29,9 @@ const FinishScreen = () => {
         </button>
         <button className="border-[#fff] hover:bg-egreen hover:border-egreen duration-700 self-end  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
                 onClick={() => {
+                  dispatch(clear())
+                  dispatch(clear_1())
+                  dispatch(clear_2())
                     nav('/dashboard')
                 }}
         >

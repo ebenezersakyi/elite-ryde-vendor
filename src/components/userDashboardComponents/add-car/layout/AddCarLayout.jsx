@@ -203,7 +203,7 @@ const AddCarLayout = ({ children }) => {
             }}
           >
             {isLoading ? (
-              <Icon icon="line-md:loading-loop" className="font-[900]" />
+              <Icon icon="line-md:loading-loop" className="font-[900] text-[2rem]" />
             ) : (
               "Complete"
             )}

@@ -32,7 +32,7 @@ const CarCard = ({name, location, price_per_day, year, transmission, image, user
     }}>
         <img src={car} alt="" className='rounded-t-[20px] w-full'/>
 
-        <div className='p-4 flex flex-col gap-[2rem] '>
+        <div className='p-4 flex flex-col justify-between '>
             <div>
             <h4 className='font-bold text-[1.5rem]'>{name}</h4>
             <p className='text-[1.1rem] text-[#808080] font-light'>{loc}    {year}   {transmission}</p>

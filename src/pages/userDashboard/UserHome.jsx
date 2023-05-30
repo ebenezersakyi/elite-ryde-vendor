@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CarCard from "../../components/userDashboardComponents/shared/CarCard";
 import { useAuth0 } from "@auth0/auth0-react";
-import Loader from "../../components/shared_components/Loader";
+import Loading from "../../components/shared_components/Loading";
 import { toast } from "react-toastify";
 import axios from "axios";
 const UserHome = () => {
@@ -43,7 +43,7 @@ const UserHome = () => {
         </h1>
 
         {loading ? (
-          <Loader />
+          <Loading />
         ) : data?.length === 0 ? (
           <p>No cars</p>
         ) : (

@@ -4,9 +4,9 @@ const initialState = {
   milage: "",
   car_brand: "",
   car_model: "",
-  transmission: "",
-  engine_type: "",
-  body_style: "",
+  transmission: 'Automatic',
+  engine_type: 'Petrol',
+  body_style: 'Pick up',
   engine_size: "",
   registration_year: "",
   color: "",
@@ -78,7 +78,27 @@ export const details_slice = createSlice({
       state.price = action.payload
     },
     clear_1: (state) => {   
-      state = initialState
+      state = {
+        milage: "",
+        car_brand: "",
+        car_model: "",
+        transmission: 'Automatic',
+        engine_type: 'Petrol',
+        body_style: 'Pick up',
+        engine_size: "",
+        registration_year: "",
+        color: "",
+        number_of_seats: "",
+        location: "",
+        start_date: dayjs().toDate().toDateString(),
+        end_date: dayjs().toDate().toDateString(),
+        plate_number: '',
+        location: '',
+        vehicle_identification_number: '',
+        available: 0,
+        price: 0, 
+        images: []
+      }
     },
     set_image: (state, action) => {
       state.images = [...state.images, action.payload]

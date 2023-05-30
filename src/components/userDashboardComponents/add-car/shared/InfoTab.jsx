@@ -3,7 +3,16 @@ import { Icon } from "@iconify/react";
 import { useDispatch } from "react-redux";
 import { usePlacesWidget } from "react-google-autocomplete";
 import Tooltip from "@mui/material/Tooltip";
-const DetailTab = ({ icon, title, value, setState, loc, tooltip, type}) => {
+const DetailTab = ({
+  icon,
+  title,
+  value,
+  setState,
+  tooltip,
+  type,
+  inputType,
+  opt,
+}) => {
   const [error, isError] = useState(false);
   const dispatch = useDispatch();
   const options = {
@@ -32,28 +41,44 @@ const DetailTab = ({ icon, title, value, setState, loc, tooltip, type}) => {
         <Icon icon={icon} className="text-egreen text-[1.8rem]" />
       </span>
 
-      <span className=" font-[500] ">
+      <span className=" font-[500] w-full ">
         <h4 className="font-[500] mb-2 text-[1.1rem]  ">{title}:</h4>
-        {loc ? (
-          <input
-            ref={ref}
-            className={` ${
-              error ? "border-[red]" : "border-bgrey"
-            } px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md`}
-          />
-        ) : (
-          <input
-            onChange={(e) => {
-              dispatch(setState(e.currentTarget.value));
-            }}
-            type={type || "text"}
-            placeholder={"Type..."}
-            value={value}
-            className={` ${
-              error ? "border-[red]" : "border-bgrey"
-            } px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md`}
-          />
-        )}
+        <div>
+          {inputType == 0 ? (
+            <input
+              onChange={(e) => {
+                dispatch(setState(e.currentTarget.value));
+              }}
+              type={type || "text"}
+              placeholder={"Type..."}
+              value={value}
+              className={` ${
+                error ? "border-[red]" : "border-bgrey"
+              } px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md w-full`}
+            />
+          ) : inputType == 1 ? (
+            <input
+              ref={ref}
+              className={` ${
+                error ? "border-[red]" : "border-bgrey"
+              } px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md w-full`}
+            />
+          ) : (
+            <select className="px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
+              onChange={(e) => {
+                dispatch(setState(e.currentTarget.value))
+              }}
+            >
+              {opt?.map((elem, inx) => {
+                return (
+                  <option value={elem} key={inx}>
+                    {elem}
+                  </option>
+                );
+              })}
+            </select>
+          )}
+        </div>
       </span>
 
       <Tooltip title={tooltip}>
