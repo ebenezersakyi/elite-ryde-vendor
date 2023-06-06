@@ -19,7 +19,8 @@ const initialState = {
   vehicle_identification_number: '',
   available: 0,
   price: 0, 
-  images: []
+  images: [],
+  outsideAccra: 0
 };
 
 export const details_slice = createSlice({
@@ -77,6 +78,9 @@ export const details_slice = createSlice({
     set_price: (state, action) => {
       state.price = action.payload
     },
+    set_outside_accra: (state, actiom) => {
+      state.outsideAccra = actiom.payload
+    },
     clear_1: (state) => {   
       state = {
         milage: "",
@@ -97,7 +101,8 @@ export const details_slice = createSlice({
         vehicle_identification_number: '',
         available: 0,
         price: 0, 
-        images: []
+        images: [],
+        outsideAccra: 0
       }
     },
     set_image: (state, action) => {
@@ -125,7 +130,8 @@ export const {
   set_available,
   set_price,
   clear_1,
-  set_image
+  set_image,
+  set_outside_accra
 } = details_slice.actions;
 
 export default details_slice.reducer;

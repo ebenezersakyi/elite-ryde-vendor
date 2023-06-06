@@ -8,7 +8,6 @@ const UserHome = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
   const { user } = useAuth0();
-  //user?.sub.slice(6)
 
   async function fetchCars() {
     try {
@@ -21,8 +20,8 @@ const UserHome = () => {
       });
 
       if (response?.data?.status) {
-        console.log(response?.data?.data);
         setData(response?.data?.data);
+        console.log(response?.data?.data);
       }
     } catch (error) {
       console.log(error);
@@ -50,36 +49,32 @@ const UserHome = () => {
           <div className="max-h-[75vh] overflow-y-scroll scrollbar-hide gap-[1.5rem]  grid grid-cols-3 mb-2">
             {data?.map(
               (
-                {
-                  // name,
-                  // year,
-                  // user_ratings,
-                  // transmission,
-                  // location,
-                  // image,
-                  // price_per_day,
-                  basicInformation: {make, model, year, transmission},
-                  additionalInformation: {geolocation: {long, lat}},
-                  _id
-                },
+                d,
                 inx
               ) => {
+                let {
+                  basicInformation: { make, model, year, transmission },
+                  additionalInformation: {
+                    geolocation: { long, lat },
+                    location,
+                  },
+                  _id,
+                  photos,
+                  booking,
+                } = d
                 return (
                   <CarCard
                     name={`${make} ${model}`}
-                    price_per_day={1000}
                     user_ratings={0}
                     key={inx}
-                    location={{long, lat}}
+                    location={location}
                     year={year}
                     transmission={transmission}
-                    image={''}
+                    image={photos[0]}
                     id={_id}
+                    price_per_day={booking?.price || 1000}
+                    data={d}
                   />
-                  // <div>
-                  //     <p>{make} - {model}</p>
-                  //     <p>long: {long} lat: {lat}</p>
-                  // </div>
                 );
               }
             )}

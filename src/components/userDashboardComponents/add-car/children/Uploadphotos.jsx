@@ -1,18 +1,40 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useRef } from "react";
+import axios from "axios";
 import { Icon } from "@iconify/react";
 import { useDispatch, useSelector } from "react-redux";
 import { set_image } from "../../../../store/dashboard_state_slice";
-
+import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
 const Uploadphotos = () => {
-//   const [images, setImages] = useState([]);
-    const dispatch = useDispatch()
-    const { images } = useSelector((_) => _.details)
-    console.log(images);
-  const onFileSelect = (file) => {
-    const img = URL.createObjectURL(file);
-    dispatch(set_image(img))
-  };
+  const dispatch = useDispatch();
+  const { user } = useAuth0();
+  const { images, vehicle_identification_number } = useSelector((_) => _?.details);
+
+
+  async function upload(file) {
+    const formData = new FormData();
+    formData?.append("file", file);
+    try {
+      const response = await axios.post(
+        `https://elite-ryde-management-api.azurewebsites.net/api/upload-car-image?vendorId=${user?.sub.slice(6)}&vehicleId=${vehicle_identification_number}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response?.data?.status) {
+       dispatch(set_image(`${response.data.data.url}`))
+      }
+    } catch (error) {
+      toast.error('An error occured. \n Try again')
+    }
+  }
+
+
   const fileInputRef = useRef(null);
 
   const handleFileSelect = () => {
@@ -21,18 +43,22 @@ const Uploadphotos = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    onFileSelect(file);
+    upload(file);
   };
 
   return (
     <div className="grid grid-cols-3 gap-[2rem]">
       {images.map((itm, inx) => {
         return (
-          <div className="h-[200px] border-[1px] border-[#fff] rounded-2xl">
+          <div
+            className="h-[200px] border-[1px] border-[#fff] rounded-2xl"
+            key={inx}
+          >
             <img
               src={itm}
               className="w-full h-full aspect-auto object-cover rounded-2xl"
-              alt=""
+              alt="image"
+              loading="lazy"
             />
           </div>
         );
@@ -41,7 +67,6 @@ const Uploadphotos = () => {
       <div className="grid place-items-center text-center border-[1px] h-[200px]  border-[#fff] rounded-2xl cursor-pointer">
         <span className="flex flex-col items-center">
           <Icon icon="bi:camera" className="text-[2rem]" />
-          {/* <p className="text-[1.5rem] font-[100]">Add image</p> */}
           <input
             type="file"
             accept="image/jpeg, image/png, image/gif, .jpg, .jpeg, .png"
@@ -49,7 +74,7 @@ const Uploadphotos = () => {
             style={{ display: "none" }}
             onChange={handleFileChange}
           />
-          <button onClick={handleFileSelect} disabled={images.length === 5}>
+          <button onClick={handleFileSelect} disabled={images?.length === 5}>
             Upload Image
           </button>
         </span>

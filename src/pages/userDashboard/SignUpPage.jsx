@@ -22,7 +22,9 @@ const SignUpPage = () => {
       doc: "",
       existing: false
     },
-    validate: (values) => {},
+    validate: (values) => {
+      console.log(values?.doc);
+    },
     onSubmit: (values) => {
       signUp();
     },
@@ -50,6 +52,31 @@ const SignUpPage = () => {
       console.log(error);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function upload(file) {
+    const formData = new FormData();
+    formData?.append("file", file);
+    const formatedEmail = ''
+    try {
+      const response = await axios.post(
+        `https://elite-ryde-management-api.azurewebsites.net/api/upload-document?documentType=business%20registration%20document&userEmail=${formic.values.email?.replace(/[^\w\s]/g, "")}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response?.data?.status) {
+        // formic.setFieldValue("doc", e?.target?.files[0]);
+        toast.success("EDEY WORK")
+      //  dispatch(set_image(`${response.data.data.url}?${token}`))
+      }
+    } catch (error) {
+      toast.error('An error occured. \n Try again')
     }
   }
   return (
@@ -113,7 +140,7 @@ const SignUpPage = () => {
             name={"id"}
             type="file"
             onChange={(e) => {
-              formic.setFieldValue("doc", e?.target?.files[0]);
+              upload(e?.target?.files[0])
             }}
             className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
           />

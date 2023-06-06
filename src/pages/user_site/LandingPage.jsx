@@ -7,7 +7,6 @@ import Tab from "../../components/landing-page/Tab";
 
 const LandingPage = () => {
   const{ loginWithRedirect } = useAuth0()
-  console.log(LandingPageBtn);
   return (
     <div className="2xl:container 2xl:mx-auto px-[2.5rem]">
       <div className="text-[#fff] flex justify-between items-center py-[6rem]">

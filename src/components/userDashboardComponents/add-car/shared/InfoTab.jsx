@@ -28,6 +28,7 @@ const DetailTab = ({
         setState({
           lat: place?.geometry?.location?.lat(),
           long: place?.geometry?.location?.lng(),
+          location: place?.name
         })
       );
     },

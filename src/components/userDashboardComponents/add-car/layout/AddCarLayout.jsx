@@ -82,7 +82,7 @@ const AddCarLayout = ({ children }) => {
       array_of_rentalConditions.push(String(b));
     }
   }
-  const availability = ["weekdays" ,"weekends" ,"Both"]
+  const availability = ["weekday" ,"weekends" ,"Both"]
   async function addCar() {
     try {
       setLoading(true);
@@ -107,14 +107,15 @@ const AddCarLayout = ({ children }) => {
             },
             licensePlate: info?.plate_number,
             vehicleIdentificationNumber: info?.vehicle_identification_number,
+            location: info?.location.location
           },
           features: arrayOfFeatures,
           rentalConditions: array_of_rentalConditions,
-          photos: [],
+          photos: images,
           vendorId: user?.sub.slice(6),
           booking: {
             price: info?.price,
-            availability: info?.available
+            availability: availability[info?.available]
         }
         },
       });

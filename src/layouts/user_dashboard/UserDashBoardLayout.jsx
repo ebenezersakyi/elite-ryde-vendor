@@ -7,10 +7,10 @@ import Dashboardheader from "../../components/userDashboardComponents/shared/Das
 import React, { useEffect, useState } from 'react'
 import { useAuth0 } from "@auth0/auth0-react";
 
-
 const UserDashBoardLayout = () => {
   const nav = useNavigate()
   const {isAuthenticated, isLoading, error }= useAuth0()
+  const [token, setToken] = useState('')
   useEffect(() =>{
     if(isLoading === false){
       if(isAuthenticated === false){
@@ -21,6 +21,7 @@ const UserDashBoardLayout = () => {
       }
     }
   }, [isLoading])
+
 
   const [current, setCurrent] =useState(0)
   const { pathname } = useLocation();

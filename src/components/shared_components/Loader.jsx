@@ -2,7 +2,7 @@ import React from "react";
 const Loader = () => {
   return (
     <div className="text-[white] text-center mt-7">
-      <div class="lds-facebook">
+      <div className="lds-facebook">
         <div></div>
         <div></div>
         <div></div>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import CustomCalender from '../../shared/Calender'
 import { Icon } from "@iconify/react";
-import { set_start_date, set_end_date, set_available, set_price} from '../../../../store/dashboard_state_slice';
+import { set_start_date, set_end_date, set_available, set_price, set_outside_accra} from '../../../../store/dashboard_state_slice';
 import { useSelector , useDispatch} from 'react-redux';
 const Calendar = () => {
     const dispatch = useDispatch()
-    const {available, start_date, end_date, price } =  useSelector((_) => _.details)
+    const {available, start_date, end_date, price, outsideAccra } =  useSelector((_) => _.details)
     const Available = [
         {
           day: "Weekday",
@@ -31,12 +31,23 @@ const Calendar = () => {
     </div>
 
     <div className="flex flex-col gap-6">
-      <h4 className=" text-[1.1rem] font-[500]">Standard Price</h4>
+      {/* <h4 className=" text-[1.1rem] font-[500]">Standard Price</h4> */}
+      <span>
+        <p>Outside Accra</p>
       <p className="px-2 py-2 border-[0.7px] border-[#fff] rounded-md">
-        GHC <input type='number' className='outline-none bg-[transparent] max-w-[70px] pl-1' value={price} onChange={(e) => {
-          dispatch(set_price(e.currentTarget.value))
+        GHC <input type='number' className='outline-none bg-[transparent] max-w-[70px] pl-1' value={outsideAccra} onChange={(e) => {
+          dispatch(set_outside_accra(e?.currentTarget.value))
         }}/>/day
       </p>
+      </span>
+      <span>
+        <p>Within Accra</p>
+      <p className="px-2 py-2 border-[0.7px] border-[#fff] rounded-md">
+        GHC <input type='number' className='outline-none bg-[transparent] max-w-[70px] pl-1' value={price} onChange={(e) => {
+          dispatch(set_price(e?.currentTarget.value))
+        }}/>/day
+      </p>
+      </span>
       <span className="flex flex-col gap-4">
         <h4 className="text-[0.9rem] font-[300]">Available for booking</h4>
         <div className="flex flex-col gap-3">
