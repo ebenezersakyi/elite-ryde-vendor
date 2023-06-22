@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 const SpecificCar = () => {
   const { data } = useSelector((d) => d?.selected_car);
-  console.log(data);
+  
   useEffect(() => {
     if (!data || data == '') {
       nav("/dashboard");
@@ -60,7 +60,7 @@ const SpecificCar = () => {
                   9.0/10
                 </p>
                 <p className="font-semibold text-egreen text-[1.4rem]">
-                  Ghc{booking?.price}/day
+                  Ghc{booking?.price?.within_accra}/day
                 </p>
               </span>
             </span>

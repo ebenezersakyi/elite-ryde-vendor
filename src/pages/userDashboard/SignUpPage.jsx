@@ -92,7 +92,7 @@ const SignUpPage = () => {
             className="accent-egreen h-[1.5rem] w-[1.2rem] "
             id=""
           />
-          <p className="text-[1.2rem] font-[100]">Already a vendor?</p>
+          <p className="text-[1.2rem] font-[100]">Already a user?</p>
         </div>
         <Field
           name={"companyName"}

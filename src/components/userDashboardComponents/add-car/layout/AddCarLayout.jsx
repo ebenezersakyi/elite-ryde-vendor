@@ -82,7 +82,7 @@ const AddCarLayout = ({ children }) => {
       array_of_rentalConditions.push(String(b));
     }
   }
-  const availability = ["weekday" ,"weekends" ,"Both"]
+  const availability = ['Weekdays', 'Weekends', 'Both']
   async function addCar() {
     try {
       setLoading(true);
@@ -114,7 +114,10 @@ const AddCarLayout = ({ children }) => {
           photos: images,
           vendorId: user?.sub.slice(6),
           booking: {
-            price: info?.price,
+            price: {
+              within_accra: info?.price, 
+              outside_accra: info?.outsideAccra
+            },
             availability: availability[info?.available]
         }
         },

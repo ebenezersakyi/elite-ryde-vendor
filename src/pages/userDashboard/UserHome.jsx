@@ -72,7 +72,7 @@ const UserHome = () => {
                     transmission={transmission}
                     image={photos[0]}
                     id={_id}
-                    price_per_day={booking?.price || 1000}
+                    price_per_day={booking?.price?.within_accra || 1000}
                     data={d}
                   />
                 );
