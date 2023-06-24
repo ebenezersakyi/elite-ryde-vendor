@@ -82,7 +82,7 @@ const AddCarLayout = ({ children }) => {
       array_of_rentalConditions.push(String(b));
     }
   }
-  const availability = ['Weekdays', 'Weekends', 'Both']
+  const availability = ["Weekdays", "Weekends", "Both"];
   async function addCar() {
     try {
       setLoading(true);
@@ -99,7 +99,7 @@ const AddCarLayout = ({ children }) => {
             engineSize: info?.engine_size,
             numberOfSeats: 5,
             transmission: info?.transmission,
-            bodyStyle: info?.body_style
+            bodyStyle: info?.body_style,
           },
           additionalInformation: {
             geolocation: {
@@ -108,7 +108,7 @@ const AddCarLayout = ({ children }) => {
             },
             licensePlate: info?.plate_number,
             vehicleIdentificationNumber: info?.vehicle_identification_number,
-            location: info?.location.location
+            location: info?.location.location,
           },
           features: arrayOfFeatures,
           rentalConditions: array_of_rentalConditions,
@@ -116,15 +116,15 @@ const AddCarLayout = ({ children }) => {
           vendorId: user?.sub.slice(6),
           booking: {
             price: {
-              within_accra: info?.price, 
-              outside_accra: info?.outsideAccra
+              within_accra: info?.price,
+              outside_accra: info?.outsideAccra,
             },
-            availability: availability[info?.available], 
+            availability: availability[info?.available],
             dates: {
-              startDate: info?.["start_date"], 
-              endDate: info?.["end_date"]
-            }
-        }
+              startDate: info?.["start_date"],
+              endDate: info?.["end_date"],
+            },
+          },
         },
       });
 
@@ -195,9 +195,8 @@ const AddCarLayout = ({ children }) => {
                 } else {
                   toast.error("Add image");
                 }
-              }
-              else{
-                dispatch(nextTab())
+              } else {
+                dispatch(nextTab());
               }
             }}
           >
@@ -212,7 +211,10 @@ const AddCarLayout = ({ children }) => {
             }}
           >
             {isLoading ? (
-              <Icon icon="line-md:loading-loop" className="font-[900] text-[2rem]" />
+              <Icon
+                icon="line-md:loading-loop"
+                className="font-[900] text-[2rem]"
+              />
             ) : (
               "Complete"
             )}
