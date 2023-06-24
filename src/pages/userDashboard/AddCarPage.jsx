@@ -22,7 +22,7 @@ const AddCarPage = () => {
     <div className='text-[#fff] 2xl:container 2xl:mx-auto px-[4.5rem] pt-[2rem] grid place-items-center'>
       <AddCarLayout>
         {
-          tabs[4]
+          tabs[active]
         }
         </AddCarLayout>
     </div>

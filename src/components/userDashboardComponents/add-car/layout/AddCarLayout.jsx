@@ -99,6 +99,7 @@ const AddCarLayout = ({ children }) => {
             engineSize: info?.engine_size,
             numberOfSeats: 5,
             transmission: info?.transmission,
+            bodyStyle: info?.body_style
           },
           additionalInformation: {
             geolocation: {
@@ -118,7 +119,11 @@ const AddCarLayout = ({ children }) => {
               within_accra: info?.price, 
               outside_accra: info?.outsideAccra
             },
-            availability: availability[info?.available]
+            availability: availability[info?.available], 
+            dates: {
+              startDate: info?.["start_date"], 
+              endDate: info?.["end_date"]
+            }
         }
         },
       });

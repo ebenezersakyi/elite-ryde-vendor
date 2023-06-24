@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 const SpecificCar = () => {
   const { data } = useSelector((d) => d?.selected_car);
-  
+
   useEffect(() => {
-    if (!data || data == '') {
+    if (!data || data == "") {
       nav("/dashboard");
     }
   }, []);
@@ -53,26 +53,42 @@ const SpecificCar = () => {
               </p>
 
               <span className="flex flex-col mt-5">
-                <p className="font-light">
+                {/* <p className="font-light">
                   <span className="text-[#808080] text-[1.1rem]">
                     User rating -{" "}
                   </span>{" "}
                   9.0/10
-                </p>
+                </p> */}
                 <p className="font-semibold text-egreen text-[1.4rem]">
                   Ghc{booking?.price?.within_accra}/day
                 </p>
               </span>
             </span>
 
-            <CustomCalender />
-
-            <div className="border-bgrey border-2 rounded-xl font-[100] flex flex-col gap-4 text-[1.3rem] h-fit p-5">
-              <h4 className="font-[500] text-[1.5rem]">Status</h4>
-              <p>Rental Status: Active</p>
-              <p>Current User: n/a</p>
-              <p>Insurance: n/a</p>
-              <p>Total Profit: n/a</p>
+            <div>
+              <h4 className="text-[1.5rem] mb-4">Available between:</h4>
+              <p className="text-[1.2rem] font-[100]">
+                {String(new Date(booking?.dates?.startDate))
+                  .split(" ")
+                  .slice(0, 4)
+                  .join(" ")}
+              </p>
+              <p>to</p>
+              <p className="text-[1.2rem] font-[100]">
+                {String(new Date(booking?.dates?.endDate))
+                  .split(" ")
+                  .slice(0, 4)
+                  .join(" ")}
+              </p>
+            </div>
+            <div>
+              <h4 className="font-[500] text-[1.5rem] mb-4">Status:</h4>
+              <div className="border-bgrey border-2 rounded-xl font-[100] flex flex-col gap-4 text-[1.3rem] h-fit p-5 ">
+                <p>Rental Status: Active</p>
+                <p>Current User: n/a</p>
+                <p>Insurance: n/a</p>
+                <p>Total Profit: n/a</p>
+              </div>
             </div>
           </div>
         </div>
