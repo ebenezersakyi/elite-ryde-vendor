@@ -132,9 +132,9 @@ const SpecificCar = () => {
               <h4 className="font-[500] text-[1.5rem] mb-4">Status:</h4>
               <div className="border-bgrey border-2 rounded-xl font-[100] flex flex-col gap-4 text-[1.3rem] h-fit p-5 ">
                 <p>Rental Status: {status?.rentalStatus ? "Active" : 'Non Active'}</p>
-                <p>Current User: {status?.user}</p>
-                <p>Insurance: n/a</p>
-                <p>Total Profit: n/a</p>
+                <p>Current User: {status?.user || 'n/a'}</p>
+                <p>Duration: {(status?.duration + ' days') || 'n/a'}</p>
+                <p>Within Accra: {status?.within_accra}</p>
               </div>
             </div>
           </div>
@@ -147,5 +147,14 @@ const SpecificCar = () => {
     </div>
   );
 };
-
+// {
+//   "status": true,
+//   "message": "Rental info retrieved.",
+//   "data": {
+//     "rented": true,
+//     "name": "test frimps",
+//     "duration": 10,
+//     "within_accra": true
+//   }
+// }
 export default SpecificCar;
