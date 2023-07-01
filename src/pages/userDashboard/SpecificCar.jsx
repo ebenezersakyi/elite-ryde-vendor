@@ -134,7 +134,7 @@ const SpecificCar = () => {
                 <p>Rental Status: {status?.rentalStatus ? "Active" : 'Non Active'}</p>
                 <p>Current User: {status?.user || 'n/a'}</p>
                 <p>Duration: {(status?.duration + ' days') || 'n/a'}</p>
-                <p>Within Accra: {status?.within_accra}</p>
+                <p>Within Accra: {status?.within_accra ? "True" : "False"}</p>
               </div>
             </div>
           </div>
