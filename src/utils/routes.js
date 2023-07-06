@@ -9,6 +9,8 @@ import AddCarPage from "../pages/userDashboard/AddCarPage";
 import SpecificCar from "../pages/userDashboard/SpecificCar";
 import SignUpPage from "../pages/userDashboard/SignUpPage";
 import SuccessPage from "../pages/userDashboard/SuccessPage";
+import Transactions from "../pages/userDashboard/Transactions";
+import Dashboard from "../pages/userDashboard/Dashboard";
 export const routes = createBrowserRouter([
     {
         path:"/",
@@ -51,6 +53,14 @@ export const routes = createBrowserRouter([
             {
                 path: 'car',
                 element: <SpecificCar />
+            }, 
+            {
+                path: 'transactions', 
+                element: <Transactions />
+            }, 
+            {
+                path: 'finance',
+                element: <Dashboard />
             }
         ]
     }

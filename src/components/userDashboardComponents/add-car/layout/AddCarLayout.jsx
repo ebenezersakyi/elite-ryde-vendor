@@ -2,7 +2,7 @@ import React from "react";
 import HeaderTabs from "../shared/HeaderTabs";
 import { useSelector, useDispatch } from "react-redux";
 import { nextTab, prevTab } from "../../../../store/active_tab";
-import { Icon } from "@iconify/react";
+import IconLoadingWhite from "../../../shared_components/IconLoadingWhite";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
@@ -205,16 +205,13 @@ const AddCarLayout = ({ children }) => {
         )}
         {active == tabs.length - 1 && (
           <button
-            className="border-[#fff] self-end grid place-items-center  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
+            className={`border-[#fff] self-end grid place-items-center  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] ${isLoading ? 'px-14 py-3':'px-8 py-2'}`}
             onClick={() => {
               addCar();
             }}
           >
             {isLoading ? (
-              <Icon
-                icon="line-md:loading-loop"
-                className="font-[900] text-[2rem]"
-              />
+              <IconLoadingWhite />
             ) : (
               "Complete"
             )}

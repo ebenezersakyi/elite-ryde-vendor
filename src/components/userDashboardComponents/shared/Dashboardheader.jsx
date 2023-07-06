@@ -7,7 +7,20 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 const Dashboardheader = () => {
-
+  const nav_links = [
+    {
+      title: "Cars", 
+      link: '/dashboard'
+    }, 
+    {
+      title: "Transactions",
+      link: '/dashboard/transactions'
+    }, 
+    {
+      title: "Finance", 
+      link: '/dashboard/finance'
+    }
+  ]
   const nav = useNavigate();
   return (
     <div className="2xl:container 2xl:mx-auto">
@@ -21,6 +34,21 @@ const Dashboardheader = () => {
           }}
         />
         <div className="flex items-center gap-4">
+        {nav_links.map(({ title, link }, indx) => {
+          return (
+            <p
+            onClick={() => {
+              nav(link);
+            }}
+              className={`text-[1.5rem]  font-[400] hover:text-egreen cursor-pointer  ${
+               false && "border-b-2 border-egreen text-egreen "
+              }`}
+              key={indx}
+            >
+              {title}
+            </p>
+          );
+        })}
           <HeaderBtn text={"Add new car"} link={"/dashboard/add"} />
           <UserTab />
         </div>

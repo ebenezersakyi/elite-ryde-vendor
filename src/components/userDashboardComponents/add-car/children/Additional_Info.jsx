@@ -5,38 +5,47 @@ import {
   set_location,
   set_vehicle_identification_number,
 } from "../../../../store/dashboard_state_slice";
-import GoogleMapReact from 'google-map-react';
-
+import { useFormik } from "formik";
+import axios from "axios";
 import { useSelector } from "react-redux";
-// const AnyReactComponent = ({ text }) => <div className="h-12 w-12 bg-egreen">{text}</div>;
+import { toast } from "react-toastify";
 const Additional_Info = () => {
   const { location, plate_number, vehicle_identification_number } = useSelector(
     (_) => _.details
   );
-
-  const containerStyle = {
-    width: '100%',
-    height: '100%'
-  };
-  
-  const defaultProps = {
-    center: {
-      lat:5.6037168,
-      lng:-0.1869644
+  const formic = useFormik({
+    initialValues: {
+      carRegistrationDocument: "",
+      insuranceDocument: "",
     },
-    zoom: 11
-  };
-const center ={
-  lat:5.6037168,
-  lng:-0.1869644
-}
-  const position = {
-    lat: location?.lat,
-    lng: location?.long
-  };
+  });
 
-  const onLoad = marker => {
-    console.log('marker: ', marker)
+  async function upload(file) {
+    const formData = new FormData();
+    formData?.append("file", file);
+    const formatedEmail = "t@t.com";
+    try {
+      const response = await axios.post(
+        `https://elite-ryde-management-api.azurewebsites.net/api/upload-document?documentType=business%20registration%20document&userEmail=${formic.values.email?.replace(
+          /[^\w\s]/g,
+          ""
+        )}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response?.data?.status) {
+        // formic.setFieldValue("doc", e?.target?.files[0]);
+        toast.success("Document uploaded succesfully");
+        //  dispatch(set_image(`${response.data.data.url}?${token}`))
+      }
+    } catch (error) {
+      toast.error("An error occured. \n Try again");
+    }
   }
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -47,14 +56,14 @@ const center ={
           value={location}
           setState={set_location}
           inputType={1}
-          tooltip={'eg: Spintex'}
+          tooltip={"eg: Spintex"}
         />
         <DetailTab
           icon={"material-symbols:directions-car"}
           title={"License plate number"}
           value={plate_number}
           setState={set_plate_number}
-          tooltip={'eg: GR-1234-19'}
+          tooltip={"eg: GR-1234-19"}
           inputType={0}
         />
         <DetailTab
@@ -62,22 +71,49 @@ const center ={
           title={"Vehicle identification number"}
           value={vehicle_identification_number}
           setState={set_vehicle_identification_number}
-          tooltip={'4Y1SL65848Z411439.'}
+          tooltip={"4Y1SL65848Z411439."}
           inputType={0}
         />
       </div>
 
       <div>
-      {/* <GoogleMapReact
-        bootstrapURLKeys={{ key: "AIzaSyAKT8LXpv2aVfHyHKo8N9LzQmzCSktAYQQ" }}
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
-      >
-        <AnyReactComponent
-          {...center}
-          text="My Marker"
-        />
-      </GoogleMapReact> */}
+        <h4 className="text-[2.4rem] mb-4">Car Documents</h4>
+        <div className="flex flex-col gap-3 lg:gap-2  border-bgrey">
+          <label className="font-[100] text-[1.2rem]">
+            Car Registration Document
+          </label>
+          <input
+            name={"id"}
+            type="file"
+            onChange={(e) => {
+              upload(e?.target?.files[0]);
+            }}
+            className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
+          />
+          {formic.errors.doc && (
+            <p className="text-[#EF0107] font-[300] text-[0.8rem]">
+              *{formic.errors.doc.toLowerCase()}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col gap-3 lg:gap-2  border-bgrey">
+          <label className="font-[100] text-[1.2rem]">
+            Comprehensive Insurance Document
+          </label>
+          <input
+            name={"id"}
+            type="file"
+            onChange={(e) => {
+              upload(e?.target?.files[0]);
+            }}
+            className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
+          />
+          {formic.errors.doc && (
+            <p className="text-[#EF0107] font-[300] text-[0.8rem]">
+              *{formic.errors.doc.toLowerCase()}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

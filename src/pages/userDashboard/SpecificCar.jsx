@@ -47,9 +47,6 @@ const SpecificCar = () => {
         console.log(response?.data?.data);
         setStatus(response?.data?.data)
       }
-      else{
-        nav('/dashboard')
-      }
     } catch (error) {
       console.log(error);
       toast.error("Error occured");
@@ -96,7 +93,7 @@ const SpecificCar = () => {
                 className="rounded-[20px] border-bgrey border-2"
               />
               <p className="text-[1.3rem] text-[#808080] font-light mt-3">
-                {data?.additionalInformation?.location}, {data?.additionalInformation?.year}, {data?.additionalInformation?.transmission}
+                {data?.additionalInformation?.location}, {data?.basicInformation?.year}, {data?.basicInformation?.transmission}
               </p>
 
               <span className="flex flex-col mt-5">
