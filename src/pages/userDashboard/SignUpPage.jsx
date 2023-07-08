@@ -1,6 +1,7 @@
 import Field from "../../components/shared_components/InputField";
 import React from "react";
 import IconLoading from "../../components/shared_components/IconLoading";
+import IconLoadingWhite from "../../components/shared_components/IconLoadingWhite";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,13 +9,14 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 const SignUpPage = () => {
   const nav = useNavigate();
-  const [file, setFile] = React.useState("");
+  const [uploadLoading, setUploadLoading] = React.useState(false);
   const [isloading, setLoading] = React.useState(false);
-  const id_type = ["Ghana-Card", "Driver-License"];
 
   const validationSchema = Yup.object({
-    companyName: Yup.string().required('Company name is required'),
-    location: Yup.string().matches(/^[A-Za-z]{2}-\d{3}-\d{2}$/, 'Invalid format').required("GPS is required"),
+    companyName: Yup.string().required("Company name is required"),
+    location: Yup.string()
+      .matches(/^[A-Za-z]{2}-\d{3}-\d{2}$/, "Invalid format")
+      .required("GPS is required"),
     firstName: Yup.string().required("Firstname is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     lastName: Yup.string().required("lastname is required"),
@@ -33,9 +35,9 @@ const SignUpPage = () => {
       doc: "",
       existing: false,
     },
-    validationSchema, 
+    validationSchema,
     validate: (values) => {
-      console.log(values?.doc);
+
     },
     onSubmit: (values) => {
       signUp();
@@ -53,6 +55,8 @@ const SignUpPage = () => {
           firstName: formic.values.firstName,
           lastName: formic.values.lastName,
           email: formic.values.email,
+          tin: formic.values.tin, 
+          document: formic.values.doc
         },
       });
 
@@ -72,6 +76,7 @@ const SignUpPage = () => {
     formData?.append("file", file);
     const formatedEmail = "";
     try {
+      setUploadLoading(true)
       const response = await axios.post(
         `https://elite-ryde-management-api.azurewebsites.net/api/upload-document?documentType=business%20registration%20document&userEmail=${formic.values.email?.replace(
           /[^\w\s]/g,
@@ -88,10 +93,14 @@ const SignUpPage = () => {
       if (response?.data?.status) {
         // formic.setFieldValue("doc", e?.target?.files[0]);
         toast.success("Document uploaded succesfully");
+        formic.setFieldValue("doc", response?.data.data.url);
         //  dispatch(set_image(`${response.data.data.url}?${token}`))
       }
     } catch (error) {
       toast.error("An error occured. \n Try again");
+    }
+    finally{
+      setUploadLoading(false)
     }
   }
   return (
@@ -155,24 +164,24 @@ const SignUpPage = () => {
               error={formic.errors.location}
             />
             <div className="flex flex-col gap-3 lg:gap-2  border-bgrey">
-              <label
-                className="font-[100] text-[1.2rem]"
-              >
+              <label className="font-[100] text-[1.2rem]">
                 Business Registration Document
               </label>
               <input
                 name={"id"}
                 type="file"
+                accept="application/pdf"
                 onChange={(e) => {
                   upload(e?.target?.files[0]);
                 }}
-                className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
+                className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0 "
               />
-                      {formic.errors.doc  && (
-            <p className="text-[#EF0107] font-[300] text-[0.8rem]">
-              *{formic.errors.doc.toLowerCase()}
-            </p>
-          )}
+              <p className="inline">{uploadLoading && <IconLoadingWhite />}</p>
+              {formic.errors.doc && (
+                <p className="text-[#EF0107] font-[300] text-[0.8rem]">
+                  *{formic.errors.doc.toLowerCase()}
+                </p>
+              )}
             </div>
 
             <Field
@@ -190,11 +199,7 @@ const SignUpPage = () => {
           type="submit"
           disabled={isloading}
         >
-          {isloading ? (
-            <IconLoading />
-          ) : (
-            "Sign up"
-          )}
+          {isloading ? <IconLoading /> : "Sign up"}
         </button>
       </form>
     </div>

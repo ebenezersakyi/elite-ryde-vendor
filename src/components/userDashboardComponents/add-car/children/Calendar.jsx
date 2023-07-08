@@ -7,13 +7,13 @@ import {
   set_available,
   set_price,
   set_outside_accra,
+  set_cross_country
 } from "../../../../store/dashboard_state_slice";
 import { useSelector, useDispatch } from "react-redux";
 import "react-calendar/dist/Calendar.css";
-import { toast } from "react-toastify";
 const CalendarComp = () => {
   const dispatch = useDispatch();
-  const { available, start_date, end_date, price, outsideAccra } = useSelector(
+  const { available, start_date, end_date, price, outsideAccra, crossCountry } = useSelector(
     (_) => _.details
   );
   const Available = [
@@ -84,6 +84,21 @@ const CalendarComp = () => {
               value={price}
               onChange={(e) => {
                 dispatch(set_price(e?.currentTarget.value));
+              }}
+            />
+            /day
+          </p>
+        </span>
+        <span>
+          <p>Cross Country</p>
+          <p className="px-2 py-2 border-[0.7px] border-[#fff] rounded-md">
+            GHC{" "}
+            <input
+              type="number"
+              className="outline-none bg-[transparent] max-w-[70px] pl-1"
+              value={crossCountry}
+              onChange={(e) => {
+                dispatch(set_cross_country(e?.currentTarget.value));
               }}
             />
             /day

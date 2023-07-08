@@ -12,6 +12,7 @@ const AddCarLayout = ({ children }) => {
   const tabs = [
     "Basic Information",
     "Additional Information",
+    "Add Driver",
     "Car Photos",
     "Car Features",
     "Calendar",
@@ -36,6 +37,8 @@ const AddCarLayout = ({ children }) => {
     plate_number,
     vehicle_identification_number,
     images,
+    reg_doc,
+    insurance_doc,
   } = useSelector((_) => _.details);
 
   function allBasicFilled() {
@@ -54,12 +57,26 @@ const AddCarLayout = ({ children }) => {
     }
     return true;
   }
-
+  function allDriverDetails() {
+    if (
+      !info?.driver?.name.trim() ||
+      !info?.driver?.email.trim() ||
+      !info?.driver?.phoneNumber.trim() ||
+      !info?.driver?.idNumber.trim() ||
+      !info?.driver?.image.trim() ||
+      !info?.driver?.idImage.trim()
+    ) {
+      return false;
+    }
+    return true;
+  }
   function allAdditionalFixed() {
     if (
-      !location ||
-      !plate_number.trim() ||
-      !vehicle_identification_number.trim()
+      (!location ||
+        !plate_number.trim() ||
+        !vehicle_identification_number.trim(),
+      !reg_doc,
+      !insurance_doc)
     ) {
       return false;
     }
@@ -118,6 +135,7 @@ const AddCarLayout = ({ children }) => {
             price: {
               within_accra: info?.price,
               outside_accra: info?.outsideAccra,
+              cross_country: info?.crossCountry
             },
             availability: availability[info?.available],
             dates: {
@@ -125,6 +143,14 @@ const AddCarLayout = ({ children }) => {
               endDate: info?.["end_date"],
             },
           },
+          driver: {
+            image: info?.driver.image,
+            name: info?.driver.name, 
+            idImage: info?.driver.idImage, 
+            email: info?.driver.email, 
+            phoneNumber: info?.driver?.phoneNumber, 
+            idNumber: info?.driver.idNumber
+          }
         },
       });
 
@@ -132,7 +158,7 @@ const AddCarLayout = ({ children }) => {
         dispatch(nextTab());
       }
     } catch (error) {
-      toast.error(error?.message);
+      toast.error("An error occured \n Try again");
       console.log(error);
     } finally {
       setLoading(false);
@@ -140,7 +166,7 @@ const AddCarLayout = ({ children }) => {
   }
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid grid-cols-6 gap-3">
         {tabs.map((element, index) => {
           return (
             <HeaderTabs
@@ -187,9 +213,15 @@ const AddCarLayout = ({ children }) => {
                 if (allAdditionalFixed()) {
                   dispatch(nextTab());
                 } else {
-                  toast.error("Fill all fields");
+                  toast.error("Fill all fields And upload All documents");
                 }
               } else if (active == 2) {
+                if (allDriverDetails()) {
+                  dispatch(nextTab());
+                } else {
+                  toast.error("Fill all fields And upload All documents");
+                }
+              } else if (active == 3) {
                 if (images.length !== 0) {
                   dispatch(nextTab());
                 } else {
@@ -205,16 +237,14 @@ const AddCarLayout = ({ children }) => {
         )}
         {active == tabs.length - 1 && (
           <button
-            className={`border-[#fff] self-end grid place-items-center  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] ${isLoading ? 'px-14 py-3':'px-8 py-2'}`}
+            className={`border-[#fff] self-end grid place-items-center  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] ${
+              isLoading ? "px-14 py-3" : "px-8 py-2"
+            }`}
             onClick={() => {
               addCar();
             }}
           >
-            {isLoading ? (
-              <IconLoadingWhite />
-            ) : (
-              "Complete"
-            )}
+            {isLoading ? <IconLoadingWhite /> : "Complete"}
           </button>
         )}
       </div>

@@ -8,7 +8,7 @@ const HeaderTabs = ({ title, number, active, hasPassed }) => {
       } text-center border-2 rounded-2xl py-4 px-6 text-[200]`}
     >
       <h4>
-        {number} {title}
+      {title}
       </h4>
     </div>
   );

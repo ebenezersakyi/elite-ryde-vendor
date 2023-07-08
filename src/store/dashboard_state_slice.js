@@ -20,7 +20,18 @@ const initialState = {
   available: 0,
   price: 0, 
   images: [],
-  outsideAccra: 0
+  outsideAccra: 0, 
+  reg_doc: "",
+  insurance_doc: '',
+  driver: {
+    name: '',
+    phoneNumber: "", 
+    email: '', 
+    image: '', 
+    idImage: '', 
+    idNumber: ''
+  },
+  crossCountry: ''
 };
 
 export const details_slice = createSlice({
@@ -107,6 +118,18 @@ export const details_slice = createSlice({
     },
     set_image: (state, action) => {
       state.images = [...state.images, action.payload]
+    }, 
+    set_reg_doc: (state, action) => {
+      state.reg_doc = action.payload
+    }, 
+    set_insurance_doc: (state, actiom) => {
+      state.insurance_doc = actiom.payload
+    }, 
+    set_driver_details: (state, action) => {
+      state.driver[action.payload.field] = action.payload.value
+    }, 
+    set_cross_country: (state, action) =>{
+      state.crossCountry = action.payload
     }
   },
 });
@@ -131,7 +154,11 @@ export const {
   set_price,
   clear_1,
   set_image,
-  set_outside_accra
+  set_outside_accra, 
+  set_reg_doc, 
+  set_insurance_doc,
+  set_driver_details,
+  set_cross_country
 } = details_slice.actions;
 
 export default details_slice.reducer;

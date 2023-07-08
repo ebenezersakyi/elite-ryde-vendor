@@ -60,7 +60,7 @@ const Dashboard = () => {
     </div>
   )
 }
-const AmountLayout = ({children}) => {
+export const AmountLayout = ({children}) => {
     return <section className='border-[#fff] border-[1px] rounded-lg text-center py-[3rem] backdrop-blur-sm'>{children}</section>
 }
 export default Dashboard

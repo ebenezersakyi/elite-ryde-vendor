@@ -7,11 +7,13 @@ import Calendar from '../../components/userDashboardComponents/add-car/children/
 import CarFeature from '../../components/userDashboardComponents/add-car/children/CarFeature'
 import FinishScreen from '../../components/userDashboardComponents/add-car/children/FinishScreen'
 import Uploadphotos from '../../components/userDashboardComponents/add-car/children/Uploadphotos'
+import AddDriver from '../../components/userDashboardComponents/add-car/children/AddDriver'
 const AddCarPage = () => {
   const active = useSelector((d) => d.active_tab.value)
   const tabs = [
      <BasicInfo />,
      <Additional_Info />,
+     <AddDriver />,
      <Uploadphotos />,
      <CarFeature />,
       <Calendar />,
