@@ -76,7 +76,7 @@ const NotificationItem = ({ data }) => {
                 url: `https://elite-ryde-management-api.azurewebsites.net/api/manage-booking`,
                 data: {
                     sessionId: id, 
-                    status
+                    accept: status
                 },
                 method: 'post'
             })
