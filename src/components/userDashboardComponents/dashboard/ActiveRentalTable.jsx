@@ -1,5 +1,6 @@
 import React from "react";
 import IconLoadingWhite from "../../shared_components/IconLoadingWhite";
+import {NoData} from '../../shared_components/NoData'
 const ActiveRentalTable = ({ loading, data }) => {
   const header_titles = ["Car", "User", "Duration", "Earnings"];
   return (
@@ -29,7 +30,7 @@ const ActiveRentalTable = ({ loading, data }) => {
             <IconLoadingWhite />
           </span>
         ) : data?.length == 0 ? (
-          <p className="text-[1.5rem] text-center  font-[100]">no data</p>
+          <NoData />
         ) : (
           data?.map((elem, inx) => {
             return (

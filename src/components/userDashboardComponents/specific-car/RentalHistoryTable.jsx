@@ -1,4 +1,5 @@
 import IconLoadingWhite from "../../shared_components/IconLoadingWhite";
+import { NoData } from "../../shared_components/NoData";
 const ActiveRentalTable = ({ loading, data }) => {
 const header_titles = ["User","Status", "Duration", "Earnings"];
 return (
@@ -28,7 +29,7 @@ return (
           <IconLoadingWhite />
         </span>
       ) : data?.length == 0 ? (
-        <p className="text-[1.5rem] text-center  font-[100]">no data</p>
+        <NoData data="data"/>
       ) : (
         data?.map((elem, inx) => {
           return (
@@ -41,7 +42,7 @@ return (
 );
 };
 const RentalTableRow = ({
-data: {  user, status, date, car, amount },
+data,
 last,
 }) => {
 return (
@@ -50,13 +51,13 @@ return (
       !last && "border-b-[1px]"
     } text-[1.1rem] font-[100] border-bgrey`}
     >
-    <p className={`col-span-2`}>{user}</p>
-      <p className={``}>{status}</p>
+    <p className={`col-span-2`}>{data?.userName}</p>
+      <p className={``}>{data?.status}</p>
     <p className={``}>
-      {date[0]} - {date[1]}
+    {data?.pickupDate} - {data?.returnDate}
     </p>
     
-    <p className={`text-end`}>GHS {amount}</p>
+    <p className={`text-end`}>GHS {data?.rentalAmount?.toFixed(2)}</p>
   </div>
 );
 };

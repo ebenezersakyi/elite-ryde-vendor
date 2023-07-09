@@ -1,7 +1,8 @@
 import React from 'react'
 import sucess from '../../assets/auth/success.svg'
-
+import { useAuth0 } from "@auth0/auth0-react";
 const SuccessPage = () => {
+  const { loginWithRedirect } = useAuth0();
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] pt-[2rem] grid place-items-center">
       <div className='block mx-auto'>
@@ -9,9 +10,14 @@ const SuccessPage = () => {
         <p className='font-[100] text-center text-[1.2rem]'>Thank you for signing up to elite ryde.
           <br />
            You would receive a confirmation email shortly. 
-          <br /> 
-          Use <strong className='font-[400]'>p@ssw0rd123</strong> as your default sign in password</p>
+          <br /> </p>
       </div>
+      <p className="font-[100] text-center text-[1.2rem]">
+        Click <span className="text-egreen  cursor-pointer" onClick={() => {
+          loginWithRedirect()
+        }}>here</span> to log
+        in
+      </p>
     </div>
   )
 }

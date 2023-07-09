@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Loading from "../../components/shared_components/Loading";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { NoData } from "../../components/shared_components/NoData";
 const UserHome = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
@@ -44,7 +45,7 @@ const UserHome = () => {
         {loading ? (
           <Loading />
         ) : data?.length === 0 ? (
-          <p>No cars</p>
+          <NoData data="cars"/>
         ) : (
           <div className="max-h-[75vh] overflow-y-scroll scrollbar-hide gap-[1.5rem]  grid grid-cols-3 mb-2">
             {data?.map(

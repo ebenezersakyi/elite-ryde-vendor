@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import logo from "../../../assets/logo.svg";
 import arrow from "../../../assets/dashboard/vendor/arrow.svg";
 import HeaderBtn from "../../header-components/HeaderBtn";
+import Notification from "../notification-tab/Notification";
 import { show_log_out, show_settings } from "../../../store/modal_slide";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 const Dashboardheader = () => {
+  const {pathname} = useLocation()
   const nav_links = [
     {
       title: "Cars", 
@@ -25,14 +27,6 @@ const Dashboardheader = () => {
   return (
     <div className="2xl:container 2xl:mx-auto">
       <header className="text-[#fff] flex justify-between px-[2.5rem] py-[1.5rem] items-center">
-        <img
-          src={logo}
-          alt="logo"
-          className="cursor-pointer"
-          onClick={() => {
-            nav("/dashboard");
-          }}
-        />
         <div className="flex items-center gap-4">
         {nav_links.map(({ title, link }, indx) => {
           return (
@@ -41,7 +35,7 @@ const Dashboardheader = () => {
               nav(link);
             }}
               className={`text-[1.5rem]  font-[400] hover:text-egreen cursor-pointer  ${
-               false && "border-b-2 border-egreen text-egreen "
+               pathname == link && "border-b-2 border-egreen text-egreen "
               }`}
               key={indx}
             >
@@ -49,9 +43,20 @@ const Dashboardheader = () => {
             </p>
           );
         })}
+        </div>
+        <img
+          src={logo}
+          alt="logo"
+          className="cursor-pointer"
+          onClick={() => {
+            nav("/dashboard");
+          }}
+        />
+          <div className="flex items-center gap-2">
+            <Notification />
           <HeaderBtn text={"Add new car"} link={"/dashboard/add"} />
           <UserTab />
-        </div>
+          </div>
       </header>
     </div>
   );
@@ -76,7 +81,7 @@ function UserTab() {
     },
   ];
   return (
-    <div className="flex relative rounded-lg border-[1px] border-bgrey gap-4 items-center py-1 pl-2 pr-4 backdrop-blur-lg bg-[#00000070]">
+    <div className="flex relative z-40 rounded-lg border-[1px] border-bgrey gap-4 items-center py-1 pl-2 pr-4 backdrop-blur-lg bg-[#00000070]">
       <img src={user?.picture} alt="user picture"  className="h-[50px] rounded-full"/>
       <span
         className="flex gap-2 cursor-pointer"

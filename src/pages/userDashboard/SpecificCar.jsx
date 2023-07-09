@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import car from "../../assets/dashboard/cars/car.svg";
 import arrow from "../../assets/dashboard/vendor/back.svg";
 import { toast } from "react-toastify";
@@ -8,34 +8,31 @@ import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { AmountLayout } from "./Dashboard";
-import RentalHistoryTable from '../../components/userDashboardComponents/specific-car/RentalHistoryTable'
+import RentalHistoryTable from "../../components/userDashboardComponents/specific-car/RentalHistoryTable";
 const SpecificCar = () => {
-  const mock_list = [
-    {
-      id: "#1330",
-      user: "Elon Musk",
-      status: "On going",
-      date: ["2nd August", "10th August"],
-      car: "Tesla Model S",
-      amount: 9876.54,
-    },
-    {
-      id: "#1423",
-      user: "Mark Johnson",
-      status: "On going",
-      date: ["18th September", "ongoing"],
-      car: "Audi A8",
-      amount: 7532.1,
-    },
-    {
-      id: "#1765",
-      user: "Robert Davis",
-      status: "On going",
-      date: ["30th October", "ongoing"],
-      car: "Ferrari 488 GTB",
-      amount: 8765.43,
-    },
-]
+  const [tloading, setTloading] = useState(false)
+  const [tdata, setTData ] = useState()
+  const [amount, setAmount] = useState()
+  async function getCarHistory(id){
+    try {
+      setTloading(true)
+      const response = await axios({
+        url: `https://elite-ryde-management-api.azurewebsites.net/api/get-vendor-transactions?id=${id}`,
+        method: "get",
+      });
+      if (response?.data?.status) {
+        setTData(response?.data?.data);
+        setAmount(response?.data?.amount)
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error occured \n Try again");
+    }
+    finally{
+      setTloading(false)
+    }
+  }
+
   const [loading, setLoading] = React.useState(false);
   const { data } = useSelector((d) => d?.selected_car);
   const [status, setStatus] = React.useState({});
@@ -49,7 +46,7 @@ const SpecificCar = () => {
       });
 
       if (response?.data?.status) {
-        // console.log(response?.data?.data);
+        console.log(response?.data?.data);
         dispatch(setData(response?.data?.data));
       } else {
         nav("/dashboard");
@@ -70,7 +67,7 @@ const SpecificCar = () => {
       });
 
       if (response?.data?.status) {
-        console.log(response?.data?.data);
+        console.log("Rental status", response?.data?.data);
         setStatus(response?.data?.data);
       }
     } catch (error) {
@@ -84,10 +81,9 @@ const SpecificCar = () => {
 
   useEffect(() => {
     if (param.get("id")) {
-      // make req
-      // console.log(param.get("id"));
       getCar(param.get("id"));
       getRentalStatus(param.get("id"));
+      getCarHistory(param.get("id"))
     } else {
       nav("/");
     }
@@ -120,47 +116,35 @@ const SpecificCar = () => {
                   <img
                     src={data?.photos[0] || car}
                     alt=""
-                    className="rounded-[20px] border-bgrey border-2"
+                    className="rounded-[20px] h-full object-contain  "
                   />
-                  <p className="text-[1.3rem] text-[#808080] font-light mt-3">
-                    {data?.additionalInformation?.location},{" "}
-                    {data?.basicInformation?.year},{" "}
-                    {data?.basicInformation?.transmission}
-                  </p>
-
-                  {/* <span className="flex flex-col mt-5"> */}
-                  {/* <p className="font-light">
-                  <span className="text-[#808080] text-[1.1rem]">
-                    User rating -{" "}
-                  </span>{" "}
-                  9.0/10
-                </p> */}
-                  {/* <p className="font-semibold text-egreen text-[1.4rem]">
-                  Ghc{data?.booking?.price?.within_accra}/day
-                </p>
-              </span> */}
                 </span>
 
-                <div className="col-span-2 grid gap-3">
+                <div className="col-span-2 grid grid-rows-2 gap-3">
                   <AmountLayout>
-                    <p className="text-[1.2rem] font-[100]">Total income earned from this car</p>
-                    <p className="text-[2.2rem] font-[600]">GHS 39.00</p>
+                    <p className="text-[1.2rem] font-[100]">
+                      Total income earned from this car
+                    </p>
+                    <p className="text-[2.2rem] font-[600]">GHS {amount?.toFixed(2)}</p>
                   </AmountLayout>
-                  <div className="border-bgrey border-2 rounded-xl font-[100] flex flex-col gap-4 text-[1.3rem] h-fit p-5 ">
+                  <div className="border-bgrey border-2 h-full rounded-xl font-[100] flex flex-col gap-4 text-[1.3rem]  p-5 ">
                     <p>
-                      Rental Status:{" "}
-                      {status?.rentalStatus ? "Active" : "Non Active"}
+                      Rental Status: {status?.status ? "Active" : "Non Active"}
                     </p>
-                    <p>Current User: {status?.user || "n/a"}</p>
-                    <p>Duration: {status?.duration + " days" || "n/a"}</p>
-                    <p>
-                      Within Accra: {status?.within_accra ? "True" : "False"}
-                    </p>
+                    {status?.status && (
+                      <>
+                        <p>Current User: {status?.userName || "n/a"}</p>
+                        <p>Duration: {status?.rentalDuration + " days" || "n/a"}</p>
+                        <p>
+                          location:{" "}
+                          {status?.scope}
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="col-span-3">
-                  {/* <h4 className="font-[500] text-[1.5rem] mb-4">Status:</h4> */}
-                 <RentalHistoryTable data={mock_list}/>
+                  <RentalHistoryTable data={tdata} loading={tloading} />
                 </div>
               </div>
             </div>

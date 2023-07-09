@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { set_driver_details } from "../../../../store/dashboard_state_slice";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -8,6 +8,7 @@ const AddDriver = () => {
   const dispatch = useDispatch();
   const { driver } = useSelector((_) => _.details);
   const { user } = useAuth0();
+  const [prev, setprev] = useState();
   async function upload(file, field) {
     const formData = new FormData();
     formData?.append("file", file);
@@ -84,9 +85,6 @@ const AddDriver = () => {
             );
           }}
         />
-      </section>
-
-      <section className="grid grid-rows-3 gap-4">
         <CField
           label={"Drivers License Number"}
           type={"text"}
@@ -103,19 +101,6 @@ const AddDriver = () => {
         />
         <div className="flex flex-col gap-3 lg:gap-2  border-bgrey">
           <label className="font-[100] text-[1.2rem]">
-            Passport Picture (PDF)
-          </label>
-          <input
-            name={"id"}
-            type="file"
-            onChange={(e) => {
-              upload(e?.target?.files[0], "image");
-            }}
-            className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
-          />
-        </div>
-        <div className="flex flex-col gap-3 lg:gap-2  border-bgrey">
-          <label className="font-[100] text-[1.2rem]">
             Drivers License (PDF)
           </label>
           <input
@@ -126,6 +111,37 @@ const AddDriver = () => {
             }}
             className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
           />
+        </div>
+      </section>
+
+      <section className="grid place-items-center gap-4 h-full">
+        <div className="border-[1px] p-[3rem] rounded-lg">
+          {driver?.image ? (
+            <>
+              <img className="w-[300px]" src={prev} alt="" />
+            </>
+          ) : (
+            <div className="flex flex-col gap-3 lg:gap-2  border-bgrey ">
+              <label className="font-[100] text-[1.2rem]">
+                Passport Picture (PNG)
+              </label>
+              <input
+                name={"id"}
+                type="file"
+                onChange={(e) => {
+                  upload(e?.target?.files[0], "image");
+
+                  setprev(URL.createObjectURL(e?.target?.files[0]));
+                }}
+                className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
+              />
+            </div>
+          )}
+          {driver?.image && (
+            <p className="text-[1.3rem] font-[100] text-center mt-4">
+              Passport picture
+            </p>
+          )}
         </div>
       </section>
     </div>

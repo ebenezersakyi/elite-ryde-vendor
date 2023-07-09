@@ -1,5 +1,5 @@
 import Field from "../../components/shared_components/InputField";
-import React from "react";
+import React, {useState} from "react";
 import IconLoading from "../../components/shared_components/IconLoading";
 import IconLoadingWhite from "../../components/shared_components/IconLoadingWhite";
 import { useFormik } from "formik";
@@ -11,7 +11,7 @@ const SignUpPage = () => {
   const nav = useNavigate();
   const [uploadLoading, setUploadLoading] = React.useState(false);
   const [isloading, setLoading] = React.useState(false);
-
+  const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
   const validationSchema = Yup.object({
     companyName: Yup.string().required("Company name is required"),
     location: Yup.string()
@@ -23,6 +23,10 @@ const SignUpPage = () => {
     tin: Yup.string().required("Tax identification Number is required"),
     existing: Yup.boolean(),
     doc: Yup.string().required(),
+    password: Yup
+    .string()
+    .matches(passwordRules, { message: "Please create a stronger password" })
+    .required("Required")
   });
   const formic = useFormik({
     initialValues: {
@@ -34,6 +38,7 @@ const SignUpPage = () => {
       tin: "",
       doc: "",
       existing: false,
+      password: ''
     },
     validationSchema,
     validate: (values) => {
@@ -56,7 +61,8 @@ const SignUpPage = () => {
           lastName: formic.values.lastName,
           email: formic.values.email,
           tin: formic.values.tin, 
-          document: formic.values.doc
+          document: formic.values.doc, 
+          password: formic.values.password
         },
       });
 
@@ -137,7 +143,18 @@ const SignUpPage = () => {
               error={formic.errors.email}
             />
 
-            <Field
+            
+            <FieldPassword
+              name={"password"}
+              type={"password"}
+              value={formic.values.password}
+              label={"Password"}
+              onChange={formic.handleChange}
+              error={formic.errors.password}
+            />
+          </SectionLayout>
+          <SectionLayout>
+          <Field
               name={"firstName"}
               type={"text"}
               value={formic.values.firstName}
@@ -153,8 +170,6 @@ const SignUpPage = () => {
               onChange={formic.handleChange}
               error={formic.errors.lastName}
             />
-          </SectionLayout>
-          <SectionLayout>
             <Field
               name={"location"}
               type={"text"}
@@ -206,6 +221,35 @@ const SignUpPage = () => {
   );
 };
 
+function FieldPassword({ name, placeholder, value, label, onChange, type,error }) {
+  const [show, setShow] = useState(false)
+  return (
+    <div className="flex flex-col gap-3 lg:gap-2">
+    <label htmlFor={name} className="font-[100] text-[1.2rem]">
+        {label}
+    </label>
+    <div>
+    <input
+    autoComplete='new-password'
+      type={show? 'text': 'password'}
+      name={name}
+      placeholder={placeholder}
+      value={value}
+      className="outline-none bg-[#000] border-bgrey border-b-[0.5px] text-[0.9rem]  w-[90%] py-2 placeholder:text-bgrey    text-[#fff]"
+      onChange={onChange}
+    />
+    <p className="text-[#fff] inline-block cursor-pointer text-center" onClick={() => {
+      setShow(!show)
+    }}>{show ? 'hide': 'show'}</p>
+    </div>
+    {error  && (
+        <p className="text-[#EF0107] font-[300] text-[0.8rem]">
+          *{error.toLowerCase()}
+        </p>
+      )}
+  </div>
+      );
+    };
 const SectionLayout = ({ children }) => {
   return (
     <section className="flex flex-col gap-3 justify-between">

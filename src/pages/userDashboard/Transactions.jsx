@@ -1,10 +1,42 @@
 import React from "react";
 import RentalTable from "../../components/userDashboardComponents/finance/RentalTable";
 import { months } from "../../utils/calender_generator";
-import {years} from '../../utils/dropdowncontents'
+import { years } from "../../utils/dropdowncontents";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
+
 const Transactions = () => {
-  const [month, setMonth] = React.useState(months[new Date().getMonth()])
-  const [year, setYear] = React.useState(years[0])
+  const [loading, setLoading] = React.useState(false);
+  const [data, setData] = React.useState();
+  const { user } = useAuth0();
+  const [month, setMonth] = React.useState(months[new Date().getMonth()]);
+  const [year, setYear] = React.useState(years[0]);
+
+  async function getData() {
+    try {
+      setLoading(true);
+      const response = await axios({
+        url: `https://elite-ryde-management-api.azurewebsites.net/api/get-vendor-transactions?id=${user.sub.slice(
+          6
+        )}`,
+        method: "get",
+      });
+      if (response?.data?.status) {
+        // console.log(response?.data?.data);
+        setData(response?.data?.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error occured \n Try again");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  React.useEffect(() => {
+    getData();
+  }, []);
   const mock_list = [
     {
       id: "#1394",
@@ -66,28 +98,32 @@ const Transactions = () => {
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[5.5rem] pt-[2rem]">
       <div className="mb-8">
-      <h4 className='text-egreen text-[3rem] font-[500]'>Transactions History</h4>
-      <span className="flex gap-3">
-        <CustomSelect state={month} options={months} setState={setMonth}/>
-        <CustomSelect state={year} options={years} setState={setYear}/>
-      </span>
+        <h4 className="text-egreen text-[3rem] font-[500]">
+          Transactions History
+        </h4>
+        <span className="flex gap-3">
+          <CustomSelect state={month} options={months} setState={setMonth} />
+          <CustomSelect state={year} options={years} setState={setYear} />
+        </span>
       </div>
-      <RentalTable data={mock_list} loading={false}/>
+      <RentalTable data={data} loading={loading} />
     </div>
   );
 };
 
-const CustomSelect = ({options, state, setState}) => {
-    return <select className="select bg-[transparent] outline-egreen  border-[#fff] border-[1px] rounded-lg px-3 py-2 " value={state} onChange={(e) => {
-      setState(e.currentTarget.value)
-    }}>
-        {
-          options?.map(elem => {
-            return <option>
-             { elem}
-            </option>
-          })
-        }
+const CustomSelect = ({ options, state, setState }) => {
+  return (
+    <select
+      className="select bg-[transparent] outline-egreen  border-[#fff] border-[1px] rounded-lg px-3 py-2 "
+      value={state}
+      onChange={(e) => {
+        setState(e.currentTarget.value);
+      }}
+    >
+      {options?.map((elem) => {
+        return <option>{elem}</option>;
+      })}
     </select>
-}
+  );
+};
 export default Transactions;
