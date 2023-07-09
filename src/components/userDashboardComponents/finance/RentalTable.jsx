@@ -1,5 +1,6 @@
 import React from "react";
 import IconLoadingWhite from "../../shared_components/IconLoadingWhite";
+import dayjs from "dayjs";
 import {NoData} from '../../shared_components/NoData'
 const RentalTable = ({ loading, data }) => {
   const header_titles = [ "User", "Status", "Date", "Car", "Amount"];
@@ -53,13 +54,14 @@ const RentalTableRow = ({
       } text-[1.2rem] font-[100] border-bgrey`}
     >
       {/* <p className={``}>{id}</p> */}
-      <p className={`col-span-2`}>{data?.userNamw}</p>
+      <p className={`col-span-2`}>{data?.userName}</p>
       <p className={``}>{data?.status}</p>
       <p className={`col-span-2`}>
-        {data?.pickupDate} - {data?.returnDate}
+        {/* {dayjs(data?.pickupDate).toDate()} - {String(data?.returnDate).split(" ").slice(0, 4).join(" ")} */}
+        {dayjs(data?.pickupDate).format('DD/MM/YYYY')} - {dayjs(data?.returnDate).format('DD/MM/YYYY')}
       </p>
       <p className={``}>{data?.carName}</p>
-      <p className={`text-end`}>GHS {data?.rentalAmount}</p>
+      <p className={`text-end`}>GHS {data?.rentalPrice}</p>
     </div>
   );
 };

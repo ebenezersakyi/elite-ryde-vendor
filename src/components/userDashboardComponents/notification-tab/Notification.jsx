@@ -20,6 +20,7 @@ const Notification = () => {
         method: "get",
       });
       if (response?.data?.status) {
+        console.log(response?.data?.data);
         setTData(response?.data?.data);
       }
     } catch (error) {
@@ -61,7 +62,7 @@ const NotificationContent = ({ data, loading }) => {
     <div className="absolute top-[110%] flex gap-2 flex-col w-[330px] bg-[#000] max-h-[250px] scrollbar-hide overflow-scroll left-0 backdrop-blur-3xl px-4 py-6 rounded-xl">
       {
         loading ? <p className="grid place-items-center"><IconLoadingWhite /></p> : data?.length == 0 ? <NoData /> : (data?.map((d) => {
-            return <NotificationItem />
+            return <NotificationItem data={d}/>
         }))
       }
     </div>
@@ -76,7 +77,8 @@ const NotificationItem = ({ data }) => {
                 data: {
                     sessionId: id, 
                     status
-                }
+                },
+                method: 'post'
             })
             if(response?.data?.status){
                 toast.success(status == true ? 'Booking accepted' : 'Booking rejected')
@@ -93,7 +95,7 @@ const NotificationItem = ({ data }) => {
       </p>
       <span>
         <p>
-          Projected Earning: <strong>GHS {data?.rentalAmount?.toFixed(2)}</strong>
+          Projected Earning: <strong>GHS {data?.rentalPrice?.toFixed(2)}</strong>
         </p>
         <span className="flex gap-1 justify-end">
           <button className="bg-egreen p-1" onClick={() => {

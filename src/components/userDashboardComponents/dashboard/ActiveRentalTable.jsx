@@ -1,5 +1,6 @@
 import React from "react";
 import IconLoadingWhite from "../../shared_components/IconLoadingWhite";
+import dayjs from "dayjs";
 import {NoData} from '../../shared_components/NoData'
 const ActiveRentalTable = ({ loading, data }) => {
   const header_titles = ["Car", "User", "Duration", "Earnings"];
@@ -43,7 +44,7 @@ const ActiveRentalTable = ({ loading, data }) => {
   );
 };
 const RentalTableRow = ({
-  data: {  user, status, date, car, amount },
+  data,
   last,
 }) => {
   return (
@@ -52,13 +53,13 @@ const RentalTableRow = ({
         !last && "border-b-[1px]"
       } text-[1.1rem] font-[100] border-bgrey`}
     >
-        <p className={``}>{car}</p>
-      <p className={`col-span-2`}>{user}</p>
+        <p className={``}>{data?.carName}</p>
+      <p className={`col-span-2`}>{data?.userName}</p>
       <p className={``}>
-        {date[0]} - {date[1]}
+      {dayjs(data?.pickupDate).format('DD/MM/YYYY')} - {dayjs(data?.returnDate).format('DD/MM/YYYY')}
       </p>
       
-      <p className={`text-end`}>GHS {amount}</p>
+      <p className={`text-end`}>GHS {data?.rentalPrice}</p>
     </div>
   );
 };
