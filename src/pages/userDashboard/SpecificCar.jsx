@@ -17,7 +17,7 @@ const SpecificCar = () => {
     try {
       setTloading(true)
       const response = await axios({
-        url: `https://elite-ryde-management-api.azurewebsites.net/api/get-vendor-transactions?id=${id}`,
+        url: `https://elite-ryde-management-api.azurewebsites.net/api/car-history?id=${id}`,
         method: "get",
       });
       if (response?.data?.status) {
@@ -68,7 +68,7 @@ const SpecificCar = () => {
 
       if (response?.data?.status) {
         console.log("Rental status", response?.data?.data);
-        setStatus(response?.data?.data);
+        setStatus(response?.data);
       }
     } catch (error) {
       console.log(error);
@@ -133,11 +133,11 @@ const SpecificCar = () => {
                     </p>
                     {status?.status && (
                       <>
-                        <p>Current User: {status?.userName || "n/a"}</p>
-                        <p>Duration: {status?.rentalDuration + " days" || "n/a"}</p>
+                        <p>Current User: {status?.data?.user || "n/a"}</p>
+                        <p>Duration: {status?.data?.duration == 1 ? `${status?.data?.duration} day`: `${status?.data?.duration} days`}</p>
                         <p>
                           location:{" "}
-                          {status?.scope}
+                          {status?.data?.scope}
                         </p>
                       </>
                     )}
