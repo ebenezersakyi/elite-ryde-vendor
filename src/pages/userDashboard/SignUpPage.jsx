@@ -1,5 +1,5 @@
 import Field from "../../components/shared_components/InputField";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import IconLoading from "../../components/shared_components/IconLoading";
 import IconLoadingWhite from "../../components/shared_components/IconLoadingWhite";
 import { useFormik } from "formik";
@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { baseURlVendor } from "../../utils";
+import { uploadDocument } from "../../utils";
 const SignUpPage = () => {
   const nav = useNavigate();
   const [uploadLoading, setUploadLoading] = React.useState(false);
@@ -23,10 +25,9 @@ const SignUpPage = () => {
     tin: Yup.string().required("Tax identification Number is required"),
     existing: Yup.boolean(),
     doc: Yup.string().required(),
-    password: Yup
-    .string()
-    .matches(passwordRules, { message: "Please create a stronger password" })
-    .required("Required")
+    password: Yup.string()
+      .matches(passwordRules, { message: "Please create a stronger password" })
+      .required("Required"),
   });
   const formic = useFormik({
     initialValues: {
@@ -38,31 +39,38 @@ const SignUpPage = () => {
       tin: "",
       doc: "",
       existing: false,
-      password: ''
+      password: "",
     },
     validationSchema,
-    validate: (values) => {
-
-    },
+    // validate: (values) => {},
     onSubmit: (values) => {
-      signUp();
+      createSignUpApproval();
     },
   });
-  async function signUp() {
+  async function createSignUpApproval() {
     setLoading(true);
     try {
+      const documentsURl = await uploadDocument(
+        [formic.values.doc],
+        "businessRegistrationDocument",
+        formic.values.email?.replace(/[^\w\s]/g, "")
+      );
+
       const response = await axios({
-        url: "https://elite-ryde-management-api.azurewebsites.net/api/become-a-vendor",
+        url: `${baseURlVendor}/approval`,
         method: "post",
         data: {
-          companyName: formic.values.companyName,
-          location: formic.values.location,
-          firstName: formic.values.firstName,
-          lastName: formic.values.lastName,
-          email: formic.values.email,
-          tin: formic.values.tin, 
-          document: formic.values.doc, 
-          password: formic.values.password
+          type: "vendor_signup",
+          content: JSON.stringify({
+            companyName: formic.values.companyName,
+            location: formic.values.location,
+            firstName: formic.values.firstName,
+            lastName: formic.values.lastName,
+            email: formic.values.email,
+            tin: formic.values.tin,
+            document: documentsURl[0],
+            password: formic.values.password,
+          }),
         },
       });
 
@@ -77,38 +85,7 @@ const SignUpPage = () => {
     }
   }
 
-  async function upload(file) {
-    const formData = new FormData();
-    formData?.append("file", file);
-    const formatedEmail = "";
-    try {
-      setUploadLoading(true)
-      const response = await axios.post(
-        `https://elite-ryde-management-api.azurewebsites.net/api/upload-document?documentType=business%20registration%20document&userEmail=${formic.values.email?.replace(
-          /[^\w\s]/g,
-          ""
-        )}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response?.data?.status) {
-        // formic.setFieldValue("doc", e?.target?.files[0]);
-        toast.success("Document uploaded succesfully");
-        formic.setFieldValue("doc", response?.data.data.url);
-        //  dispatch(set_image(`${response.data.data.url}?${token}`))
-      }
-    } catch (error) {
-      toast.error("An error occured. \n Try again");
-    }
-    finally{
-      setUploadLoading(false)
-    }
-  }
+  async function upload(file) {}
   return (
     <div className="w-[65%] mx-auto bg-[#000] p-8 mb-6 text-[#fff]">
       <h4 className="text-[2.3rem] mb-6">Become a vendor.</h4>
@@ -143,7 +120,6 @@ const SignUpPage = () => {
               error={formic.errors.email}
             />
 
-            
             <FieldPassword
               name={"password"}
               type={"password"}
@@ -154,7 +130,7 @@ const SignUpPage = () => {
             />
           </SectionLayout>
           <SectionLayout>
-          <Field
+            <Field
               name={"firstName"}
               type={"text"}
               value={formic.values.firstName}
@@ -187,7 +163,7 @@ const SignUpPage = () => {
                 type="file"
                 accept="application/pdf"
                 onChange={(e) => {
-                  upload(e?.target?.files[0]);
+                  formic.setFieldValue("doc", e.target.files[0]);
                 }}
                 className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0 "
               />
@@ -221,38 +197,51 @@ const SignUpPage = () => {
   );
 };
 
-function FieldPassword({ name, placeholder, value, label, onChange, type,error }) {
-  const [show, setShow] = useState(false)
+function FieldPassword({
+  name,
+  placeholder,
+  value,
+  label,
+  onChange,
+  type,
+  error,
+}) {
+  const [show, setShow] = useState(false);
   return (
     <div className="flex flex-col gap-3 lg:gap-2">
-    <label htmlFor={name} className="font-[100] text-[1.2rem]">
+      <label htmlFor={name} className="font-[100] text-[1.2rem]">
         {label}
-    </label>
-    <div>
-    <input
-    autoComplete='new-password'
-      type={show? 'text': 'password'}
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      className="outline-none bg-[#000] border-bgrey border-b-[0.5px] text-[0.9rem]  w-[90%] py-2 placeholder:text-bgrey    text-[#fff]"
-      onChange={onChange}
-    />
-    <p className="text-[#fff] inline-block cursor-pointer text-center" onClick={() => {
-      setShow(!show)
-    }}>{show ? 'hide': 'show'}</p>
-    </div>
-    {error  && (
+      </label>
+      <div className=" grid grid-cols-12">
+        <input
+          autoComplete="new-password"
+          type={show ? "text" : "password"}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          className="outline-none grid col-span-11 bg-[#000] border-bgrey border-b-[0.5px] text-[0.9rem]  w-[90%] py-2 placeholder:text-bgrey    text-[#fff]"
+          onChange={onChange}
+        />
+        <p
+          className="text-[#fff] grid place-items-center font-[100] min-w-max cursor-pointer text-center bg-bgrey px-2"
+          onClick={() => {
+            setShow(!show);
+          }}
+        >
+          {show ? "hide" : "show"}
+        </p>
+      </div>
+      {error && (
         <p className="text-[#EF0107] font-[300] text-[0.8rem]">
           *{error.toLowerCase()}
         </p>
       )}
-  </div>
-      );
-    };
+    </div>
+  );
+}
 const SectionLayout = ({ children }) => {
   return (
-    <section className="flex flex-col gap-3 justify-between">
+    <section className="flex flex-col gap-2 justify-between">
       {children}
     </section>
   );

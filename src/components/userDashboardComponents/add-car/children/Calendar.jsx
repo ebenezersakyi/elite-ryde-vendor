@@ -31,7 +31,7 @@ const CalendarComp = () => {
     },
   ];
   return (
-    <div className="grid grid-cols-3 gap-[2rem] px-8 py-4 items-center">
+    <div className="grid grid-cols-3 gap-[2rem] px-8 py-0 items-center">
       <div className="col-span-2 text-[1.1rem] font-[500]">
         <h4 className="mb-6">Available for booking from</h4>
         <span className="flex gap-4">

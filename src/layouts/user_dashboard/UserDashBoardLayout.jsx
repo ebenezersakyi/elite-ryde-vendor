@@ -13,12 +13,12 @@ const UserDashBoardLayout = () => {
   const [token, setToken] = useState('')
   useEffect(() =>{
     if(isLoading === false){
-      if(isAuthenticated === false){
-        nav('/')
-      }
-      if(error){
-        nav('/')
-      }
+      // if(isAuthenticated === false){
+      //   nav('/')
+      // }
+      // if(error){
+      //   nav('/')
+      // }
     }
   }, [isLoading])
 

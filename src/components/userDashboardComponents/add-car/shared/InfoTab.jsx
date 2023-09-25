@@ -65,7 +65,7 @@ const DetailTab = ({
               } px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md w-full`}
             />
           ) : (
-            <select className="px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
+            <select className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
               onChange={(e) => {
                 dispatch(setState(e.currentTarget.value))
               }}

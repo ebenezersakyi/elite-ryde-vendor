@@ -135,7 +135,7 @@ const AddCarLayout = ({ children }) => {
             price: {
               within_accra: info?.price,
               outside_accra: info?.outsideAccra,
-              cross_country: info?.crossCountry
+              cross_country: info?.crossCountry,
             },
             availability: availability[info?.available],
             dates: {
@@ -145,12 +145,12 @@ const AddCarLayout = ({ children }) => {
           },
           driver: {
             image: info?.driver.image,
-            name: info?.driver.name, 
-            idImage: info?.driver.idImage, 
-            email: info?.driver.email, 
-            phoneNumber: info?.driver?.phoneNumber, 
-            idNumber: info?.driver.idNumber
-          }
+            name: info?.driver.name,
+            idImage: info?.driver.idImage,
+            email: info?.driver.email,
+            phoneNumber: info?.driver?.phoneNumber,
+            idNumber: info?.driver.idNumber,
+          },
         },
       });
 
@@ -165,8 +165,8 @@ const AddCarLayout = ({ children }) => {
     }
   }
   return (
-    <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-6 gap-3">
+    <div className="grid grid-rows-6 max-h-[100vh] gap-3">
+      <div className="grid grid-cols-6 pt-6  h-fit row-span-1 gap-3">
         {tabs.map((element, index) => {
           return (
             <HeaderTabs
@@ -179,75 +179,76 @@ const AddCarLayout = ({ children }) => {
           );
         })}
       </div>
+      <section className="row-span-5 flex flex-col justify-between">
+        <div className="border-[#fff] border-[1px] rounded-2xl px-8 py-8 bg-[#000000d7]">
+          {children}
+        </div>
 
-      <div className="border-[#fff] border-[1px] rounded-2xl px-8 py-8 bg-[#000000d7]">
-        {children}
-      </div>
-
-      <div
-        className={`flex  items-center w-full ${
-          active == 0 ? " justify-end " : "justify-between"
-        }`}
-      >
-        {active > 0 && active < tabs.length && (
-          <button
-            className="border-[#fff] w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
-            onClick={() => {
-              dispatch(prevTab());
-            }}
-          >
-            Previous
-          </button>
-        )}
-        {active < tabs.length - 1 && (
-          <button
-            className="border-[#fff] self-end  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
-            onClick={() => {
-              if (active == 0) {
-                if (allBasicFilled()) {
-                  dispatch(nextTab());
+        <div
+          className={`flex mt-3  items-center w-full ${
+            active == 0 ? " justify-end " : "justify-between"
+          }`}
+        >
+          {active > 0 && active < tabs.length && (
+            <button
+              className="border-[#fff] w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
+              onClick={() => {
+                dispatch(prevTab());
+              }}
+            >
+              Previous
+            </button>
+          )}
+          {active < tabs.length - 1 && (
+            <button
+              className="border-[#fff] self-end  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
+              onClick={() => {
+                if (active == 0) {
+                  if (allBasicFilled()) {
+                    dispatch(nextTab());
+                  } else {
+                    toast.error("Fill all fields");
+                  }
+                } else if (active == 1) {
+                  if (allAdditionalFixed()) {
+                    dispatch(nextTab());
+                  } else {
+                    toast.error("Fill all fields And upload All documents");
+                  }
+                } else if (active == 2) {
+                  if (allDriverDetails()) {
+                    dispatch(nextTab());
+                  } else {
+                    toast.error("Fill all fields And upload All documents");
+                  }
+                } else if (active == 3) {
+                  if (images.length !== 0) {
+                    dispatch(nextTab());
+                  } else {
+                    toast.error("Add image");
+                  }
                 } else {
-                  toast.error("Fill all fields");
-                }
-              } else if (active == 1) {
-                if (allAdditionalFixed()) {
                   dispatch(nextTab());
-                } else {
-                  toast.error("Fill all fields And upload All documents");
                 }
-              } else if (active == 2) {
-                if (allDriverDetails()) {
-                  dispatch(nextTab());
-                } else {
-                  toast.error("Fill all fields And upload All documents");
-                }
-              } else if (active == 3) {
-                if (images.length !== 0) {
-                  dispatch(nextTab());
-                } else {
-                  toast.error("Add image");
-                }
-              } else {
-                dispatch(nextTab());
-              }
-            }}
-          >
-            Next
-          </button>
-        )}
-        {active == tabs.length - 1 && (
-          <button
-            className={`border-[#fff] self-end grid place-items-center  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] ${
-              isLoading ? "px-14 py-3" : "px-8 py-2"
-            }`}
-            onClick={() => {
-              addCar();
-            }}
-          >
-            {isLoading ? <IconLoadingWhite /> : "Complete"}
-          </button>
-        )}
-      </div>
+              }}
+            >
+              Next
+            </button>
+          )}
+          {active == tabs.length - 1 && (
+            <button
+              className={`border-[#fff] self-end grid place-items-center  w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] ${
+                isLoading ? "px-14 py-3" : "px-8 py-2"
+              }`}
+              onClick={() => {
+                addCar();
+              }}
+            >
+              {isLoading ? <IconLoadingWhite /> : "Complete"}
+            </button>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
