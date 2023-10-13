@@ -59,47 +59,48 @@ const SignUpPage = () => {
       return;
     }
     setLoading(true);
-    checkIfEmailExists().then((data) => {
+    checkIfEmailExists().then(async (data) => {
       if (!data) {
         toast.error("Email already exists ");
         setLoading(false);
         return;
       }
-    });
-    try {
-      const documentsURl = await uploadDocument(
-        [formic.values.doc],
-        "businessRegistrationDocument",
-        formic.values.email?.replace(/[^\w\s]/g, "")
-      );
 
-      const response = await axios({
-        url: `${baseURlVendor}/approval`,
-        method: "post",
-        data: {
-          type: "vendor_signup",
-          content: JSON.stringify({
-            companyName: formic.values.companyName,
-            location: formic.values.location,
-            firstName: formic.values.firstName,
-            lastName: formic.values.lastName,
-            email: formic.values.email,
-            tin: formic.values.tin,
-            document: documentsURl[0],
-            password: formic.values.password,
-          }),
-        },
-      });
+      try {
+        const documentsURl = await uploadDocument(
+          [formic.values.doc],
+          "businessRegistrationDocument",
+          formic.values.email?.replace(/[^\w\s]/g, "")
+        );
 
-      if (response?.data?.status) {
-        nav("/sucess");
+        const response = await axios({
+          url: `${baseURlVendor}/approval`,
+          method: "post",
+          data: {
+            type: "vendor_signup",
+            content: JSON.stringify({
+              companyName: formic.values.companyName,
+              location: formic.values.location,
+              firstName: formic.values.firstName,
+              lastName: formic.values.lastName,
+              email: formic.values.email,
+              tin: formic.values.tin,
+              document: documentsURl[0],
+              password: formic.values.password,
+            }),
+          },
+        });
+
+        if (response?.data?.status) {
+          nav("/sucess");
+        }
+      } catch (error) {
+        toast.error(error.message);
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      toast.error(error.message);
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    });
   }
 
   async function upload(file) {}
