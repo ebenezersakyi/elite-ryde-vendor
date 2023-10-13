@@ -1,5 +1,5 @@
 import Field from "../../components/shared_components/InputField";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconLoading from "../../components/shared_components/IconLoading";
 import IconLoadingWhite from "../../components/shared_components/IconLoadingWhite";
 import { useFormik } from "formik";
@@ -7,13 +7,18 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { baseURlVendor } from "../../utils";
+import { baseURLGeneral, baseURlVendor } from "../../utils";
 import { uploadDocument } from "../../utils";
+import PasswordStrengthBar from "react-password-strength-bar";
+
 const SignUpPage = () => {
   const nav = useNavigate();
   const [uploadLoading, setUploadLoading] = React.useState(false);
   const [isloading, setLoading] = React.useState(false);
+  const [passwordScore, setPasswordScore] = React.useState(0);
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+  const [strengthValue, setStrengthValue] = useState();
+
   const validationSchema = Yup.object({
     companyName: Yup.string().required("Company name is required"),
     location: Yup.string()
@@ -47,8 +52,20 @@ const SignUpPage = () => {
       createSignUpApproval();
     },
   });
+
   async function createSignUpApproval() {
+    if (strengthValue < 4) {
+      toast.error("Please create a stronger password ");
+      return;
+    }
     setLoading(true);
+    checkIfEmailExists().then((data) => {
+      if (!data) {
+        toast.error("Email already exists ");
+        setLoading(false);
+        return;
+      }
+    });
     try {
       const documentsURl = await uploadDocument(
         [formic.values.doc],
@@ -86,11 +103,41 @@ const SignUpPage = () => {
   }
 
   async function upload(file) {}
+
+  useEffect(() => {
+    if (formic.values.email.length > 0) {
+      checkIfEmailExists();
+    }
+  }, [formic.values.email]);
+
+  const checkIfEmailExists = async () => {
+    try {
+      const response = await axios({
+        url: `${baseURLGeneral}/email-exists?email=${formic.values.email}`,
+        method: "get",
+      });
+      if (response?.data?.status) {
+        console.log(response?.data?.data);
+        if (response?.data?.data) {
+          // formic.errors.email = "Email already exists";
+          toast.error("Email already exists");
+        }
+      } else {
+      }
+      return response?.data?.data;
+    } catch (error) {
+      console.log(error);
+      toast.error("Error occured");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="w-[65%] mx-auto bg-[#000] p-8 mb-6 text-[#fff]">
+    <div className="w-[65%] mx-auto bg-[#000] p-8 mb-6 text-[#fff] w-[90vw]">
       <h4 className="text-[2.3rem] mb-6">Become a vendor.</h4>
-      <form onSubmit={formic.handleSubmit} className="flex flex-col gap-5">
-        <div className="grid grid-cols-2 gap-[3rem]  ">
+      <form onSubmit={formic.handleSubmit} className="flex flex-col gap-5 ">
+        <div className=" flex flex-col md:grid grid-cols-2 gap-[3rem] ">
           <SectionLayout>
             <div className="flex items-center justify-between h-[3rem] ">
               <input
@@ -126,9 +173,17 @@ const SignUpPage = () => {
               value={formic.values.password}
               label={"Password"}
               onChange={formic.handleChange}
-              error={formic.errors.password}
+              // error={formic.errors.password}
+            />
+            <PasswordStrengthBar
+              password={formic.values.password}
+              onChangeScore={(value) => {
+                setStrengthValue(value);
+                console.log(value);
+              }}
             />
           </SectionLayout>
+
           <SectionLayout>
             <Field
               name={"firstName"}

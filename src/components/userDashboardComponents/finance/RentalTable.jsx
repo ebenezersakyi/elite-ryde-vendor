@@ -1,9 +1,9 @@
 import React from "react";
 import IconLoadingWhite from "../../shared_components/IconLoadingWhite";
 import dayjs from "dayjs";
-import {NoData} from '../../shared_components/NoData'
+import { NoData } from "../../shared_components/NoData";
 const RentalTable = ({ loading, data }) => {
-  const header_titles = [ "User", "Status", "Date", "Car", "Amount"];
+  const header_titles = ["User", "Status", "Date", "Car", "Amount"];
   return (
     <div className="rounded-lg backdrop-blur-lg border-[1px] border-[#fff] p-[2rem] ">
       {/* header */}
@@ -12,12 +12,9 @@ const RentalTable = ({ loading, data }) => {
           return (
             <p
               key={index}
-              className={`text-[1.5rem]  font-[400]  ${
-                elem == "User" && "col-span-2"
-              }
-              ${
-                elem == "Date" && "col-span-2"
-              }
+              className={`text-[15px] lg:text-[1.5rem] font-[400]  
+              ${elem == "User" && "col-span-2"}
+              ${elem == "Date" && "col-span-2"}
               ${elem == "Amount" && "text-end"}`}
             >
               {elem}
@@ -31,22 +28,17 @@ const RentalTable = ({ loading, data }) => {
             <IconLoadingWhite />
           </span>
         ) : data?.length == 0 ? (
-          <NoData data="data"/>
+          <NoData data="data" />
         ) : (
           data?.map((elem, inx) => {
-            return (
-              <RentalTableRow data={elem} last={inx == data.length - 1} />
-            );
+            return <RentalTableRow data={elem} last={inx == data.length - 1} />;
           })
         )}
       </div>
     </div>
   );
 };
-const RentalTableRow = ({
-  data,
-  last,
-}) => {
+const RentalTableRow = ({ data, last }) => {
   return (
     <div
       className={`grid grid-cols-7 py-[1rem] ${
@@ -58,7 +50,8 @@ const RentalTableRow = ({
       <p className={``}>{data?.status}</p>
       <p className={`col-span-2`}>
         {/* {dayjs(data?.pickupDate).toDate()} - {String(data?.returnDate).split(" ").slice(0, 4).join(" ")} */}
-        {dayjs(data?.pickupDate).format('DD/MM/YYYY')} - {dayjs(data?.returnDate).format('DD/MM/YYYY')}
+        {dayjs(data?.pickupDate).format("DD/MM/YYYY")} -{" "}
+        {dayjs(data?.returnDate).format("DD/MM/YYYY")}
       </p>
       <p className={``}>{data?.carName}</p>
       <p className={`text-end`}>GHS {data?.rentalPrice}</p>

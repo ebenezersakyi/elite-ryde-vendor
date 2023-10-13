@@ -41,7 +41,7 @@ const AddDriver = () => {
     }
   }
   return (
-    <div className="grid grid-cols-2 gap-[2rem]">
+    <div className="flex flex-col justify-center items-center md:grid grid-cols-2 gap-[2rem]">
       <section className="grid grid-rows-3 gap-4">
         <CField
           label={"Name"}
@@ -114,8 +114,8 @@ const AddDriver = () => {
         </div>
       </section>
 
-      <section className="grid place-items-center gap-4 h-full">
-        <div className="border-[1px] p-[3rem] rounded-lg">
+      <section className="grid place-items-center h-full">
+        <div className="border-[1px] p-[3rem] rounded-lg mt-[20px] md:p-[20px]">
           {driver?.image ? (
             <>
               <img className="w-[300px]" src={prev} alt="" />

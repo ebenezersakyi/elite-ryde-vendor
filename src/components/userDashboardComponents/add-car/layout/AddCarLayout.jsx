@@ -6,6 +6,9 @@ import IconLoadingWhite from "../../../shared_components/IconLoadingWhite";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
+import { Box, Step, StepLabel, Stepper } from "@mui/material";
+import { Icon } from "@iconify/react";
+
 const AddCarLayout = ({ children }) => {
   const active = useSelector((d) => d.active_tab.value);
   const dispatch = useDispatch();
@@ -99,7 +102,9 @@ const AddCarLayout = ({ children }) => {
       array_of_rentalConditions.push(String(b));
     }
   }
+
   const availability = ["Weekdays", "Weekends", "Both"];
+
   async function addCar() {
     try {
       setLoading(true);
@@ -165,8 +170,21 @@ const AddCarLayout = ({ children }) => {
     }
   }
   return (
-    <div className="grid grid-rows-6 max-h-[100vh] gap-3">
-      <div className="grid grid-cols-6 pt-6  h-fit row-span-1 gap-3">
+    <div className="grid grid-rows-6  gap-3">
+      {/* <Box sx={{ width: "100%" }}>
+        <Stepper
+          activeStep={active}
+          alternativeLabel
+          sx={{ backgroundColor: "#8a8a8a", padding: 2, borderRadius: 10 }}
+        >
+          {tabs.map((label, index) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </Box> */}
+      <div className="flex pt-6 row-span-1 scrollbar-hide gap-3 overflow-x-scroll">
         {tabs.map((element, index) => {
           return (
             <HeaderTabs

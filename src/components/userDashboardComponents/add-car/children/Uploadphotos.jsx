@@ -9,15 +9,18 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Uploadphotos = () => {
   const dispatch = useDispatch();
   const { user } = useAuth0();
-  const { images, vehicle_identification_number } = useSelector((_) => _?.details);
-
+  const { images, vehicle_identification_number } = useSelector(
+    (_) => _?.details
+  );
 
   async function upload(file) {
     const formData = new FormData();
     formData?.append("file", file);
     try {
       const response = await axios.post(
-        `https://elite-ryde-management-api.azurewebsites.net/api/upload-car-image?vendorId=${user?.sub.slice(6)}&vehicleId=${vehicle_identification_number}`,
+        `https://elite-ryde-management-api.azurewebsites.net/api/upload-car-image?vendorId=${user?.sub.slice(
+          6
+        )}&vehicleId=${vehicle_identification_number}`,
         formData,
         {
           headers: {
@@ -27,13 +30,12 @@ const Uploadphotos = () => {
       );
 
       if (response?.data?.status) {
-       dispatch(set_image(`${response.data.data.url}`))
+        dispatch(set_image(`${response.data.data.url}`));
       }
     } catch (error) {
-      toast.error('An error occured. \n Try again')
+      toast.error("An error occured. \n Try again");
     }
   }
-
 
   const fileInputRef = useRef(null);
 
@@ -47,7 +49,7 @@ const Uploadphotos = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-[2rem]">
+    <div className="grid grid-cols-1 gap-[2rem] sm:grid-cols-2 md:grid-cols-3">
       {images.map((itm, inx) => {
         return (
           <div
@@ -64,7 +66,11 @@ const Uploadphotos = () => {
         );
       })}
 
-      <div className="grid place-items-center text-center border-[1px] h-[200px]  border-[#fff] rounded-2xl cursor-pointer">
+      <button
+        onClick={handleFileSelect}
+        disabled={images?.length === 5}
+        className="grid place-items-center text-center border-[1px] h-[200px]  border-[#fff] rounded-2xl cursor-pointer"
+      >
         <span className="flex flex-col items-center">
           <Icon icon="bi:camera" className="text-[2rem]" />
           <input
@@ -74,11 +80,9 @@ const Uploadphotos = () => {
             style={{ display: "none" }}
             onChange={handleFileChange}
           />
-          <button onClick={handleFileSelect} disabled={images?.length === 5}>
-            Upload Image
-          </button>
+          <button>Upload Image</button>
         </span>
-      </div>
+      </button>
     </div>
   );
 };

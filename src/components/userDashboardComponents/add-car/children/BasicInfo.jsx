@@ -26,7 +26,7 @@ const BasicInfo = () => {
     registration_year,
     number_of_seats,
   } = useSelector((_) => _.details);
-  
+
   function allFilled() {
     if (
       !car_brand ||
@@ -39,10 +39,10 @@ const BasicInfo = () => {
       !number_of_seats ||
       !body_style
     ) {
-      return false
+      return false;
     }
 
-    return true
+    return true;
   }
   const detailsInfo = [
     {
@@ -50,14 +50,14 @@ const BasicInfo = () => {
       title: "Car brand",
       value: car_brand,
       func: set_car_brand,
-      tooltip: 'eg: Ford'
+      tooltip: "eg: Ford",
     },
     {
       icon: "ic:baseline-directions-car",
       title: "Car model",
       value: car_model,
       func: set_car_model,
-      tooltip: 'eg: Escape'
+      tooltip: "eg: Escape",
     },
     {
       icon: "mdi:engine-outline",
@@ -65,77 +65,82 @@ const BasicInfo = () => {
       value: engine_size,
       func: set_engine_size,
       tooltip: "Engine size in liters",
-      type: 'number', 
+      type: "number",
     },
     {
       icon: "simple-line-icons:calender",
       title: "Year",
       value: registration_year,
       func: set_registration_year,
-      tooltip: 'Year of make',
-      type: 'number'
+      tooltip: "Year of make",
+      type: "number",
     },
     {
       icon: "ic:baseline-directions-car",
       title: "Type of car",
       value: body_style,
       func: set_body_style,
-      tooltip: 'Pick up | Salon | SUV | Bus',
+      tooltip: "Pick up | Salon | SUV | Bus",
       inputType: 2,
-      options: ['Pick up', 'Salon', 'SUV', 'Bus']
+      options: ["Pick up", "Salon", "SUV", "Bus"],
     },
     {
       icon: "material-symbols:format-list-numbered",
       title: "Number of seats",
       value: number_of_seats,
       func: set_number_of_seats,
-      tooltip: 'eg: 5', 
-      type: 'number'
+      tooltip: "eg: 5",
+      type: "number",
     },
     {
       icon: "ph:road-horizon-thin",
       title: "Mileage",
       value: milage,
       func: set_milage,
-      tooltip: 'Mileage in km',
-      type: 'number'
+      tooltip: "Mileage in km",
+      type: "number",
     },
     {
       icon: "mdi:petrol-pump",
       title: "Engine type",
       value: engine_type,
       func: set_engine_type,
-      tooltip: 'Petrol | Diesel | Kerosene',
-      inputType: 2, 
-      options: ['Petrol', 'Diesel', 'Kerosene']
+      tooltip: "Petrol | Diesel | Kerosene",
+      inputType: 2,
+      options: ["Petrol", "Diesel", "Kerosene"],
     },
     {
       icon: "solar:transmission-linear",
       title: "Transmission",
       value: transmission,
       func: set_transmisson,
-      tooltip: 'Automatic | Manual',
+      tooltip: "Automatic | Manual",
       inputType: 2,
-      options: ['Automatic', 'Manual']
+      options: ["Automatic", "Manual"],
     },
   ];
   return (
-    <div className="grid grid-cols-3 gap-8">
-      {detailsInfo.map(({ icon, title, value, func, tooltip, type, inputType , options}, inx) => {
-        return (
-          <DetailTab
-            icon={icon}
-            title={title}
-            value={value}
-            key={inx}
-            setState={func}
-            tooltip={tooltip}
-            type={type}
-            inputType={inputType || 0}
-            opt={options}
-          />
-        );
-      })}
+    <div className="flex flex-wrap w-full justify-center items-center">
+      {detailsInfo.map(
+        (
+          { icon, title, value, func, tooltip, type, inputType, options },
+          inx
+        ) => {
+          return (
+            <DetailTab
+              icon={icon}
+              title={title}
+              value={value}
+              key={inx}
+              setState={func}
+              tooltip={tooltip}
+              type={type}
+              inputType={inputType || 0}
+              opt={options}
+            />
+          );
+        }
+      )}
     </div>
   );
 };

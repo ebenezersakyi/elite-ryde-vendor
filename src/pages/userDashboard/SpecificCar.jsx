@@ -10,26 +10,25 @@ import { useSelector, useDispatch } from "react-redux";
 import { AmountLayout } from "./Dashboard";
 import RentalHistoryTable from "../../components/userDashboardComponents/specific-car/RentalHistoryTable";
 const SpecificCar = () => {
-  const [tloading, setTloading] = useState(false)
-  const [tdata, setTData ] = useState()
-  const [amount, setAmount] = useState()
-  async function getCarHistory(id){
+  const [tloading, setTloading] = useState(false);
+  const [tdata, setTData] = useState();
+  const [amount, setAmount] = useState();
+  async function getCarHistory(id) {
     try {
-      setTloading(true)
+      setTloading(true);
       const response = await axios({
         url: `https://elite-ryde-management-api.azurewebsites.net/api/car-history?id=${id}`,
         method: "get",
       });
       if (response?.data?.status) {
         setTData(response?.data?.data);
-        setAmount(response?.data?.amount)
+        setAmount(response?.data?.amount);
       }
     } catch (error) {
       console.log(error);
       toast.error("Error occured \n Try again");
-    }
-    finally{
-      setTloading(false)
+    } finally {
+      setTloading(false);
     }
   }
 
@@ -83,7 +82,7 @@ const SpecificCar = () => {
     if (param.get("id")) {
       getCar(param.get("id"));
       getRentalStatus(param.get("id"));
-      getCarHistory(param.get("id"))
+      getCarHistory(param.get("id"));
     } else {
       nav("/");
     }
@@ -91,12 +90,12 @@ const SpecificCar = () => {
   const nav = useNavigate();
 
   return (
-    <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] pt-[2rem]">
+    <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[1.5rem] pt-[2rem]">
       {loading ? (
         <Loader />
       ) : (
         data && (
-          <div className="px-[2rem]  flex flex-col gap-4">
+          <div className="px-[10px]  flex flex-col gap-4">
             <span
               className="flex items-center gap-4 cursor-pointer"
               onClick={() => {
@@ -107,25 +106,34 @@ const SpecificCar = () => {
               <h4 className="font-bold text-[1.4rem]">Back</h4>
             </span>
 
-            <div className="px-8 py-10 rounded-xl border-[#fff] bg-[#000000b9] border-[2px]">
+            <div className="px-[10px] py-[10px] rounded-xl border-[#fff] bg-[#000000b9] border-[2px]">
               <h4 className="font-[500] text-[1.8rem] mb-6">
                 {data?.basicInformation?.make} {data?.basicInformation?.model}
               </h4>
-              <div className="grid grid-cols-6  gap-3">
-                <span>
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-6">
+                <span className="rounded-lg overflow-hidden hidden md:flex">
                   <img
                     src={data?.photos[0] || car}
                     alt=""
-                    className="rounded-[20px] h-full object-contain  "
+                    className="rounded-lg h-full object-contain "
                   />
                 </span>
 
-                <div className="col-span-2 grid grid-rows-2 gap-3">
+                <div className="col-span-3 grid grid-rows-2 gap-3 sm:col-span-2">
+                  <span className="rounded-lg overflow-hidden  bg-egreen md:hidden">
+                    <img
+                      src={data?.photos[0] || car}
+                      alt=""
+                      className="rounded-lg h-full w-[100%] object-contain "
+                    />
+                  </span>
                   <AmountLayout>
                     <p className="text-[1.2rem] font-[100]">
                       Total income earned from this car
                     </p>
-                    <p className="text-[2.2rem] font-[600]">GHS {amount?.toFixed(2)}</p>
+                    <p className="text-[2.2rem] font-[600]">
+                      GHS {amount?.toFixed(2)}
+                    </p>
                   </AmountLayout>
                   <div className="border-bgrey border-2 h-full rounded-xl font-[100] flex flex-col gap-4 text-[1.3rem]  p-5 ">
                     <p>
@@ -134,11 +142,13 @@ const SpecificCar = () => {
                     {status?.status && (
                       <>
                         <p>Current User: {status?.data?.user || "n/a"}</p>
-                        <p>Duration: {status?.data?.duration == 1 ? `${status?.data?.duration} day`: `${status?.data?.duration} days`}</p>
                         <p>
-                          location:{" "}
-                          {status?.data?.scope}
+                          Duration:{" "}
+                          {status?.data?.duration == 1
+                            ? `${status?.data?.duration} day`
+                            : `${status?.data?.duration} days`}
                         </p>
+                        <p>location: {status?.data?.scope}</p>
                       </>
                     )}
                   </div>

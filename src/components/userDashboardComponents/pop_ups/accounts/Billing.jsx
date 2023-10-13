@@ -16,7 +16,7 @@ const Billing = () => {
           placeholder={"0000 0000 0000 0000"}
         />
 
-        <span className="flex justify-between gap-2">
+        <span className="flex flex-col justify-between gap-2 md:flex-row">
           <FieldBorder label={"Valid Until"} placeholder={"MM/YY"} />
           <FieldBorder label={"CVC"} placeholder={"123"} />
         </span>

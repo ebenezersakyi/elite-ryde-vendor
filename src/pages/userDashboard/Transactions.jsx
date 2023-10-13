@@ -96,12 +96,12 @@ const Transactions = () => {
     },
   ];
   return (
-    <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[5.5rem] pt-[2rem]">
+    <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] pt-[2rem]">
       <div className="mb-8">
         <h4 className="text-egreen text-[3rem] font-[500]">
           Transactions History
         </h4>
-        <span className="flex gap-3">
+        <span className="flex gap-3 mt-[10px]">
           <CustomSelect state={month} options={months} setState={setMonth} />
           <CustomSelect state={year} options={years} setState={setYear} />
         </span>
@@ -114,7 +114,7 @@ const Transactions = () => {
 const CustomSelect = ({ options, state, setState }) => {
   return (
     <select
-      className="select bg-[transparent] outline-egreen  border-[#fff] border-[1px] rounded-lg px-3 py-2 "
+      className="select bg-[transparent] outline-egreen border-[#fff] border-[1px] rounded-lg px-3 py-2 "
       value={state}
       onChange={(e) => {
         setState(e.currentTarget.value);

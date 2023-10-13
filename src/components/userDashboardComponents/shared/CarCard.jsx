@@ -1,10 +1,9 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import car from "../../../assets/dashboard/cars/car.svg";
 import { useDispatch } from "react-redux";
 import { setData } from "../../../store/selected_car";
 const CarCard = ({
-
   name,
   location,
   price_per_day,
@@ -13,19 +12,23 @@ const CarCard = ({
   image,
   user_ratings,
   id,
-  data
+  data,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const nav = useNavigate();
   return (
     <div
-      className="rounded-[20px] border-[1px]  hover:border-[#808080] hover:border-[1px] duration-700 cursor-pointer"
+      className="rounded-[20px] border-[1px] w-[300px] hover:border-[#808080] hover:border-[1px] duration-700 cursor-pointer"
       onClick={() => {
         // dispatch(setData(data))
         nav(`/dashboard/car?id=${id}`);
       }}
     >
-      <img src={image || car} alt="" className="rounded-t-[20px] w-full" />
+      <img
+        src={image || car}
+        alt=""
+        className="rounded-t-[20px] w-full h-[280px]"
+      />
 
       <div className="p-4 flex flex-col justify-between gap-6 ">
         <div>

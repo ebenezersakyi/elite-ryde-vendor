@@ -4,21 +4,19 @@ import {
   set_plate_number,
   set_location,
   set_vehicle_identification_number,
-  set_reg_doc, 
-  set_insurance_doc
+  set_reg_doc,
+  set_insurance_doc,
 } from "../../../../store/dashboard_state_slice";
 import axios from "axios";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
 const Additional_Info = () => {
   const { location, plate_number, vehicle_identification_number } = useSelector(
     (_) => _.details
   );
-  const dispatch = useDispatch()
-  const {user} = useAuth0()
-
-
+  const dispatch = useDispatch();
+  const { user } = useAuth0();
 
   async function upload(file, setFunc) {
     const formData = new FormData();
@@ -40,14 +38,14 @@ const Additional_Info = () => {
       if (response?.data?.status) {
         // formic.setFieldValue("doc", e?.target?.files[0]);
         toast.success("Document uploaded succesfully");
-         dispatch(setFunc(`${response.data.data.url}`))
+        dispatch(setFunc(`${response.data.data.url}`));
       }
     } catch (error) {
       toast.error("An error occured. \n Try again");
     }
   }
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="flex flex-col justify-center items-center md:grid grid-cols-2 gap-4">
       <div className="flex flex-col gap-4">
         <DetailTab
           icon={"material-symbols:location-on-outline"}
