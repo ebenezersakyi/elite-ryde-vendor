@@ -30,8 +30,16 @@ const MainAccount = () => {
             </p>
           </div>
         </span>
-        <Field placeholder={"Enter your username"} label={"Username"} />
-        <Field placeholder={"Enter your email address"} label={"Email"} />
+        <Field
+          placeholder={"Enter your username"}
+          defaultValue={user.name}
+          label={"Username"}
+        />
+        <Field
+          placeholder={"Enter your email address"}
+          defaultValue={user.email}
+          label={"Email"}
+        />
       </div>
 
       <div className="border-[0.5px] border-bgrey rounded-xl py-[1.5rem] px-5 flex flex-col  gap-[1.5rem] my-6 justify-between sm:flex-row">
