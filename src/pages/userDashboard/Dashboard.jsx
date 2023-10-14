@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
 import ActiveRentalTable from "../../components/userDashboardComponents/dashboard/ActiveRentalTable";
 import IconLoadingWhite from "../../components/shared_components/IconLoadingWhite";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 const Dashboard = () => {
   function generateRandomColors() {
@@ -27,6 +28,7 @@ const Dashboard = () => {
   const { user } = useAuth0();
   const [load, setLoad] = useState(false);
   const [d, setD] = useState();
+
   async function fetchData() {
     let data_arr = [];
     let labels_arr = [];

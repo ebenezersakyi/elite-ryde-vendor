@@ -174,7 +174,7 @@ const AddCarLayout = ({ children }) => {
     }
   }
   return (
-    <div className="grid grid-rows-6  gap-3">
+    <div className="flex flex-col">
       {/* <Box sx={{ width: "100%" }}>
         <Stepper
           activeStep={active}
@@ -188,7 +188,7 @@ const AddCarLayout = ({ children }) => {
           ))}
         </Stepper>
       </Box> */}
-      <div className="flex pt-6 row-span-1 scrollbar-hide gap-3 overflow-x-scroll">
+      <div className="flex pt-6 row-span-0 scrollbar-hide gap-3 overflow-x-scroll">
         {tabs.map((element, index) => {
           return (
             <HeaderTabs
@@ -201,8 +201,8 @@ const AddCarLayout = ({ children }) => {
           );
         })}
       </div>
-      <section className="row-span-5 flex flex-col justify-between">
-        <div className="border-[#fff] border-[1px] rounded-2xl px-8 py-8 bg-[#000000d7]">
+      <section className="row-span-6 flex flex-col justify-between w-[85vw] sm:w-[100%] mt-[20px]">
+        <div className="border-[#fff] border-[1px] rounded-2xl p-[10px]  bg-[#000000d7] max-w-[100%] sm:p-8">
           {children}
         </div>
 
