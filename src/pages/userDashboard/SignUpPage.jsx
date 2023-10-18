@@ -30,6 +30,7 @@ const SignUpPage = () => {
     tin: Yup.string().required("Tax identification Number is required"),
     existing: Yup.boolean(),
     doc: Yup.string().required(),
+    companyImage: Yup.string().required(),
     password: Yup.string()
       .matches(passwordRules, { message: "Please create a stronger password" })
       .required("Required"),
@@ -43,6 +44,7 @@ const SignUpPage = () => {
       email: "",
       tin: "",
       doc: "",
+      companyImage: "",
       existing: false,
       password: "",
     },
@@ -73,6 +75,12 @@ const SignUpPage = () => {
           formic.values.email?.replace(/[^\w\s]/g, "")
         );
 
+        const companyURl = await uploadDocument(
+          [formic.values.companyImage],
+          "vendorcompanyimage",
+          formic.values.email?.replace(/[^\w\s]/g, "")
+        );
+
         const response = await axios({
           url: `${baseURlVendor}/approval`,
           method: "post",
@@ -86,6 +94,7 @@ const SignUpPage = () => {
               email: formic.values.email,
               tin: formic.values.tin,
               document: documentsURl[0],
+              companyLogo: companyURl[0],
               password: formic.values.password,
             }),
           },
@@ -210,6 +219,28 @@ const SignUpPage = () => {
               onChange={formic.handleChange}
               error={formic.errors.location}
             />
+
+            <div className="flex flex-col gap-3 lg:gap-2  border-bgrey">
+              <label className="font-[100] text-[1.2rem]">
+                Upload company logo
+              </label>
+              <input
+                name={"id"}
+                type="file"
+                accept="image/jpeg, image/png, image/gif, .jpg, .jpeg, .png"
+                onChange={(e) => {
+                  formic.setFieldValue("companyImage", e.target.files[0]);
+                }}
+                className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0 "
+              />
+              <p className="inline">{uploadLoading && <IconLoadingWhite />}</p>
+              {formic.errors.companyImage && (
+                <p className="text-[#EF0107] font-[300] text-[0.8rem]">
+                  *{formic.errors.companyImage.toLowerCase()}
+                </p>
+              )}
+            </div>
+
             <div className="flex flex-col gap-3 lg:gap-2  border-bgrey">
               <label className="font-[100] text-[1.2rem]">
                 Business Registration Document

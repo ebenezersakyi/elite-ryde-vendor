@@ -44,6 +44,40 @@ const BasicInfo = () => {
 
     return true;
   }
+
+  const brandDetails = [
+    {
+      id: "1W",
+      brand: "none",
+      models: [],
+    },
+    {
+      id: 1,
+      brand: "Toyota",
+      models: ["Camry", "Corolla", "Rav4"],
+    },
+    {
+      id: 2,
+      brand: "Ford",
+      models: ["F-150", "Escape", "Explorer"],
+    },
+    {
+      id: 3,
+      brand: "Honda",
+      models: ["Civic", "Accord", "CR-V"],
+    },
+    {
+      id: 4,
+      brand: "Chevrolet",
+      models: ["Silverado", "Equinox", "Malibu"],
+    },
+    {
+      id: 5,
+      brand: "Volkswagen",
+      models: ["Jetta", "Passat", "Tiguan"],
+    },
+  ];
+
   const detailsInfo = [
     {
       icon: "ic:baseline-directions-car",
@@ -51,6 +85,8 @@ const BasicInfo = () => {
       value: car_brand,
       func: set_car_brand,
       tooltip: "eg: Ford",
+      inputType: 3,
+      options: brandDetails,
     },
     {
       icon: "ic:baseline-directions-car",
@@ -58,6 +94,8 @@ const BasicInfo = () => {
       value: car_model,
       func: set_car_model,
       tooltip: "eg: Escape",
+      inputType: 4,
+      options: brandDetails,
     },
     {
       icon: "mdi:engine-outline",

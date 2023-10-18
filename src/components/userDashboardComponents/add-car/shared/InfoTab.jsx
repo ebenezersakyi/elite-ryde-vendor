@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { usePlacesWidget } from "react-google-autocomplete";
 import Tooltip from "@mui/material/Tooltip";
+import { toast } from "react-toastify";
 const DetailTab = ({
   icon,
   title,
@@ -13,6 +14,7 @@ const DetailTab = ({
   inputType,
   opt,
 }) => {
+  const { car_brand } = useSelector((_) => _.details);
   const [error, isError] = useState(false);
   const dispatch = useDispatch();
   const options = {
@@ -64,6 +66,52 @@ const DetailTab = ({
                 error ? "border-[red]" : "border-bgrey"
               } px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md w-full`}
             />
+          ) : inputType == 3 ? (
+            <select
+              className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
+              onChange={(e) => {
+                dispatch(setState(e.currentTarget.value));
+              }}
+            >
+              {opt?.map((elem, inx) => {
+                return (
+                  <option value={elem.brand} key={inx}>
+                    {elem.brand}
+                  </option>
+                );
+              })}
+            </select>
+          ) : inputType == 4 ? (
+            <>
+              {car_brand.length > 0 && car_brand !== "none" ? (
+                <select
+                  className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
+                  onChange={(e) => {
+                    dispatch(setState(e.currentTarget.value));
+                  }}
+                >
+                  {opt
+                    ?.filter((item) => {
+                      return item.brand == car_brand;
+                    })
+                    .flat(1)[0]
+                    .models.map((elem, inx) => {
+                      return (
+                        <option value={elem} key={inx}>
+                          {elem}
+                        </option>
+                      );
+                    })}
+                </select>
+              ) : (
+                <div
+                  className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
+                  onClick={() => toast.error("Please select a car brand")}
+                >
+                  Select a car brand
+                </div>
+              )}
+            </>
           ) : (
             <select
               className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
