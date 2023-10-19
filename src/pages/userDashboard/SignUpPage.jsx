@@ -62,7 +62,7 @@ const SignUpPage = () => {
     }
     setLoading(true);
     checkIfEmailExists().then(async (data) => {
-      if (!data) {
+      if (data) {
         toast.error("Email already exists ");
         setLoading(false);
         return;
@@ -121,6 +121,7 @@ const SignUpPage = () => {
   }, [formic.values.email]);
 
   const checkIfEmailExists = async () => {
+    let status = false;
     try {
       const response = await axios({
         url: `${baseURLGeneral}/email-exists?email=${formic.values.email}`,
@@ -130,9 +131,11 @@ const SignUpPage = () => {
         console.log(response?.data?.data);
         if (response?.data?.data) {
           // formic.errors.email = "Email already exists";
+          status = true;
           toast.error("Email already exists");
         }
       } else {
+        status = false;
       }
       return response?.data?.data;
     } catch (error) {

@@ -18,7 +18,7 @@ const Dashboardheader = () => {
       link: "/dashboard",
     },
     {
-      title: "Transactions",
+      title: "History",
       link: "/dashboard/transactions",
     },
     {
