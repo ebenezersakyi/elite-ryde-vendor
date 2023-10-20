@@ -183,6 +183,8 @@ const AddCarLayout = ({ children }) => {
               licensePlate: info?.plate_number,
               vehicleIdentificationNumber: info?.vehicle_identification_number,
               location: info?.location.location,
+              insuranceDocument: insurance_doc,
+              carRegistrationDocument: reg_doc,
             },
             features: arrayOfFeatures,
             rentalConditions: array_of_rentalConditions,
