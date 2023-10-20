@@ -71,6 +71,7 @@ const DetailTab = ({
               className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
               onChange={(e) => {
                 dispatch(setState(e.currentTarget.value));
+                console.log("e.currentTarget.value", e.currentTarget.value);
               }}
             >
               {opt?.map((elem, inx) => {
@@ -88,6 +89,7 @@ const DetailTab = ({
                   className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
                   onChange={(e) => {
                     dispatch(setState(e.currentTarget.value));
+                    console.log("e.currentTarget.value", e.currentTarget.value);
                   }}
                 >
                   {opt

@@ -108,13 +108,62 @@ const AddCarLayout = ({ children }) => {
   async function addCar() {
     try {
       setLoading(true);
+      // console.log({
+      //   type: "add_car",
+      //   content: {
+      //     basicInformation: {
+      //       make: info?.car_brand,
+      //       model: info?.car_model,
+      //       year: Number(info?.registration_year),
+      //       mileage: Number(info?.milage),
+      //       engineType: info?.engine_type,
+      //       engineSize: info?.engine_size,
+      //       numberOfSeats: 5,
+      //       transmission: info?.transmission,
+      //       bodyStyle: info?.body_style,
+      //     },
+      //     additionalInformation: {
+      //       geolocation: {
+      //         long: info?.location.long,
+      //         lat: info?.location.lat,
+      //       },
+      //       licensePlate: info?.plate_number,
+      //       vehicleIdentificationNumber: info?.vehicle_identification_number,
+      //       location: info?.location.location,
+      //     },
+      //     features: arrayOfFeatures,
+      //     rentalConditions: array_of_rentalConditions,
+      //     photos: images,
+      //     vendorId: user?.sub.slice(6),
+      //     booking: {
+      //       price: {
+      //         within_accra: info?.price,
+      //         outside_accra: info?.outsideAccra,
+      //         cross_country: info?.crossCountry,
+      //       },
+      //       availability: availability[info?.available],
+      //       dates: {
+      //         startDate: info?.["start_date"],
+      //         endDate: info?.["end_date"],
+      //       },
+      //     },
+      //     driver: {
+      //       image: info?.driver.image,
+      //       name: info?.driver.name,
+      //       idImage: info?.driver.idImage,
+      //       email: info?.driver.email,
+      //       phoneNumber: info?.driver?.phoneNumber,
+      //       idNumber: info?.driver.idNumber,
+      //     },
+      //   },
+      // });
       const response = await axios({
         // url: "https://elite-ryde-management-api.azurewebsites.net/api/car",
         url: `https://elite-ryde-user-api.azurewebsites.net/api/approval`,
         method: "post",
         data: {
           type: "add_car",
-          content: {
+          content: JSON.stringify({
             basicInformation: {
               make: info?.car_brand,
               model: info?.car_model,
@@ -159,7 +208,7 @@ const AddCarLayout = ({ children }) => {
               phoneNumber: info?.driver?.phoneNumber,
               idNumber: info?.driver.idNumber,
             },
-          },
+          }),
         },
       });
 
