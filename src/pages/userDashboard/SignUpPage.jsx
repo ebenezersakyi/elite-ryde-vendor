@@ -105,6 +105,7 @@ const SignUpPage = () => {
         }
       } catch (error) {
         toast.error(error.message);
+        setLoading(false);
         console.log(error);
       } finally {
         setLoading(false);
@@ -142,7 +143,7 @@ const SignUpPage = () => {
       console.log(error);
       toast.error("Error occured");
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
