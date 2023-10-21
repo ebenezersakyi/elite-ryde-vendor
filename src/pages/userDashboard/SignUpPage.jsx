@@ -60,14 +60,13 @@ const SignUpPage = () => {
       toast.error("Please create a stronger password ");
       return;
     }
-    setLoading(true);
     checkIfEmailExists().then(async (data) => {
       if (data) {
         toast.error("Email already exists ");
         setLoading(false);
         return;
       }
-
+      setLoading(true);
       try {
         const documentsURl = await uploadDocument(
           [formic.values.doc],
@@ -108,7 +107,7 @@ const SignUpPage = () => {
         setLoading(false);
         console.log(error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     });
   }

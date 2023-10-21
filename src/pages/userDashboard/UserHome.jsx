@@ -5,6 +5,7 @@ import Loading from "../../components/shared_components/Loading";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { NoData } from "../../components/shared_components/NoData";
+import MapPane from "../../components/userDashboardComponents/available-page/MapPane";
 const UserHome = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
@@ -66,42 +67,75 @@ const UserHome = () => {
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto pt-[2rem]">
       <div className="px-[20px]">
-        <h1 className="text-egreen text-end font-bold text-[2.3rem] mb-2">
-          YOUR CARS
-        </h1>
+        <h1 className="text-egreen  font-bold text-[2.3rem] mb-2">YOUR CARS</h1>
 
         {loading ? (
           <Loading />
         ) : data?.length === 0 ? (
           <NoData data="cars" />
         ) : (
-          <div className="max-h-[75vh] overflow-y-scroll scrollbar-hide gap-[1.5rem]  grid grid-cols-1 col-span-1 mb-2 md:grid-cols-3">
-            {data?.map((d, inx) => {
-              let {
-                basicInformation: { make, model, year, transmission },
-                additionalInformation: {
-                  geolocation: { long, lat },
-                  location,
-                },
-                _id,
-                photos,
-                booking,
-              } = d;
-              return (
-                <CarCard
-                  name={`${make} ${model}`}
-                  user_ratings={0}
-                  key={inx}
-                  location={location}
-                  year={year}
-                  transmission={transmission}
-                  image={photos[0]}
-                  id={_id}
-                  price_per_day={booking?.price?.within_accra || 1000}
-                  data={d}
-                />
-              );
-            })}
+          <div className="grid grid-cols-3 text-[#fff] ">
+            <div className="col-span-3 md:col-span-2 max-h-[80vh] overflow-scroll">
+              <div className="flex flex-wrap scrollbar-hide gap-[1.5rem] justify-center items-center">
+                {data?.map((d, inx) => {
+                  let {
+                    basicInformation: { make, model, year, transmission },
+                    additionalInformation: {
+                      geolocation: { long, lat },
+                      location,
+                    },
+                    _id,
+                    photos,
+                    booking,
+                  } = d;
+                  return (
+                    <>
+                      <CarCard
+                        name={`${make} ${model}`}
+                        user_ratings={0}
+                        key={inx}
+                        location={location}
+                        year={year}
+                        transmission={transmission}
+                        image={photos[0]}
+                        id={_id}
+                        price_per_day={booking?.price?.within_accra || 1000}
+                        data={d}
+                      />
+                      {/* <CarCard
+                        name={`${make} ${model}`}
+                        user_ratings={0}
+                        key={inx}
+                        location={location}
+                        year={year}
+                        transmission={transmission}
+                        image={photos[0]}
+                        id={_id}
+                        price_per_day={booking?.price?.within_accra || 1000}
+                        data={d}
+                      />
+                      <CarCard
+                        name={`${make} ${model}`}
+                        user_ratings={0}
+                        key={inx}
+                        location={location}
+                        year={year}
+                        transmission={transmission}
+                        image={photos[0]}
+                        id={_id}
+                        price_per_day={booking?.price?.within_accra || 1000}
+                        data={d}
+                      /> */}
+                    </>
+                  );
+                })}
+              </div>
+            </div>
+            {data?.length > 0 && (
+              <div className="hidden md:block">
+                <MapPane data={data} />
+              </div>
+            )}
           </div>
         )}
       </div>

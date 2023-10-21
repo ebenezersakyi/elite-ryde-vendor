@@ -18,7 +18,7 @@ const CarCard = ({
   const nav = useNavigate();
   return (
     <div
-      className="rounded-[20px] border-[1px] w-[300px] hover:border-[#808080] hover:border-[1px] duration-700 cursor-pointer"
+      className="rounded-[20px] border-[1px] w-[400px] hover:border-[#808080] hover:border-[1px] duration-700 cursor-pointer"
       onClick={() => {
         // dispatch(setData(data))
         nav(`/dashboard/car?id=${id}`);
