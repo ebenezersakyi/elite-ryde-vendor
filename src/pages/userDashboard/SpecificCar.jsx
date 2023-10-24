@@ -159,9 +159,9 @@ const SpecificCar = () => {
               </div>
             </div>
 
-            <button className="border-[#fff] self-end  w-fit font-[100] rounded-md text-center text-[1.3rem] border-[1px] px-2 py-1">
+            {/* <button className="border-[#fff] self-end  w-fit font-[100] rounded-md text-center text-[1.3rem] border-[1px] px-2 py-1">
               Update
-            </button>
+            </button> */}
           </div>
         )
       )}
