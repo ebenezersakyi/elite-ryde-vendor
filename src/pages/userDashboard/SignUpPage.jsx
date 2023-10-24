@@ -48,7 +48,7 @@ const SignUpPage = () => {
       existing: false,
       password: "",
     },
-    validationSchema,
+    // validationSchema,
     // validate: (values) => {},
     onSubmit: (values) => {
       console.log("starting");
