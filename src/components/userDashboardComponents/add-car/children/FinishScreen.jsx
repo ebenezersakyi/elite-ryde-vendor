@@ -10,7 +10,7 @@ const FinishScreen = () => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center  gap-3 py-[2.5rem]">
       <h4 className="text-[4rem] text-egreen ">Thank You</h4>
-      <span>
+      <span className="text-center">
         <p className="text-[1.8rem] font-[300]">Your Car has been placed</p>
         <p className="text-[1.4rem] font-[100]">
           Our manager will call you shortly

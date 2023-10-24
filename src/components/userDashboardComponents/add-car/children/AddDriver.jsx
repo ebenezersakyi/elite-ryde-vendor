@@ -134,7 +134,7 @@ const AddDriver = () => {
                 <img className="w-[300px]" src={prev} alt="" />
               </>
             ) : (
-              <div className="flex flex-col gap-3 lg:gap-2  border-bgrey ">
+              <div className="flex flex-col gap-3 max-w-[200px] lg:gap-2  border-bgrey ">
                 <label className="font-[100] text-[1.2rem]">
                   Passport Picture (PNG)
                 </label>

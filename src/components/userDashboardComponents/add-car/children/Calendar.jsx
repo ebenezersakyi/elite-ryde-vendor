@@ -133,7 +133,7 @@ const CalendarComp = () => {
           <h4 className="text-[0.9rem] font-[300] mb-4">
             Available for rent from:
           </h4>
-          <span className="flex gap-3 items-center">
+          <span className="flex gap-3 items-center flex-col sm:flex-row">
             <p className="py-1 border-[1px] border-[#fff] rounded-md font-[100] text-center text-[0.9rem] flex-1">
               {String(start_date).split(" ").slice(0, 4).join(" ")}
             </p>
