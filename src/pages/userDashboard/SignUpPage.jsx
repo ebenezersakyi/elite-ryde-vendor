@@ -51,6 +51,7 @@ const SignUpPage = () => {
     validationSchema,
     // validate: (values) => {},
     onSubmit: (values) => {
+      console.log("starting");
       createSignUpApproval();
     },
   });
