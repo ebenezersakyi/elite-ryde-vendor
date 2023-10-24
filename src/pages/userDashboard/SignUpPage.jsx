@@ -31,9 +31,9 @@ const SignUpPage = () => {
     existing: Yup.boolean(),
     doc: Yup.string().required(),
     companyImage: Yup.string().required(),
-    password: Yup.string()
-      .matches(passwordRules, { message: "Please create a stronger password" })
-      .required("Required"),
+    // password: Yup.string()
+    //   .matches(passwordRules, { message: "Please create a stronger password" })
+    //   .required("Required"),
   });
   const formic = useFormik({
     initialValues: {
@@ -48,7 +48,7 @@ const SignUpPage = () => {
       existing: false,
       password: "",
     },
-    // validationSchema,
+    validationSchema,
     // validate: (values) => {},
     onSubmit: (values) => {
       console.log("starting");
