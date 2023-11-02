@@ -17,11 +17,13 @@ const DetailTab = ({
   const { car_brand } = useSelector((_) => _.details);
   const [error, isError] = useState(false);
   const dispatch = useDispatch();
+
   const options = {
     fields: ["address_components", "geometry", "icon", "name"],
     strictBounds: false,
     types: ["establishment"],
   };
+
   const { ref } = usePlacesWidget({
     apiKey: "AIzaSyAKT8LXpv2aVfHyHKo8N9LzQmzCSktAYQQ",
     options,

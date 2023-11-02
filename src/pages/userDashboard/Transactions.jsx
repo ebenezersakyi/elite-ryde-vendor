@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RentalTable from "../../components/userDashboardComponents/finance/RentalTable";
 import { months } from "../../utils/calender_generator";
 import { years } from "../../utils/dropdowncontents";
@@ -9,6 +9,21 @@ import dayjs from "dayjs";
 import { Icon } from "@iconify/react";
 import { baseURLGeneral } from "../../utils";
 import { BeatLoader } from "react-spinners";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+
+const containerStyle = {
+  width: "100%",
+  height: "100%",
+};
+
+const createMapOptions = {
+  zoomControl: true,
+  mapTypeControl: true,
+  scaleControl: false,
+  streetViewControl: false,
+  rotateControl: true,
+  fullscreenControl: false,
+};
 
 const Transactions = () => {
   const [loading, setLoading] = React.useState(false);
@@ -19,6 +34,7 @@ const Transactions = () => {
   const [year, setYear] = React.useState(years[0]);
   const [showMessageBox, setShowMessageBox] = React.useState(false);
   const [activeUserEmail, setActiveUserEmail] = React.useState("");
+  const [showDirectionsBox, setShowDirectionsBox] = React.useState(false);
 
   async function getData() {
     try {
@@ -79,6 +95,7 @@ const Transactions = () => {
   return (
     <>
       {showMessageBox && <MessageInterface />}
+      {showDirectionsBox && <DirectionsInterface />}
       <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[10px] pt-[2rem]">
         <div className="mb-8 ml-[50px]">
           <h4 className="text-egreen text-[3rem] font-[500]">
@@ -129,22 +146,30 @@ const Transactions = () => {
                     </span>
                   </span>
                 </div>
-                <div className="flex w-[100%] pt-[10px] justify-center items-center">
-                  <span>{item.userName}</span>
+                <div className="flex w-[100%] pt-[10px] justify-between items-center">
+                  <div className="flex justify-center items-center">
+                    <span>{item.userName}</span>
+                    <span
+                      className="flex p-[5px] rounded-full bg-[#FFF] ml-[15px] justify-center items-center"
+                      onClick={() => {
+                        setShowMessageBox(true);
+                        setActiveUserEmail(item.userEmail);
+                      }}
+                    >
+                      <p className="text-[#000]">Chat</p>
+                      <Icon
+                        icon="material-symbols:chat-outline"
+                        width={20}
+                        color="black"
+                        className="ml-[5px]"
+                      />
+                    </span>
+                  </div>
                   <span
-                    className="flex p-[5px] rounded-full bg-[#FFF] ml-[15px] justify-center items-center"
-                    onClick={() => {
-                      setShowMessageBox(true);
-                      setActiveUserEmail(item.userEmail);
-                    }}
+                    className="p-[10px] justify-center items-center bg-[#26922f] rounded-full"
+                    onClick={() => setShowDirectionsBox(true)}
                   >
-                    <p className="text-[#000]">Chat</p>
-                    <Icon
-                      icon="material-symbols:chat-outline"
-                      width={20}
-                      color="black"
-                      className="ml-[5px]"
-                    />
+                    <Icon icon={"mdi:directions"} width={20} color="white" />
                   </span>
                 </div>
               </div>
@@ -316,6 +341,48 @@ const Transactions = () => {
           </div>
         </div>
       </div>
+    );
+  }
+
+  function DirectionsInterface() {
+    const mapRef = useRef(null);
+    const onLoad = React.useCallback(function callback(mapL) {
+      mapRef.current = mapL;
+    }, []);
+
+    const { isLoaded } = useJsApiLoader({
+      id: "google-map-script",
+      googleMapsApiKey: "AIzaSyDTzQON_0lZ0rTQ9Zw9xzwhYUkgF_mHZqs",
+    });
+
+    return isLoaded ? (
+      <div className="w-[100vw] h-[100vh] fixed top-0 bg-[#00000061] z-[1000] flex justify-center items-center">
+        <div className="flex flex-col h-[100%] w-[100%] bg-[#FFF] relative rounded-lg overflow-hidden sm:h-[90%] sm:w-[500px]">
+          <span
+            onClick={() => {
+              setShowDirectionsBox(false);
+              // setActiveUserEmail("");
+            }}
+            className="absolute top-[5px] right-[5px] z-10 w-[50px] h-[50px] rounded-full flex items-center justify-center bg-[#000] text-[#FFF]"
+          >
+            X
+          </span>
+
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={{ lat: 5.6772176, lng: -0.1251477 }}
+            zoom={10}
+            onLoad={onLoad}
+            // onUnmount={onUnmount}
+            // onDragEnd={onDragEnd}
+            // onBoundsChanged={onDragEnd}
+            // onZoomChanged={onDragEnd}
+            options={createMapOptions}
+          ></GoogleMap>
+        </div>
+      </div>
+    ) : (
+      <></>
     );
   }
 };
