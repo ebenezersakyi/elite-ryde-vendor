@@ -83,10 +83,14 @@ const Dashboard = () => {
       setLoading(false);
     }
   }
+
+  const getBanks = async () => {};
+
   useEffect(() => {
     getData();
     fetchData();
   }, []);
+
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] pt-[2rem]">
       <h4 className="text-egreen text-[3rem] font-[500] mb-[2rem]">
@@ -121,13 +125,21 @@ const Dashboard = () => {
           ) : (
             <Doughnut
               data={{
-                labels: d?.labels_arr,
+                labels: ["Vendor", "Elite Ryde"],
                 datasets: [
                   {
                     label: "GHS: ",
-                    data: d?.data_arr,
-                    backgroundColor: d?.mainColor,
-                    borderColor: d?.border,
+                    data: [d?.data_arr * 0.9, d?.data_arr * 0.1],
+                    backgroundColor: [
+                      "rgba(255, 99, 132, 0.2)",
+                      "rgba(54, 162, 235, 0.2)",
+                    ],
+                    borderColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                    ],
+                    // backgroundColor: d?.mainColor,
+                    // borderColor: d?.border,
                     borderWidth: 1,
                   },
                 ],

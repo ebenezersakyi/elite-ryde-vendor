@@ -9,7 +9,11 @@ import dayjs from "dayjs";
 import { Icon } from "@iconify/react";
 import { baseURLGeneral } from "../../utils";
 import { BeatLoader } from "react-spinners";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import {
+  DirectionsRenderer,
+  GoogleMap,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 
 const containerStyle = {
   width: "100%",
@@ -35,6 +39,7 @@ const Transactions = () => {
   const [showMessageBox, setShowMessageBox] = React.useState(false);
   const [activeUserEmail, setActiveUserEmail] = React.useState("");
   const [showDirectionsBox, setShowDirectionsBox] = React.useState(false);
+  const [locationDetails, setLocationDetails] = React.useState(null);
 
   async function getData() {
     try {
@@ -165,12 +170,28 @@ const Transactions = () => {
                       />
                     </span>
                   </div>
-                  <span
-                    className="p-[10px] justify-center items-center bg-[#26922f] rounded-full"
-                    onClick={() => setShowDirectionsBox(true)}
-                  >
-                    <Icon icon={"mdi:directions"} width={20} color="white" />
-                  </span>
+                  {!item.selfDrive &&
+                    item.pickupLocation &&
+                    item.destinationLocation && (
+                      <span
+                        className="p-[10px] justify-center items-center bg-[#26922f] rounded-full"
+                        onClick={() => {
+                          setShowDirectionsBox(true);
+                          if (item.pickupLocation && item.destinationLocation) {
+                            setLocationDetails({
+                              pickupLocation: item.pickupLocation,
+                              destinationLocation: item.destinationLocation,
+                            });
+                          }
+                        }}
+                      >
+                        <Icon
+                          icon={"mdi:directions"}
+                          width={20}
+                          color="white"
+                        />
+                      </span>
+                    )}
                 </div>
               </div>
             );
@@ -345,6 +366,11 @@ const Transactions = () => {
   }
 
   function DirectionsInterface() {
+    const [directionsResponse, setDirectionsResponse] = useState(null);
+    const [directionsToPickUpResponse, setDirectionsToPickUpResponse] =
+      useState(null);
+    const [userLocation, setUserLocation] = useState(null);
+
     const mapRef = useRef(null);
     const onLoad = React.useCallback(function callback(mapL) {
       mapRef.current = mapL;
@@ -354,6 +380,78 @@ const Transactions = () => {
       id: "google-map-script",
       googleMapsApiKey: "AIzaSyDTzQON_0lZ0rTQ9Zw9xzwhYUkgF_mHZqs",
     });
+
+    // async function calculateRouteToPickUp() {
+    //   // eslint-disable-next-line no-undef
+    //   const directionsService = new google.maps.DirectionsService();
+    //   const results = await directionsService.route({
+    //     origin: { lat: userLocation.latitude, lng: userLocation.longitude },
+    //     destination: { lat: 5.6221003, lng: -0.1733501 },
+    //     // eslint-disable-next-line no-undef
+    //     travelMode: google.maps.TravelMode.DRIVING,
+    //   });
+    //   setDirectionsToPickUpResponse(results);
+    //   console.log("Calculated!!!");
+    // }
+
+    // useEffect(() => {
+    //   if (userLocation) {
+    //     calculateRouteToPickUp();
+    //   }
+    // }, [userLocation]);
+
+    async function calculateRoute() {
+      // eslint-disable-next-line no-undef
+      const directionsService = new google.maps.DirectionsService();
+      const results = await directionsService.route({
+        origin: {
+          lat: locationDetails?.pickupLocation.lat,
+          lng: locationDetails?.pickupLocation.long,
+        },
+        destination: {
+          lat: locationDetails?.destinationLocation.lat,
+          lng: locationDetails?.destinationLocation.long,
+        },
+        // eslint-disable-next-line no-undef
+        travelMode: google.maps.TravelMode.DRIVING,
+      });
+      setDirectionsResponse(results);
+      console.log("Calculated!!!");
+    }
+
+    useEffect(() => {
+      calculateRoute();
+    }, [locationDetails]);
+
+    // useEffect(() => {
+    //   const getLocation = () => {
+    //     if ("geolocation" in navigator) {
+    //       navigator.geolocation.getCurrentPosition(
+    //         (position) => {
+    //           const { latitude, longitude } = position.coords;
+    //           setUserLocation({ latitude, longitude });
+    //           console.log("latitude, longitude", latitude, longitude);
+    //         },
+    //         (error) => {
+    //           console.error("Error getting user location:", error.message);
+    //         }
+    //       );
+    //     } else {
+    //       console.error("Geolocation is not supported by your browser");
+    //     }
+    //   };
+
+    //   // Get the initial location
+    //   getLocation();
+
+    //   // Set up an interval to update the location every 3 seconds
+    //   const intervalId = setInterval(() => {
+    //     getLocation();
+    //   }, 3000);
+
+    //   // Clean up the interval when the component unmounts
+    //   return () => clearInterval(intervalId);
+    // }, []);
 
     return isLoaded ? (
       <div className="w-[100vw] h-[100vh] fixed top-0 bg-[#00000061] z-[1000] flex justify-center items-center">
@@ -378,7 +476,16 @@ const Transactions = () => {
             // onBoundsChanged={onDragEnd}
             // onZoomChanged={onDragEnd}
             options={createMapOptions}
-          ></GoogleMap>
+          >
+            <>
+              {directionsResponse && (
+                <DirectionsRenderer directions={directionsResponse} />
+              )}
+              {/* {directionsToPickUpResponse && (
+                <DirectionsRenderer directions={directionsToPickUpResponse} />
+              )} */}
+            </>
+          </GoogleMap>
         </div>
       </div>
     ) : (
