@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DetailTab from "../shared/InfoTab";
 import {
   set_plate_number,
@@ -6,15 +6,19 @@ import {
   set_vehicle_identification_number,
   set_reg_doc,
   set_insurance_doc,
+  set_vehicle_booking_type,
 } from "../../../../store/dashboard_state_slice";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
 const Additional_Info = () => {
-  const { location, plate_number, vehicle_identification_number } = useSelector(
-    (_) => _.details
-  );
+  const {
+    location,
+    plate_number,
+    vehicle_identification_number,
+    vehicle_booking_type,
+  } = useSelector((_) => _.details);
   const dispatch = useDispatch();
   const { user } = useAuth0();
 
@@ -44,6 +48,10 @@ const Additional_Info = () => {
       toast.error("An error occured. \n Try again");
     }
   }
+
+  useEffect(() => {
+    console.log("vehicle_booking_type", vehicle_booking_type);
+  }, [vehicle_booking_type]);
   return (
     <div className="flex flex-col justify-center items-center md:grid grid-cols-2 gap-4">
       <div className="flex flex-col gap-4">
@@ -70,6 +78,14 @@ const Additional_Info = () => {
           setState={set_vehicle_identification_number}
           tooltip={"4Y1SL65848Z411439."}
           inputType={0}
+        />
+        <DetailTab
+          icon={"material-symbols:directions-car"}
+          title={"Booking Type"}
+          value={vehicle_booking_type}
+          setState={set_vehicle_booking_type}
+          tooltip={"Select one option"}
+          inputType={5}
         />
       </div>
 

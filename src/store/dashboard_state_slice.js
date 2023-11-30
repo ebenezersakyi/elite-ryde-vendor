@@ -4,9 +4,9 @@ const initialState = {
   milage: "",
   car_brand: "",
   car_model: "",
-  transmission: 'Automatic',
-  engine_type: 'Petrol',
-  body_style: 'Pick up',
+  transmission: "Automatic",
+  engine_type: "Petrol",
+  body_style: "Pick up",
   engine_size: "",
   registration_year: "",
   color: "",
@@ -14,24 +14,24 @@ const initialState = {
   location: "",
   start_date: new Date(),
   end_date: "",
-  plate_number: '',
-  location: '',
-  vehicle_identification_number: '',
+  plate_number: "",
+  location: "",
+  vehicle_identification_number: "",
   available: 0,
-  price: 0, 
+  price: 0,
   images: [],
-  outsideAccra: 0, 
+  outsideAccra: 0,
   reg_doc: "",
-  insurance_doc: '',
+  insurance_doc: "",
   driver: {
-    name: '',
-    phoneNumber: "", 
-    email: '', 
-    image: '', 
-    idImage: '', 
-    idNumber: ''
+    name: "",
+    phoneNumber: "",
+    email: "",
+    image: "",
+    idImage: "",
+    idNumber: "",
   },
-  crossCountry: ''
+  crossCountry: "",
 };
 
 export const details_slice = createSlice({
@@ -72,34 +72,37 @@ export const details_slice = createSlice({
       state.end_date = action.payload;
     },
     set_color: (state, action) => {
-      state.color= action.payload;
+      state.color = action.payload;
     },
     set_number_of_seats: (state, action) => {
       state.number_of_seats = action.payload;
     },
     set_plate_number: (state, action) => {
-      state.plate_number = action.payload
+      state.plate_number = action.payload;
     },
     set_vehicle_identification_number: (state, action) => {
-      state.vehicle_identification_number = action.payload
+      state.vehicle_identification_number = action.payload;
+    },
+    set_vehicle_booking_type: (state, action) => {
+      state.vehicle_booking_type = action.payload;
     },
     set_available: (state, action) => {
-      state.available = action.payload
+      state.available = action.payload;
     },
     set_price: (state, action) => {
-      state.price = action.payload
+      state.price = action.payload;
     },
     set_outside_accra: (state, actiom) => {
-      state.outsideAccra = actiom.payload
+      state.outsideAccra = actiom.payload;
     },
-    clear_1: (state) => {   
+    clear_1: (state) => {
       state = {
         milage: "",
         car_brand: "",
         car_model: "",
-        transmission: 'Automatic',
-        engine_type: 'Petrol',
-        body_style: 'Pick up',
+        transmission: "Automatic",
+        engine_type: "Petrol",
+        body_style: "Pick up",
         engine_size: "",
         registration_year: "",
         color: "",
@@ -107,30 +110,31 @@ export const details_slice = createSlice({
         location: "",
         start_date: dayjs().toDate().toDateString(),
         end_date: dayjs().toDate().toDateString(),
-        plate_number: '',
-        location: '',
-        vehicle_identification_number: '',
+        plate_number: "",
+        location: "",
+        vehicle_identification_number: "",
+        vehicle_booking_type: "",
         available: 0,
-        price: 0, 
+        price: 0,
         images: [],
-        outsideAccra: 0
-      }
+        outsideAccra: 0,
+      };
     },
     set_image: (state, action) => {
-      state.images = [...state.images, action.payload]
-    }, 
+      state.images = [...state.images, action.payload];
+    },
     set_reg_doc: (state, action) => {
-      state.reg_doc = action.payload
-    }, 
+      state.reg_doc = action.payload;
+    },
     set_insurance_doc: (state, actiom) => {
-      state.insurance_doc = actiom.payload
-    }, 
+      state.insurance_doc = actiom.payload;
+    },
     set_driver_details: (state, action) => {
-      state.driver[action.payload.field] = action.payload.value
-    }, 
-    set_cross_country: (state, action) =>{
-      state.crossCountry = action.payload
-    }
+      state.driver[action.payload.field] = action.payload.value;
+    },
+    set_cross_country: (state, action) => {
+      state.crossCountry = action.payload;
+    },
   },
 });
 
@@ -150,15 +154,16 @@ export const {
   set_color,
   set_plate_number,
   set_vehicle_identification_number,
+  set_vehicle_booking_type,
   set_available,
   set_price,
   clear_1,
   set_image,
-  set_outside_accra, 
-  set_reg_doc, 
+  set_outside_accra,
+  set_reg_doc,
   set_insurance_doc,
   set_driver_details,
-  set_cross_country
+  set_cross_country,
 } = details_slice.actions;
 
 export default details_slice.reducer;

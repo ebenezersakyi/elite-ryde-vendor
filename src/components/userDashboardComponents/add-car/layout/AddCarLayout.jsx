@@ -39,6 +39,7 @@ const AddCarLayout = ({ children }) => {
     location,
     plate_number,
     vehicle_identification_number,
+    vehicle_booking_type,
     images,
     reg_doc,
     insurance_doc,
@@ -77,7 +78,8 @@ const AddCarLayout = ({ children }) => {
     if (
       (!location ||
         !plate_number.trim() ||
-        !vehicle_identification_number.trim(),
+        !vehicle_identification_number.trim() ||
+        !vehicle_booking_type.trim(),
       !reg_doc,
       !insurance_doc)
     ) {
@@ -185,6 +187,7 @@ const AddCarLayout = ({ children }) => {
               location: info?.location.location,
               insuranceDocument: insurance_doc,
               carRegistrationDocument: reg_doc,
+              vehicle_booking_type: vehicle_booking_type,
             },
             features: arrayOfFeatures,
             rentalConditions: array_of_rentalConditions,

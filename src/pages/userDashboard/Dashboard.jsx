@@ -102,13 +102,13 @@ const Dashboard = () => {
             <AmountLayout>
               <p className="text-[1.3rem] font-[100]">Total this week</p>
               <p className="text-[2.5rem] font-[600]">
-                GHS {tdata?.week_amount?.toFixed(2)}
+                GHS {tdata?.week_amount?.toLocaleString()}
               </p>
             </AmountLayout>
             <AmountLayout>
               <p className="text-[1.3rem] font-[100]">Total income earned</p>
               <p className="text-[2.5rem] font-[600]">
-                GHS {tdata?.amount?.toFixed(2)}
+                GHS {tdata?.amount?.toLocaleString()}
               </p>
             </AmountLayout>
           </div>
@@ -129,7 +129,7 @@ const Dashboard = () => {
                 datasets: [
                   {
                     label: "GHS: ",
-                    data: [d?.data_arr * 0.9, d?.data_arr * 0.1],
+                    data: [tdata?.amount * 0.9, tdata?.amount * 0.1],
                     backgroundColor: [
                       "rgba(255, 99, 132, 0.2)",
                       "rgba(54, 162, 235, 0.2)",
