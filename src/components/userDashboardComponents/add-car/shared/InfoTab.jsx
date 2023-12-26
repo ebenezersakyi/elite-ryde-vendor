@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Icon } from "@iconify/react";
 import { useDispatch, useSelector } from "react-redux";
 import { usePlacesWidget } from "react-google-autocomplete";
@@ -17,6 +17,9 @@ const DetailTab = ({
   const { car_brand } = useSelector((_) => _.details);
   const [error, isError] = useState(false);
   const dispatch = useDispatch();
+  useEffect(() => {
+    console.log("optopt", opt);
+  }, []);
 
   const options = {
     fields: ["address_components", "geometry", "icon", "name"],
@@ -37,6 +40,28 @@ const DetailTab = ({
       );
     },
   });
+
+  const BrandSelect = useMemo(() => {
+    console.log("mernjernrke", opt);
+    return (
+      <select
+        className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
+        onChange={(e) => {
+          dispatch(setState(e.currentTarget.value));
+          console.log("e.currentTarget.value", e.currentTarget.value);
+        }}
+      >
+        {opt?.map((elem, inx) => {
+          console.log("elemelemelem", elem);
+          return (
+            <option value={elem.brand} key={inx}>
+              {elem.brand}
+            </option>
+          );
+        })}
+      </select>
+    );
+  }, [opt]);
 
   return (
     <div
@@ -69,21 +94,7 @@ const DetailTab = ({
               } px-3 py-2 border-[1px] bg-[transparent] outline-none focus:border-[#fff] rounded-md w-full`}
             />
           ) : inputType == 3 ? (
-            <select
-              className="select px-3 py-2 border-[1px] bg-[transparent] outline-none border-bgrey items-stretch  rounded-md w-full"
-              onChange={(e) => {
-                dispatch(setState(e.currentTarget.value));
-                console.log("e.currentTarget.value", e.currentTarget.value);
-              }}
-            >
-              {opt?.map((elem, inx) => {
-                return (
-                  <option value={elem.brand} key={inx}>
-                    {elem.brand}
-                  </option>
-                );
-              })}
-            </select>
+            <>{BrandSelect}</>
           ) : inputType == 4 ? (
             <>
               {car_brand.length > 0 && car_brand !== "none" ? (

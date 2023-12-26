@@ -22,7 +22,7 @@ const SignUpPage = () => {
   const validationSchema = Yup.object({
     companyName: Yup.string().required("Company name is required"),
     location: Yup.string()
-      .matches(/^[A-Za-z]{2}-\d{3}-\d{2}$/, "Invalid format")
+      .matches(/^[A-Za-z]{2}-\d{4}-\d{4}$/, "Invalid format")
       .required("GPS is required"),
     firstName: Yup.string().required("Firstname is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -268,7 +268,7 @@ const SignUpPage = () => {
 
             <Field
               name={"tin"}
-              type={"number"}
+              type={"text"}
               value={formic.values.tin}
               label={"Tax Identification Number (TIN)"}
               onChange={formic.handleChange}
