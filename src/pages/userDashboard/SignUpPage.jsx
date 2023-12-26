@@ -21,9 +21,7 @@ const SignUpPage = () => {
 
   const validationSchema = Yup.object({
     companyName: Yup.string().required("Company name is required"),
-    location: Yup.string()
-      .matches(/^[A-Za-z]{2}-\d{3}-\d{4}$/, "Invalid format")
-      .required("GPS is required"),
+    location: Yup.string().required("GPS is required"),
     firstName: Yup.string().required("Firstname is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     lastName: Yup.string().required("lastname is required"),
@@ -140,7 +138,7 @@ const SignUpPage = () => {
       }
       return response?.data?.data;
     } catch (error) {
-      console.log(error);
+      console.log("error");
       toast.error("Error occured");
     } finally {
       // setLoading(false);
@@ -153,7 +151,7 @@ const SignUpPage = () => {
       <form onSubmit={formic.handleSubmit} className="flex flex-col gap-5 ">
         <div className=" flex flex-col md:grid grid-cols-2 gap-[3rem] ">
           <SectionLayout>
-            <div className="flex items-center justify-between h-[3rem] ">
+            {/* <div className="flex items-center justify-between h-[3rem] ">
               <input
                 type="checkbox"
                 name="existing"
@@ -163,7 +161,7 @@ const SignUpPage = () => {
                 id=""
               />
               <p className="text-[1.2rem] font-[100]">Already a user?</p>
-            </div>
+            </div> */}
             <Field
               name={"companyName"}
               type={"text"}
