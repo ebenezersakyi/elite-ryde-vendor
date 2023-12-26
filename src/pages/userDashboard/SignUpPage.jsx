@@ -22,7 +22,7 @@ const SignUpPage = () => {
   const validationSchema = Yup.object({
     companyName: Yup.string().required("Company name is required"),
     location: Yup.string()
-      .matches(/^[A-Za-z]{2}-\d{4}-\d{4}$/, "Invalid format")
+      .matches(/^[A-Za-z]{2}-\d{3}-\d{4}$/, "Invalid format")
       .required("GPS is required"),
     firstName: Yup.string().required("Firstname is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
