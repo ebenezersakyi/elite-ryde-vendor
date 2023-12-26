@@ -8,12 +8,15 @@ import CarFeature from "../../components/userDashboardComponents/add-car/childre
 import FinishScreen from "../../components/userDashboardComponents/add-car/children/FinishScreen";
 import Uploadphotos from "../../components/userDashboardComponents/add-car/children/Uploadphotos";
 import AddDriver from "../../components/userDashboardComponents/add-car/children/AddDriver";
+
 const AddCarPage = () => {
   const active = useSelector((d) => d.active_tab.value);
+  const { vehicle_booking_type } = useSelector((_) => _.details);
+
   const tabs = [
     <BasicInfo />,
     <Additional_Info />,
-    <AddDriver />,
+    vehicle_booking_type === "Self Drive" ? null : <AddDriver />,
     <Uploadphotos />,
     <CarFeature />,
     <Calendar />,
@@ -22,7 +25,9 @@ const AddCarPage = () => {
 
   return (
     <div className="text-[#fff] p-[35px]">
-      <AddCarLayout>{tabs[active]}</AddCarLayout>
+      <AddCarLayout>
+        {tabs[active] == null ? tabs[active + 1] : tabs[active]}
+      </AddCarLayout>
     </div>
   );
 };

@@ -12,14 +12,7 @@ import { Icon } from "@iconify/react";
 const AddCarLayout = ({ children }) => {
   const active = useSelector((d) => d.active_tab.value);
   const dispatch = useDispatch();
-  const tabs = [
-    "Basic Information",
-    "Additional Information",
-    "Add Driver",
-    "Car Photos",
-    "Car Features",
-    "Calendar",
-  ];
+
   const { user } = useAuth0();
   const [isLoading, setLoading] = React.useState(false);
   const info = useSelector((_) => _.details);
@@ -44,6 +37,15 @@ const AddCarLayout = ({ children }) => {
     reg_doc,
     insurance_doc,
   } = useSelector((_) => _.details);
+
+  const tabs = [
+    "Basic Information",
+    "Additional Information",
+    vehicle_booking_type === "Self Drive" ? null : "Add Driver",
+    "Car Photos",
+    "Car Features",
+    "Calendar",
+  ];
 
   function allBasicFilled() {
     if (
@@ -110,55 +112,6 @@ const AddCarLayout = ({ children }) => {
   async function addCar() {
     try {
       setLoading(true);
-      // console.log({
-      //   type: "add_car",
-      //   content: {
-      //     basicInformation: {
-      //       make: info?.car_brand,
-      //       model: info?.car_model,
-      //       year: Number(info?.registration_year),
-      //       mileage: Number(info?.milage),
-      //       engineType: info?.engine_type,
-      //       engineSize: info?.engine_size,
-      //       numberOfSeats: 5,
-      //       transmission: info?.transmission,
-      //       bodyStyle: info?.body_style,
-      //     },
-      //     additionalInformation: {
-      //       geolocation: {
-      //         long: info?.location.long,
-      //         lat: info?.location.lat,
-      //       },
-      //       licensePlate: info?.plate_number,
-      //       vehicleIdentificationNumber: info?.vehicle_identification_number,
-      //       location: info?.location.location,
-      //     },
-      //     features: arrayOfFeatures,
-      //     rentalConditions: array_of_rentalConditions,
-      //     photos: images,
-      //     vendorId: user?.sub.slice(6),
-      //     booking: {
-      //       price: {
-      //         within_accra: info?.price,
-      //         outside_accra: info?.outsideAccra,
-      //         cross_country: info?.crossCountry,
-      //       },
-      //       availability: availability[info?.available],
-      //       dates: {
-      //         startDate: info?.["start_date"],
-      //         endDate: info?.["end_date"],
-      //       },
-      //     },
-      //     driver: {
-      //       image: info?.driver.image,
-      //       name: info?.driver.name,
-      //       idImage: info?.driver.idImage,
-      //       email: info?.driver.email,
-      //       phoneNumber: info?.driver?.phoneNumber,
-      //       idNumber: info?.driver.idNumber,
-      //     },
-      //   },
-      // });
       const response = await axios({
         // url: "https://elite-ryde-management-api.azurewebsites.net/api/car",
         url: `https://elite-ryde-user-api.azurewebsites.net/api/approval`,
@@ -205,14 +158,17 @@ const AddCarLayout = ({ children }) => {
                 endDate: info?.["end_date"],
               },
             },
-            driver: {
-              image: info?.driver.image,
-              name: info?.driver.name,
-              idImage: info?.driver.idImage,
-              email: info?.driver.email,
-              phoneNumber: info?.driver?.phoneNumber,
-              idNumber: info?.driver.idNumber,
-            },
+            driver:
+              vehicle_booking_type == "Self Drive"
+                ? {}
+                : {
+                    image: info?.driver?.image,
+                    name: info?.driver?.name,
+                    idImage: info?.driver?.idImage,
+                    email: info?.driver?.email,
+                    phoneNumber: info?.driver?.phoneNumber,
+                    idNumber: info?.driver?.idNumber,
+                  },
           }),
         },
       });
@@ -243,17 +199,22 @@ const AddCarLayout = ({ children }) => {
         </Stepper>
       </Box> */}
       <div className="flex pt-6 row-span-0 scrollbar-hide gap-3 overflow-x-scroll">
-        {tabs.map((element, index) => {
-          return (
-            <HeaderTabs
-              title={element}
-              number={`0${index + 1}`}
-              key={index}
-              active={active == index}
-              hasPassed={active > index}
-            />
-          );
-        })}
+        {tabs
+          .filter((item) => {
+            return item !== null;
+          })
+          .flat(1)
+          .map((element, index) => {
+            return (
+              <HeaderTabs
+                title={element}
+                number={`0${index + 1}`}
+                key={index}
+                active={active == index}
+                hasPassed={active > index}
+              />
+            );
+          })}
       </div>
       <section className="row-span-6 flex flex-col justify-between w-[85vw] sm:w-[100%] mt-[20px]">
         <div className="border-[#fff] border-[1px] rounded-2xl p-[10px]  bg-[#000000d7] max-w-[100%] sm:p-8">
@@ -269,7 +230,12 @@ const AddCarLayout = ({ children }) => {
             <button
               className="border-[#fff] w-fit font-[100] rounded-2xl text-center text-[1.3rem] border-[1px] px-8 py-2"
               onClick={() => {
-                dispatch(prevTab());
+                if (active == 4 && vehicle_booking_type == "Self Drive") {
+                  dispatch(prevTab());
+                  dispatch(prevTab());
+                } else {
+                  dispatch(prevTab());
+                }
               }}
             >
               Previous
@@ -291,12 +257,25 @@ const AddCarLayout = ({ children }) => {
                   } else {
                     toast.error("Fill all fields And upload All documents");
                   }
-                } else if (active == 2) {
+                } else if (
+                  active == 2 &&
+                  vehicle_booking_type !== "Self Drive"
+                ) {
                   if (allDriverDetails()) {
                     dispatch(nextTab());
                   } else {
                     toast.error("Fill all fields And upload All documents");
                   }
+                } else if (
+                  active == 2 &&
+                  vehicle_booking_type == "Self Drive"
+                ) {
+                  // if (allDriverDetails()) {
+                  dispatch(nextTab());
+                  dispatch(nextTab());
+                  // } else {
+                  //   toast.error("Fill all fields And upload All documents");
+                  // }
                 } else if (active == 3) {
                   if (images.length !== 0) {
                     dispatch(nextTab());

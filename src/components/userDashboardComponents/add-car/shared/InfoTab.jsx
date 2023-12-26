@@ -14,7 +14,7 @@ const DetailTab = ({
   inputType,
   opt,
 }) => {
-  const { car_brand } = useSelector((_) => _.details);
+  const { car_brand, car_model } = useSelector((_) => _.details);
   const [error, isError] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -105,18 +105,23 @@ const DetailTab = ({
                     console.log("e.currentTarget.value", e.currentTarget.value);
                   }}
                 >
+                  <option value="" hidden>
+                    Select an option
+                  </option>
                   {opt
                     ?.filter((item) => {
                       return item.brand == car_brand;
                     })
-                    .flat(1)[0]
-                    .models.map((elem, inx) => {
-                      return (
+                    .flat(1)
+                    .map((item) => item.models)
+                    .filter((models) => models) // Filter out undefined or null
+                    .map((modelsArray) =>
+                      modelsArray.map((elem, inx) => (
                         <option value={elem} key={inx}>
                           {elem}
                         </option>
-                      );
-                    })}
+                      ))
+                    )}
                 </select>
               ) : (
                 <div
@@ -136,6 +141,9 @@ const DetailTab = ({
                   console.log("e.currentTarget.value", e.currentTarget.value);
                 }}
               >
+                <option value="" hidden>
+                  Select an option
+                </option>
                 {["Self Drive", "Chauffeur Driven", "Both"].map(
                   (item, index) => {
                     return (
@@ -154,6 +162,9 @@ const DetailTab = ({
                 dispatch(setState(e.currentTarget.value));
               }}
             >
+              <option value="" hidden>
+                Select an option
+              </option>
               {opt?.map((elem, inx) => {
                 return (
                   <option value={elem} key={inx}>
